@@ -19,6 +19,13 @@ for (const r of refs) {
 }
 if (refs.length === 0) errors.push("no images referenced — the image map failed to build");
 
+/* 1b. Every gallery/host image the page references must exist in the build.
+       The manifest and the copy step used to be written separately, and a photo
+       that failed to convert stayed in the manifest and 404'd. */
+for (const r of [...new Set([...html.matchAll(/"(gallery\/[^"]+)"/g)].map((m) => m[1]))]) {
+  if (!existsSync(join(DIST, r))) errors.push(`page references ${r} but it is not in the build`);
+}
+
 /* 2. Every hash route linked in the markup must be handled — either by the
       router (a view) or by a modal the router opens over the current page. */
 const MODAL_ROUTES = ["/book"];

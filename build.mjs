@@ -92,17 +92,20 @@ const CAMERA_DEFAULT = /^(img|dsc|dscf|pxl|photo|image|screenshot|[0-9a-f]{8}-)/
 
 /* Auto-discovered galleries. Drop a file into assets/gallery/<name>/, push, and
    it renders — no code change. Filename becomes the caption, so filename order
-   is display order ("01-duck.jpg" sorts before "02-lamb.jpg"). */
-function galleries(mode) {
+   is display order ("01-duck.jpg" sorts before "02-lamb.jpg").
+
+   These write the files AND return the manifest, so the two can never disagree:
+   an image that fails to convert is absent from both, rather than being listed
+   in the page and 404ing. */
+function galleries(mode, outDir) {
   const out = {};
   for (const [name, dir] of Object.entries(GALLERIES)) {
     let files = [];
-    try {
-      files = readdirSync(dir).filter(isImage).sort();
-    } catch {
-      /* folder not created yet — render as all placeholders */
-    }
-    out[name] = files.map((f) => {
+    try { files = readdirSync(dir).filter(isImage).sort(); } catch {}
+    if (outDir) mkdirSync(join(outDir, "gallery", name, "thumb"), { recursive: true });
+
+    const items = [];
+    for (const f of files) {
       const stem = basename(f, extname(f));
       const caption = CAMERA_DEFAULT.test(stem)
         ? ""                                   // a filename, not a description
@@ -111,37 +114,50 @@ function galleries(mode) {
               .replace(/\s+/g, " ")
               .trim()
               .replace(/^./, (c) => c.toUpperCase());
-      let src;
+
       if (mode === "artifact") {
         const p = webPath(join(dir, f), THUMB_PX);   // keep the single file small
-        if (!p) return null;
-        const mime = extname(p).toLowerCase() === ".png" ? "image/png" : "image/jpeg";
-        src = `data:${mime};base64,${readFileSync(p).toString("base64")}`;
-        return { src, thumb: src, caption };
+        if (!p) continue;
+        const src = `data:image/jpeg;base64,${readFileSync(p).toString("base64")}`;
+        items.push({ src, thumb: src, caption });
+        continue;
       }
-      src = `gallery/${name}/${webName(f)}`;
-      return { src, thumb: `gallery/${name}/thumb/${webName(f)}`, caption };
-    }).filter(Boolean);
+      const full = webPath(join(dir, f), FULL_PX);
+      const thumb = webPath(join(dir, f), THUMB_PX);
+      if (!full || !thumb) continue;
+      copyFileSync(full, join(outDir, "gallery", name, webName(f)));
+      copyFileSync(thumb, join(outDir, "gallery", name, "thumb", webName(f)));
+      items.push({
+        src: `gallery/${name}/${webName(f)}`,
+        thumb: `gallery/${name}/thumb/${webName(f)}`,
+        caption,
+      });
+    }
+    out[name] = items;
   }
-  return `window.GALLERIES = ${JSON.stringify(out)};\n`;
+  return out;
 }
 
 /* Photos of the hosts are matched by filename (together / nik / ania) rather
    than listed in order, so they land in the right slot on the About page. */
-function hostsMap(mode) {
+function hostsMap(mode, outDir) {
   let files = [];
   try { files = readdirSync(HOSTS_DIR).filter(isImage); } catch {}
+  if (outDir) mkdirSync(join(outDir, "gallery", "hosts"), { recursive: true });
+
   const out = {};
   for (const f of files) {
     const key = basename(f, extname(f)).toLowerCase();
+    const p = webPath(join(HOSTS_DIR, f), mode === "artifact" ? THUMB_PX : FULL_PX);
+    if (!p) continue;
     if (mode === "artifact") {
-      const p = webPath(join(HOSTS_DIR, f), THUMB_PX);
-      if (p) out[key] = `data:image/jpeg;base64,${readFileSync(p).toString("base64")}`;
+      out[key] = `data:image/jpeg;base64,${readFileSync(p).toString("base64")}`;
     } else {
+      copyFileSync(p, join(outDir, "gallery", "hosts", webName(f)));
       out[key] = `gallery/hosts/${webName(f)}`;
     }
   }
-  return `window.HOSTS = ${JSON.stringify(out)};\n`;
+  return out;
 }
 
 /* Every image the site can reference. `hero2` is an alias so the gallery and the
@@ -227,10 +243,16 @@ function build(mode) {
   rmSync(out, { recursive: true, force: true });
   mkdirSync(out, { recursive: true });
 
+  const outDir = mode === "artifact" ? null : out;
+  const galleryData = galleries(mode, outDir);
+  const hostData = hostsMap(mode, outDir);
+
   const bundle =
     `<style>\n${read(join(SRC, "styles.css"))}\n</style>\n\n` +
     `${read(join(SRC, "index.html"))}\n\n` +
-    `<script>\n${imageMap(mode)}${galleries(mode)}${hostsMap(mode)}</script>\n` +
+    `<script>\n${imageMap(mode)}` +
+    `window.GALLERIES = ${JSON.stringify(galleryData)};\n` +
+    `window.HOSTS = ${JSON.stringify(hostData)};\n</script>\n` +
     `<script>\n${read(join(SRC, "content.js"))}\n</script>\n` +
     `<script>\n${read(join(SRC, "app.js"))}\n</script>\n`;
 
@@ -249,25 +271,6 @@ function build(mode) {
     );
     mkdirSync(join(out, "img"), { recursive: true });
     for (const f of readdirSync(IMG)) copyFileSync(join(IMG, f), join(out, "img", f));
-    for (const [name, dir] of Object.entries(GALLERIES)) {
-      mkdirSync(join(out, "gallery", name), { recursive: true });
-      let files = [];
-      try { files = readdirSync(dir).filter(isImage); } catch { /* not created yet */ }
-      mkdirSync(join(out, "gallery", name, "thumb"), { recursive: true });
-      for (const f of files) {
-        const full = webPath(join(dir, f), FULL_PX);
-        const thumb = webPath(join(dir, f), THUMB_PX);
-        if (full) copyFileSync(full, join(out, "gallery", name, webName(f)));
-        if (thumb) copyFileSync(thumb, join(out, "gallery", name, "thumb", webName(f)));
-      }
-    }
-    mkdirSync(join(out, "gallery", "hosts"), { recursive: true });
-    try {
-      for (const f of readdirSync(HOSTS_DIR).filter(isImage)) {
-        const p = webPath(join(HOSTS_DIR, f), FULL_PX);
-        if (p) copyFileSync(p, join(out, "gallery", "hosts", webName(f)));
-      }
-    } catch {}
     writeFileSync(join(out, "favicon.svg"), FAVICON);
     writeFileSync(join(out, "CNAME"), SITE.domain + "\n");
     writeFileSync(join(out, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${SITE.origin}/sitemap.xml\n`);
