@@ -5,6 +5,10 @@
 /* ═══════════ CONTENT — edit here ═══════════ */
 var P_DINNER = 120, P_DRINKS = 150;
 
+/* How many tiles each gallery shows. Real photos fill these first;
+   whatever is left over renders as an "add a photo" placeholder. */
+var FOOD_SLOTS = 30, GUEST_SLOTS = 5;
+
 var CUISINES = [
   { n:"01", flag:"jp", country:"Japan", icon:"bowl", title:"Ramen &amp; tantan",
     desc:"Broth from the night before, chilli oil ground that morning, noodles that actually bite back.",
@@ -137,6 +141,7 @@ var ICONS = {
 /* Everything the site renders from. This is the file to edit. */
 window.SITE = {
   P_DINNER: P_DINNER, P_DRINKS: P_DRINKS,
+  FOOD_SLOTS: FOOD_SLOTS, GUEST_SLOTS: GUEST_SLOTS,
   CUISINES: CUISINES, FLAGS: FLAGS, EVENINGS: EVENINGS,
   TIMELINE: TIMELINE, FAQ: FAQ, GALLERY: GALLERY, ICONS: ICONS
 };

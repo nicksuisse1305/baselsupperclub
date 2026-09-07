@@ -143,29 +143,46 @@
     });
   })();
 
-  /* ---- gallery + lightbox ---- */
+  /* ---- gallery + lightbox ----
+     Sources, in order: the captioned GALLERY list (keyed images used elsewhere
+     on the site), then anything dropped into assets/gallery/<name>/, which the
+     build discovers on its own. Any remaining slots up to the target render as
+     placeholders so the grid always reads as a finished wall. */
   var galItems=[];
-  (function(){
-    var box=$("#gal");
-    GALLERY.forEach(function(g,i){
-      if(!IMAGES[g[0]]) return;
-      galItems.push(g);
-      var b=el("button", i===0?"big":"", '<img src="'+IMAGES[g[0]]+'" alt="'+g[1]+'" loading="lazy">');
-      b.addEventListener("click",function(){ openLb(galItems.indexOf(g)); });
+  var CAM = '<rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/>';
+
+  function fillGrid(box, items, target, label, featureFirst){
+    if(!box) return;
+    items.forEach(function(it,i){
+      var idx=galItems.length;
+      galItems.push(it);
+      var b=el("button", (featureFirst && i===0) ? "big" : "",
+        '<img src="'+it.src+'" alt="'+it.caption+'" loading="lazy">');
+      b.addEventListener("click",function(){ openLb(idx); });
       box.appendChild(b);
     });
-    // a couple of slots for photos they'll add later
-    for(var k=0;k<2;k++){
-      box.appendChild(el("div","ph",'<div class="lbl">'+
-        svg('<rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/>')+
-        'Add a photo</div>'));
+    for(var k=items.length; k<target; k++){
+      box.appendChild(el("div","ph",
+        '<div class="lbl">'+svg(CAM)+label+'</div>'));
     }
+  }
+
+  (function(){
+    var G = window.GALLERIES || { food:[], guests:[] };
+
+    // captioned images already used across the site
+    var named = GALLERY.filter(function(g){ return !!IMAGES[g[0]]; })
+                       .map(function(g){ return { src:IMAGES[g[0]], caption:g[1] }; });
+
+    var food = named.concat(G.food || []);
+    fillGrid($("#gal"), food, S.FOOD_SLOTS, "Add a food photo", true);
+    fillGrid($("#gal-guests"), G.guests || [], S.GUEST_SLOTS, "Add a guest photo", false);
   })();
 
   var lbIdx=0, lb=$("#lb"), lbi=$("#lbi");
   function openLb(i){
     if(i<0) i=galItems.length-1; if(i>=galItems.length) i=0;
-    lbIdx=i; lbi.src=IMAGES[galItems[i][0]]; lbi.alt=galItems[i][1];
+    lbIdx=i; lbi.src=galItems[i].src; lbi.alt=galItems[i].caption;
     lb.classList.add("on"); document.body.style.overflow="hidden";
   }
   function closeLb(){ lb.classList.remove("on"); document.body.style.overflow=""; }
@@ -257,7 +274,7 @@
       if(note){ L.push(""); L.push("Notes: "+note); }
       L.push(""); L.push("— sent from baselsupperclub.ch");
 
-      window.location.href="mailto:hello@baselsupperclub.ch?subject="+
+      window.location.href="mailto:verma.nikunj66@gmail.com?subject="+
         encodeURIComponent(subject)+"&body="+encodeURIComponent(L.join("\n"));
     });
   })();
@@ -350,20 +367,6 @@
     setTimeout(function(){ paint(path); }, 340);
   }
   window.addEventListener("hashchange",route);
-
-  /* ---- TEMPORARY font chooser ---- */
-  (function(){
-    var pick=$("#fontpick"); if(!pick) return;
-    var btns=$$("button",pick), saved="fraunces";
-    try{ saved = localStorage.getItem("bsc-font") || "fraunces"; }catch(e){}
-    function apply(f){
-      document.documentElement.setAttribute("data-font",f);
-      btns.forEach(function(b){ b.setAttribute("aria-pressed", String(b.getAttribute("data-f")===f)); });
-      try{ localStorage.setItem("bsc-font",f); }catch(e){}
-    }
-    btns.forEach(function(b){ b.addEventListener("click",function(){ apply(b.getAttribute("data-f")); }); });
-    apply(saved);
-  })();
 
   $("#yr").textContent=new Date().getFullYear();
   route();

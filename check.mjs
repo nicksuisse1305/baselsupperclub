@@ -41,7 +41,6 @@ for (const f of ["favicon.svg", "robots.txt", "sitemap.xml", "CNAME"]) {
 
 /* 4. Placeholders that must not reach production. */
 const placeholders = [
-  [/\+41 00 000 00 00/, "phone number is still the placeholder"],
   [/https:\/\/instagram\.com"/, "Instagram link still points at instagram.com"],
   [/Add a photo/, "empty photo slots are still on the page"],
   [/Date announced soon/, "evenings still have no real dates"],

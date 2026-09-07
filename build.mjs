@@ -27,7 +27,41 @@ const SITE = {
 
 const SRC = "src";
 const IMG = "assets/img";
+const GALLERIES = { food: "assets/gallery/food", guests: "assets/gallery/guests" };
 const read = (p) => readFileSync(p, "utf8");
+const isImage = (f) => /\.(jpe?g|png|webp)$/i.test(f);
+
+/* Auto-discovered galleries. Drop a file into assets/gallery/<name>/, push, and
+   it renders — no code change. Filename becomes the caption, so filename order
+   is display order ("01-duck.jpg" sorts before "02-lamb.jpg"). */
+function galleries(mode) {
+  const out = {};
+  for (const [name, dir] of Object.entries(GALLERIES)) {
+    let files = [];
+    try {
+      files = readdirSync(dir).filter(isImage).sort();
+    } catch {
+      /* folder not created yet — render as all placeholders */
+    }
+    out[name] = files.map((f) => {
+      const caption = basename(f, extname(f))
+        .replace(/^\d+[-_.\s]*/, "")          // strip ordering prefix
+        .replace(/[-_]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .replace(/^./, (c) => c.toUpperCase());
+      let src;
+      if (mode === "artifact") {
+        const mime = extname(f).toLowerCase() === ".png" ? "image/png" : "image/jpeg";
+        src = `data:${mime};base64,${readFileSync(join(dir, f)).toString("base64")}`;
+      } else {
+        src = `gallery/${name}/${f}`;
+      }
+      return { src, caption: caption || name };
+    });
+  }
+  return `window.GALLERIES = ${JSON.stringify(out)};\n`;
+}
 
 /* Every image the site can reference. `hero2` is an alias so the gallery and the
    hero can share one file without shipping the bytes twice. */
@@ -81,7 +115,8 @@ ${JSON.stringify({
   servesCuisine: ["Japanese", "Indian", "Italian", "Thai", "Chinese", "Polish"],
   priceRange: "CHF 120–150",
   address: { "@type": "PostalAddress", addressLocality: "Basel", addressCountry: "CH" },
-  email: "hello@" + SITE.domain,
+  email: "verma.nikunj66@gmail.com",
+  telephone: "+41765264160",
   acceptsReservations: "True",
   maximumAttendeeCapacity: 8,
 }, null, 1)}
@@ -114,7 +149,7 @@ function build(mode) {
   const bundle =
     `<style>\n${read(join(SRC, "styles.css"))}\n</style>\n\n` +
     `${read(join(SRC, "index.html"))}\n\n` +
-    `<script>\n${imageMap(mode)}</script>\n` +
+    `<script>\n${imageMap(mode)}${galleries(mode)}</script>\n` +
     `<script>\n${read(join(SRC, "content.js"))}\n</script>\n` +
     `<script>\n${read(join(SRC, "app.js"))}\n</script>\n`;
 
@@ -133,6 +168,12 @@ function build(mode) {
     );
     mkdirSync(join(out, "img"), { recursive: true });
     for (const f of readdirSync(IMG)) copyFileSync(join(IMG, f), join(out, "img", f));
+    for (const [name, dir] of Object.entries(GALLERIES)) {
+      mkdirSync(join(out, "gallery", name), { recursive: true });
+      let files = [];
+      try { files = readdirSync(dir).filter(isImage); } catch { /* not created yet */ }
+      for (const f of files) copyFileSync(join(dir, f), join(out, "gallery", name, f));
+    }
     writeFileSync(join(out, "favicon.svg"), FAVICON);
     writeFileSync(join(out, "CNAME"), SITE.domain + "\n");
     writeFileSync(join(out, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${SITE.origin}/sitemap.xml\n`);

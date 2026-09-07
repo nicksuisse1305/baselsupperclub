@@ -35,7 +35,9 @@ Common edits:
 | Change a menu | the `courses` array on that evening |
 | Add a cuisine | the `CUISINES` array (add a flag to `FLAGS` if it's a new country) |
 | Add or answer a question | the `FAQ` array |
-| Add a photo | drop the file in `assets/img/`, then reference its filename in `GALLERY` |
+| Add a food photo | drop the file in `assets/gallery/food/` — it appears automatically |
+| Add a guest photo | drop the file in `assets/gallery/guests/` — same |
+| Change how many gallery slots show | `FOOD_SLOTS` / `GUEST_SLOTS` in `src/content.js` |
 | Change wording on a page | `src/index.html` |
 | Change the look | `src/styles.css` |
 | Change the headline font | `SITE.font` in `build.mjs` — `fraunces`, `instrument`, `archivo` or `anton` |
@@ -53,7 +55,11 @@ CI deploys within about a minute.
 ## Layout
 
 ```
-├── assets/img/          the photographs (versioned — this is the only copy)
+├── assets/
+│   ├── img/             layout photographs, referenced by filename in code
+│   └── gallery/
+│       ├── food/        drop food photos here — auto-discovered, no code change
+│       └── guests/      drop guest photos here — same
 ├── src/
 │   ├── index.html       page markup, all views
 │   ├── styles.css       the whole stylesheet
@@ -101,10 +107,25 @@ evenings without real dates.
 
 ## Still to do
 
-- [ ] Real phone number (currently `+41 00 000 00 00`)
 - [ ] Real Instagram link (currently points at instagram.com)
 - [ ] Photos of Nik and Ania cooking — two empty slots on the About page
 - [ ] Actual dates for the four evenings
-- [ ] Point `hello@baselsupperclub.ch` at a real inbox
 - [ ] Replace the `mailto:` booking form with a real endpoint (Formspree or Resend)
       and wire up Twint / Stripe
+
+---
+
+## Adding photos
+
+Drop image files into `assets/gallery/food/` or `assets/gallery/guests/`, commit
+and push. They render on the next deploy — there is nothing to edit in code.
+
+- Accepted: `.jpg` `.jpeg` `.png` `.webp`
+- The filename becomes the caption: `smoked-duck-leg.jpg` → "Smoked duck leg"
+- Files show in filename order, so prefix with `01-`, `02-` to control it
+  (the number is stripped from the caption)
+- Roughly 1500px on the long edge, under 400 KB each
+
+The gallery shows `FOOD_SLOTS` tiles (30) and `GUEST_SLOTS` tiles (5). Real
+photos fill them first; the rest stay as placeholders, so the wall always looks
+deliberate rather than half-finished.
