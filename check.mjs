@@ -73,6 +73,32 @@ for (const f of (existsSync(join(DIST, "gallery", "hosts")) ? readdirSync(join(D
   }
 }
 
+/* 3d. Nothing undisplayable may ship. Phones produce HEIC named .jpg, which
+       no mainstream browser renders — so verify by magic number, not name. */
+function sniff(p) {
+  const head = readFileSync(p).subarray(0, 16);
+  if (head[0] === 0xff && head[1] === 0xd8) return "jpeg";
+  if (head.subarray(0, 8).equals(Buffer.from([0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a]))) return "png";
+  if (head.subarray(0, 4).toString("latin1") === "RIFF") return "webp";
+  if (head.subarray(4, 8).toString("latin1") === "ftyp") return "heic";
+  return "unknown";
+}
+function walk(dir) {
+  let out = [];
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, e.name);
+    if (e.isDirectory()) out = out.concat(walk(p));
+    else if (/\.(jpe?g|png|webp)$/i.test(e.name)) out.push(p);
+  }
+  return out;
+}
+for (const p of ["img", "gallery"].flatMap((d) => (existsSync(join(DIST, d)) ? walk(join(DIST, d)) : []))) {
+  const kind = sniff(p);
+  if (kind !== "jpeg" && kind !== "png" && kind !== "webp") {
+    errors.push(`${p.replace(DIST + "/", "")} is ${kind}, not a web image — browsers will not render it`);
+  }
+}
+
 /* 4. Placeholders that must not reach production. */
 const placeholders = [
   [/https:\/\/instagram\.com"/, "Instagram link still points at instagram.com"],

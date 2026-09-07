@@ -41,30 +41,53 @@ const isImage = (f) => RASTER.test(f) || HEIC.test(f);
    for the lightbox and a thumbnail for the grid — converting HEIC on the way.
    sips on macOS, ImageMagick or heif-convert on the CI runner. */
 const FULL_PX = 1500, THUMB_PX = 640, QUALITY = 72;
-const webName = (f) => (HEIC.test(f) ? basename(f, extname(f)) + ".jpg" : f);
+const webName = (f) => basename(f, extname(f)) + ".jpg";
 
-function rasterize(src, out, maxPx) {
-  const attempts = [
-    ["sips", ["-s","format","jpeg","-Z",String(maxPx),"-s","formatOptions",String(QUALITY), src, "--out", out]],
-    ["magick", [src, "-auto-orient", "-resize", `${maxPx}x${maxPx}>`, "-quality", String(QUALITY), out]],
-    ["convert", [src, "-auto-orient", "-resize", `${maxPx}x${maxPx}>`, "-quality", String(QUALITY), out]],
-    ["heif-convert", ["-q", String(QUALITY), src, out]],
-  ];
-  for (const [cmd, args] of attempts) {
-    try { execFileSync(cmd, args, { stdio: "ignore" }); return true; } catch {}
+/* Trust the bytes, not the extension. Phones hand you HEIC named .jpg, and
+   a browser will not render it — so every image is identified by its magic
+   number and re-encoded on the way into the build. */
+function sniff(path) {
+  let head;
+  try { head = readFileSync(path).subarray(0, 16); } catch { return "other"; }
+  if (head[0] === 0xff && head[1] === 0xd8) return "jpeg";
+  if (head.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) return "png";
+  if (head.subarray(4, 8).toString("latin1") === "ftyp") {
+    const brand = head.subarray(8, 12).toString("latin1");
+    if (/^(heic|heix|hevc|heim|heis|hevm|mif1|msf1|avif)/.test(brand)) return "heic";
   }
-  return false;
+  if (head.subarray(0, 4).toString("latin1") === "RIFF") return "webp";
+  return "other";
 }
 
-function webPath(src, maxPx) {
-  const out = join(tmpdir(), `bsc-${maxPx}-` + webName(basename(src)));
-  if (rasterize(src, out, maxPx)) return out;
-  if (!HEIC.test(src)) return src;               // fall back to the original
-  console.warn(`  ! skipped ${src} — no converter available`);
-  return null;
+const run = (cmd, args) => {
+  try { execFileSync(cmd, args, { stdio: "ignore" }); return true; } catch { return false; }
+};
+
+/* Everything comes out as a resized JPEG, whatever went in. */
+function rasterize(src, out, maxPx) {
+  const resize = (input) =>
+    run("magick", [input, "-auto-orient", "-resize", `${maxPx}x${maxPx}>`, "-quality", String(QUALITY), out]) ||
+    run("convert", [input, "-auto-orient", "-resize", `${maxPx}x${maxPx}>`, "-quality", String(QUALITY), out]);
+
+  // macOS: sips reads HEIC and JPEG alike and resizes in one pass
+  if (run("sips", ["-s","format","jpeg","-Z",String(maxPx),"-s","formatOptions",String(QUALITY), src, "--out", out])) return true;
+
+  if (sniff(src) === "heic") {
+    const decoded = join(tmpdir(), "bsc-decoded-" + basename(src, extname(src)) + ".jpg");
+    if (!run("heif-convert", ["-q", "92", src, decoded])) return false;
+    return resize(decoded);
+  }
+  return resize(src);
 }
 
 /* IMG_2826.jpg says nothing useful, so camera defaults get no caption. */
+function webPath(src, maxPx) {
+  const out = join(tmpdir(), `bsc-${maxPx}-` + webName(basename(src)));
+  if (rasterize(src, out, maxPx)) return out;
+  console.warn(`  ! skipped ${src} (${sniff(src)}) — could not convert it`);
+  return null;                                   // better absent than broken
+}
+
 const CAMERA_DEFAULT = /^(img|dsc|dscf|pxl|photo|image|screenshot|[0-9a-f]{8}-)/i;
 
 /* Auto-discovered galleries. Drop a file into assets/gallery/<name>/, push, and
