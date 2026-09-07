@@ -80,7 +80,7 @@ for (const f of (existsSync(join(DIST, "gallery", "hosts")) ? readdirSync(join(D
   }
 }
 
-/* 3d. Nothing undisplayable may ship. Phones produce HEIC named .jpg, which
+/* 3c2. Nothing undisplayable may ship. Phones produce HEIC named .jpg, which
        no mainstream browser renders — so verify by magic number, not name. */
 function sniff(p) {
   const head = readFileSync(p).subarray(0, 16);
@@ -103,6 +103,19 @@ for (const p of ["img", "gallery"].flatMap((d) => (existsSync(join(DIST, d)) ? w
   const kind = sniff(p);
   if (kind !== "jpeg" && kind !== "png" && kind !== "webp") {
     errors.push(`${p.replace(DIST + "/", "")} is ${kind}, not a web image — browsers will not render it`);
+  }
+}
+
+/* 3e. Source images must be web formats. A phone will happily hand you a HEIC
+       named ".jpg"; the build cannot always decode it, and losing a photo
+       silently is worse than refusing to ship. */
+for (const dir of ["assets/gallery/food", "assets/gallery/guests", "assets/gallery/hosts", "assets/img"]) {
+  if (!existsSync(dir)) continue;
+  for (const f of readdirSync(dir)) {
+    if (!/\.(jpe?g|png|webp|heic|heif)$/i.test(f)) continue;
+    if (sniff(join(dir, f)) === "heic") {
+      errors.push(`${dir}/${f} is HEIC. Re-export it as JPEG (on iPhone: Settings > Camera > Formats > Most Compatible) and re-upload.`);
+    }
   }
 }
 
