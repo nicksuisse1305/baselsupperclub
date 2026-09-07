@@ -172,7 +172,8 @@ function imageMap(mode) {
     }
     return [key, `img/${f}`];
   });
-  const obj = entries.map(([k, v]) => `${k}: ${JSON.stringify(v)}`).join(",\n");
+  // keys are quoted: a filename like "hosted-table.jpg" is not a valid JS identifier
+  const obj = entries.map(([k, v]) => `${JSON.stringify(k)}: ${JSON.stringify(v)}`).join(",\n");
   return `window.IMAGES = {\n${obj}\n};\nwindow.IMAGES.hero2 = window.IMAGES.hero;\n`;
 }
 

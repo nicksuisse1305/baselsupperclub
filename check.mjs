@@ -6,6 +6,7 @@
  */
 import { readFileSync, existsSync, statSync, readdirSync } from "node:fs";
 import { join } from "node:path";
+import vm from "node:vm";
 
 const DIST = "dist";
 const html = readFileSync(join(DIST, "index.html"), "utf8");
@@ -25,6 +26,19 @@ if (refs.length === 0) errors.push("no images referenced — the image map faile
 for (const r of [...new Set([...html.matchAll(/"(gallery\/[^"]+)"/g)].map((m) => m[1]))]) {
   if (!existsSync(join(DIST, r))) errors.push(`page references ${r} but it is not in the build`);
 }
+
+/* 1c. The page's own JavaScript must actually parse. A single syntax error in
+       a generated object literal takes the whole site down — no images, no
+       navigation, no booking — while every file still returns 200. */
+const scripts = [...html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)]
+  .filter(([, attrs]) => !/\bsrc=/.test(attrs) &&
+                         (!/\btype=/.test(attrs) || /\btype=["']?(text\/javascript|module)/.test(attrs)))
+  .map(([, , body]) => body)
+  .filter((s) => s.trim());
+scripts.forEach((src, i) => {
+  try { new vm.Script(src); }
+  catch (e) { errors.push(`inline script #${i + 1} does not parse: ${e.message}`); }
+});
 
 /* 2. Every hash route linked in the markup must be handled — either by the
       router (a view) or by a modal the router opens over the current page. */
