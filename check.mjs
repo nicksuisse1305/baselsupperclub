@@ -65,6 +65,14 @@ for (const dir of ["food", "guests"]) {
   }
 }
 
+/* 3c. Host portraits go through the same resize; a phone original is ~3 MB. */
+for (const f of (existsSync(join(DIST, "gallery", "hosts")) ? readdirSync(join(DIST, "gallery", "hosts")) : [])) {
+  const size = statSync(join(DIST, "gallery", "hosts", f)).size;
+  if (size > 600 * 1024) {
+    errors.push(`gallery/hosts/${f} is ${(size / 1024).toFixed(0)} KB (budget 600 KB) — not resized`);
+  }
+}
+
 /* 4. Placeholders that must not reach production. */
 const placeholders = [
   [/https:\/\/instagram\.com"/, "Instagram link still points at instagram.com"],
