@@ -339,9 +339,39 @@
     setTimeout(function(){ $$(".rv").forEach(function(n){ n.classList.add("in"); }); },1200);
   })();
 
+
+  /* ---- reservation modal ----
+     #/book is a modal over whatever page you were on, so closing it puts you
+     back where you were rather than dumping you on the home page. */
+  var bookModal=$("#bookmodal"), lastPath="/", bookOpen=false, lastFocus=null;
+
+  function openBook(){
+    if(bookOpen) return;
+    bookOpen=true; lastFocus=document.activeElement;
+    bookModal.hidden=false;
+    document.body.style.overflow="hidden";
+    var first=bookModal.querySelector("input,select,textarea,button");
+    if(first) setTimeout(function(){ first.focus(); },80);
+  }
+  function closeBook(silent){
+    if(!bookOpen) return;
+    bookOpen=false;
+    bookModal.hidden=true;
+    document.body.style.overflow="";
+    if(lastFocus && lastFocus.focus) lastFocus.focus();
+    if(!silent && (location.hash||"").replace(/^#/,"")==="/book"){
+      location.hash="#"+lastPath;
+    }
+  }
+  $("#bookx").addEventListener("click",function(){ closeBook(); });
+  bookModal.addEventListener("click",function(e){ if(e.target===bookModal) closeBook(); });
+  document.addEventListener("keydown",function(e){
+    if(e.key==="Escape" && bookOpen && !lb.classList.contains("on")) closeBook();
+  });
+
   /* ---- router with a curtain wipe ---- */
   var ROUTES={ "/":"v-home","/evenings":"v-evenings","/menus":"v-menus","/gallery":"v-gallery",
-               "/private":"v-private","/about":"v-about","/space":"v-space","/book":"v-book",
+               "/private":"v-private","/about":"v-about","/space":"v-space",
                "/faq":"v-faq","/legal":"v-legal" };
   var curtain=$("#curtain"), first=true;
 
@@ -358,8 +388,17 @@
 
   function route(){
     var path=(location.hash||"#/").replace(/^#/,"");
-    if(!ROUTES[path]) path="/";
     closeSheet();
+
+    if(path==="/book"){
+      if(first){ first=false; paint(lastPath); }   // deep link straight to #/book
+      openBook();
+      return;
+    }
+
+    closeBook(true);
+    if(!ROUTES[path]) path="/";
+    lastPath=path;
     if(first || window.matchMedia("(prefers-reduced-motion: reduce)").matches){
       first=false; paint(path); return;
     }

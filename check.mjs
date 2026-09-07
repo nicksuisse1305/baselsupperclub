@@ -19,12 +19,18 @@ for (const r of refs) {
 }
 if (refs.length === 0) errors.push("no images referenced — the image map failed to build");
 
-/* 2. Every hash route linked in the markup must be handled by the router. */
+/* 2. Every hash route linked in the markup must be handled — either by the
+      router (a view) or by a modal the router opens over the current page. */
+const MODAL_ROUTES = ["/book"];
 const linked = [...new Set([...html.matchAll(/href="#(\/[a-z-]*)"/g)].map((m) => m[1]))];
 const routed = [...new Set([...html.matchAll(/"(\/[a-z-]*)":\s*"v-/g)].map((m) => m[1]))];
 for (const l of linked) {
-  if (!routed.includes(l)) errors.push(`link to #${l} but no such route`);
+  if (!routed.includes(l) && !MODAL_ROUTES.includes(l)) {
+    errors.push(`link to #${l} but no such route`);
+  }
 }
+/* the modal routes must actually have their container in the page */
+if (!html.includes('id="bookmodal"')) errors.push("booking modal container is missing");
 
 /* 3. Required document furniture. */
 for (const [needle, label] of [

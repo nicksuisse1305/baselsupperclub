@@ -488,12 +488,16 @@
 </div>
 
 <!-- ═════════════════ BOOK ═════════════════ -->
-<div class="view" id="v-book" hidden>
-  <section class="band">
-    <div class="wrap" style="max-width:860px">
-      <div style="margin-bottom:44px">
+<!-- Reservations open as a warm paper card over the dark site -->
+<div class="modal" id="bookmodal" hidden>
+  <div class="modal-card paper" role="dialog" aria-modal="true" aria-labelledby="book-h">
+    <button class="modal-x" id="bookx" aria-label="Close">
+      <svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <div class="modal-scroll">
+      <div style="margin-bottom:32px">
         <p class="eyebrow">Reserve</p>
-        <h2 style="margin-bottom:20px">Take a seat</h2>
+        <h2 id="book-h" style="margin-bottom:18px">Take a seat</h2>
         <p class="lede">Tell us who you are and we'll come back within 24 hours with payment
           details and the address. Your seat is held for 48 hours and becomes yours when
           payment lands.</p>
@@ -588,7 +592,9 @@
   </section>
 </div>
 
-<!-- ═════════════════ FAQ ═════════════════ -->
+    </div>
+  </div>
+</div>
 <div class="view" id="v-faq" hidden>
   <section class="band">
     <div class="wrap" style="max-width:900px">

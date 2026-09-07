@@ -388,6 +388,76 @@ form.bk{ display:grid; gap:24px; }
 .pay{ border:1px solid var(--line); background:var(--bg-2); padding:7px 13px; font-size:.72rem;
   letter-spacing:.13em; text-transform:uppercase; color:var(--body); }
 
+
+/* ---------- the reservation card ----------
+   Warm paper laid over the dark site: a physical booking card, and the one
+   place on the site where the palette flips to light. */
+[hidden]{ display:none !important; }   /* inline display: rules would otherwise win */
+
+.modal{
+  position:fixed; inset:0; z-index:130; display:grid; place-items:center;
+  padding:clamp(12px,3vw,40px); background:rgba(12,10,9,.72);
+  backdrop-filter:blur(6px); animation:modalIn .3s var(--ease);
+}
+@keyframes modalIn{ from{ opacity:0; } to{ opacity:1; } }
+.modal-card{
+  position:relative; width:min(760px,100%); max-height:92vh; display:flex; flex-direction:column;
+  box-shadow:0 40px 90px -30px rgba(0,0,0,.8);
+  animation:cardIn .42s var(--ease) both;
+}
+@keyframes cardIn{ from{ opacity:0; transform:translateY(22px) scale(.985); } to{ opacity:1; transform:none; } }
+.modal-scroll{ overflow-y:auto; padding:clamp(26px,4vw,48px); }
+.modal-x{
+  position:absolute; top:14px; right:14px; z-index:2; width:40px; height:40px; cursor:pointer;
+  display:grid; place-items:center; border-radius:50%;
+  background:var(--paper-2); border:1px solid var(--paper-line); color:var(--paper-ink);
+  transition:background .2s, transform .2s;
+}
+.modal-x:hover{ background:var(--accent); border-color:var(--accent); color:#fff; transform:rotate(90deg); }
+.modal-x .ic{ width:17px; height:17px; }
+
+/* the light palette, scoped so the rest of the site stays dark */
+.paper{
+  --paper:      #F7F0E4;
+  --paper-2:    #EFE5D4;
+  --paper-ink:  #241C16;
+  --paper-body: #5C4E43;
+  --paper-mute: #8A7A6B;
+  --paper-line: rgba(36,28,22,.16);
+  background:var(--paper); color:var(--paper-body);
+}
+.paper h2,.paper h3,.paper h4,.paper .t{ color:var(--paper-ink); }
+.paper .lede{ color:var(--paper-ink); }
+.paper .eyebrow{ color:var(--accent); }
+.paper .s,.paper .hint,.paper .per{ color:var(--paper-mute); }
+.paper .f label{ color:var(--paper-mute); }
+.paper .f input,.paper .f select,.paper .f textarea{
+  background:#FFFCF6; border-color:var(--paper-line); color:var(--paper-ink);
+}
+.paper .f input::placeholder,.paper .f textarea::placeholder{ color:#B4A695; }
+.paper .f input:focus,.paper .f select:focus,.paper .f textarea:focus{
+  background:#fff; border-color:var(--accent); box-shadow:0 0 0 3px rgba(226,84,43,.13);
+}
+.paper .opts label{ background:#FFFCF6; border-color:var(--paper-line); }
+.paper .opts label:hover{ border-color:var(--accent); }
+.paper .opts label:has(input:checked){ background:#FBEFE7; border-color:var(--accent); }
+.paper .pay{ background:#FFFCF6; border-color:var(--paper-line); color:var(--paper-body); }
+.paper .sum{ background:#FBEFE7; border-color:var(--accent); }
+.paper .sum .ln{ color:var(--paper-body); }
+.paper .sum .ln.tot{ color:var(--paper-ink); border-top-color:var(--paper-line); }
+.paper .f .msg{ color:#B3341A; }
+.paper .f.bad input{ border-color:#B3341A; }
+.paper a{ color:var(--accent); }
+.paper .btn.ghost{ color:var(--paper-ink); border-color:var(--paper-line); }
+.paper .btn.ghost:hover{ color:#fff; background:var(--accent); border-color:var(--accent); }
+.paper .btn::after{ background:var(--paper-ink); }
+.paper .btn:hover{ color:var(--paper); border-color:var(--paper-ink); }
+
+@media (max-width:600px){
+  .modal{ padding:0; }
+  .modal-card{ width:100%; max-height:100vh; height:100vh; }
+}
+
 /* ---------- faq ---------- */
 .faq details{ border-bottom:1px solid var(--line); }
 .faq details:first-child{ border-top:1px solid var(--line); }
