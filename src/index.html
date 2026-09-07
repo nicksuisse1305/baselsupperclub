@@ -1,0 +1,702 @@
+<!-- ═════════ LEFT RAIL ═════════ -->
+<aside class="rail">
+  <a class="mark-v" href="#/" data-link>Basel Supper Club</a>
+  <span class="dot"></span>
+  <div class="rail-ic">
+    <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></svg></a>
+    <a href="mailto:hello@baselsupperclub.ch" aria-label="Email">
+      <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></a>
+    <a href="#/book" data-link aria-label="Reserve">
+      <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg></a>
+  </div>
+</aside>
+
+<!-- ═════════ TOP BAR ═════════ -->
+<header class="topbar" id="top">
+  <a class="brand" href="#/" data-link>Basel <em>Supper</em> Club</a>
+  <nav class="mainnav">
+    <div class="navitem"><a href="#/" data-link>Home</a></div>
+    <div class="navitem" data-drop>
+      <button type="button" aria-expanded="false">Experience
+        <svg class="ic caret" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="drop">
+        <a href="#/evenings" data-link><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>
+          <span>Evenings<small>Dates and menus</small></span></a>
+        <a href="#/menus" data-link><svg class="ic" viewBox="0 0 24 24"><path d="M4 4v16M8 4v6a2 2 0 0 1-4 0M16 4c-1.5 2-2 4-2 6h4c0-2-.5-4-2-6ZM16 10v10"/></svg>
+          <span>What we cook<small>The kitchens we borrow from</small></span></a>
+        <a href="#/gallery" data-link><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="m4 17 5-5 4 4 3-2 4 4"/></svg>
+          <span>Gallery<small>The food, the table, the nights</small></span></a>
+      </div>
+    </div>
+    <div class="navitem" data-drop>
+      <button type="button" aria-expanded="false">About
+        <svg class="ic caret" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button>
+      <div class="drop">
+        <a href="#/about" data-link><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>
+          <span>Your hosts<small>Who is cooking</small></span></a>
+        <a href="#/space" data-link><svg class="ic" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M9 22V12h6v10"/></svg>
+          <span>The flat<small>Where you'll be sitting</small></span></a>
+        <a href="#/faq" data-link><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.7M12 17h.01"/></svg>
+          <span>FAQ<small>Everything people ask</small></span></a>
+      </div>
+    </div>
+    <div class="navitem"><a href="#/private" data-link>Private</a></div>
+    <div class="navitem" style="margin-left:10px"><a class="btn sm" href="#/book" data-link><span>Reserve</span></a></div>
+  </nav>
+  <button class="burger" id="burger" aria-label="Open menu">
+    <svg class="ic" style="width:20px;height:20px" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
+</header>
+
+<div class="sheet" id="sheet">
+  <button class="x" id="sheetx" aria-label="Close menu">
+    <svg class="ic" style="width:18px;height:18px" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <a href="#/" data-link>Home</a>
+  <a href="#/evenings" data-link>Evenings<small>Dates and menus</small></a>
+  <a href="#/menus" data-link>What we cook<small>The kitchens we borrow from</small></a>
+  <a href="#/gallery" data-link>Gallery<small>The food and the table</small></a>
+  <a href="#/private" data-link>Private dining<small>We cook at your place</small></a>
+  <a href="#/about" data-link>Your hosts</a>
+  <a href="#/space" data-link>The flat</a>
+  <a href="#/faq" data-link>FAQ</a>
+  <a href="#/book" data-link style="color:var(--accent)">Reserve a seat</a>
+</div>
+
+<div class="curtain" id="curtain"></div>
+
+<main id="shell">
+
+<!-- ═════════════════ HOME ═════════════════ -->
+<div class="view" id="v-home">
+
+  <section class="hero">
+    <div class="hero-bg" data-bg="hero"></div>
+    <div class="wrap hero-in">
+      <h1>
+        <span class="l"><span>Eight seats.</span></span>
+        <span class="l"><span>One table.</span></span>
+        <span class="l"><span>Basel.</span></span>
+      </h1>
+      <p class="tag">We host a supper club in our flat in Basel. Between us we have travelled
+        to more than forty countries, and every trip left us with a dish we could not forget.
+        So we came home and cooked it. Again and again, until it tasted like the place.<br>
+        Now we share those dishes at our table. Six to eight seats, one long table. You arrive
+        as strangers, you eat your way around the world, and you leave as friends.</p>
+      <div class="cta">
+        <a class="btn" href="#/book" data-link><span>Reserve a seat</span></a>
+        <a class="btn ghost" href="#/evenings" data-link><span>See the evenings</span></a>
+      </div>
+      <div class="meta">
+        <div><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>6–8 guests</div>
+        <div><svg class="ic" viewBox="0 0 24 24"><path d="M4 4v16M8 4v6a2 2 0 0 1-4 0M16 4c-1.5 2-2 4-2 6h4c0-2-.5-4-2-6ZM16 10v10"/></svg>Shared, family style</div>
+        <div><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>19:00 till late</div>
+        <div><svg class="ic" viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>Address on confirmation</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marq"><div class="marq-in" id="marq"></div></div>
+
+  <section class="band">
+    <div class="wrap split align-start">
+      <div class="rv">
+        <p class="eyebrow">The idea</p>
+        <h2 style="margin-bottom:22px">We cook everything, and we cook it properly</h2>
+        <p class="lede">There is no single cuisine here, because there is no single cook.
+          Nik learned in his mother's kitchen in India. Ania is a trained chef from Warsaw.
+          Between us, most of the world's good food is covered.</p>
+        <p>One night is ramen: broth started yesterday, chilli oil made this morning, gyoza
+          folded by hand while you watch. The next is Italian, or Thai, or an Indian night
+          with butter chicken, lamb korma, paneer straight from the pan and naan hot from the
+          oven. What never changes is the size of the table and how much we care about the
+          people at it.</p>
+        <p>Nik's curries are his mother's recipes, cooked the way she taught him. Ania cooks
+          pasta and ramen with the same love she brings to the Polish food she grew up on.
+          Every dish has a story, and we will probably tell you.</p>
+        <div style="margin-top:26px"><a class="btn ghost" href="#/about" data-link><span>Meet your hosts</span></a></div>
+      </div>
+      <div class="rv" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="shot tall"><img data-img="f0" alt="Udon with soft eggs and dill"></div>
+        <div class="shot tall" style="margin-top:36px"><img data-img="f1" alt="Coconut curry with chicken and vegetables"></div>
+        <div class="shot tall"><img data-img="f6" alt="Hand-folded gyoza"></div>
+        <div class="shot tall" style="margin-top:36px"><img data-img="f4" alt="Rigatoni with mushrooms and parmesan"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band tint">
+    <div class="wrap">
+      <div class="stats rv" id="stats"></div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="rv" style="max-width:60ch;margin-bottom:44px">
+        <p class="eyebrow">What lands on the table</p>
+        <h2 style="margin-bottom:18px">Six kitchens we keep going back to</h2>
+        <p>Each evening picks one and goes deep. Never a buffet of everything at once.</p>
+      </div>
+      <div class="cuis rv" id="cuisines"></div>
+    </div>
+  </section>
+
+  <section class="band tint">
+    <div class="wrap">
+      <div class="rv" style="display:flex;flex-wrap:wrap;gap:20px;align-items:end;justify-content:space-between;margin-bottom:38px">
+        <div style="max-width:52ch">
+          <p class="eyebrow">Coming up</p>
+          <h2>The next evenings</h2>
+        </div>
+        <a class="btn ghost sm" href="#/evenings" data-link><span>All evenings</span></a>
+      </div>
+      <div class="rv" id="home-evenings"></div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap split">
+      <div class="rv">
+        <div class="shot wide"><img data-img="room" alt="The dining room, set for the evening"></div>
+      </div>
+      <div class="rv">
+        <p class="eyebrow">The flat</p>
+        <h2 style="margin-bottom:20px">A real home, not a room above a restaurant</h2>
+        <p>Wooden floors, one long table under a black pendant lamp, and a balcony full of
+          herbs that we cook with and drink on when the weather allows. You'll get the exact
+          address when your seat is confirmed — never before, and never on the internet.</p>
+        <div style="margin-top:24px"><a class="btn ghost" href="#/space" data-link><span>See the space</span></a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band tint">
+    <div class="wrap">
+      <div class="rv" style="max-width:56ch;margin-bottom:40px">
+        <p class="eyebrow">What it costs</p>
+        <h2>Two ways to sit down</h2>
+      </div>
+      <div class="tiers rv" id="tiers"></div>
+      <p class="rv dim" style="margin-top:22px;font-size:.93rem">Per person. An evening runs with
+        a minimum of six guests. Twint, card or cash.</p>
+    </div>
+  </section>
+
+  <section class="ctaband">
+    <div class="wrap">
+      <h2>There are eight seats</h2>
+      <p style="margin-bottom:26px">Dates go out to the list first and the table is small.
+        Put your name down and you'll hear before anyone else.</p>
+      <a class="btn" href="#/book" data-link><span>Reserve or join the list</span></a>
+    </div>
+  </section>
+</div>
+
+<!-- ═════════════════ EVENINGS ═════════════════ -->
+<div class="view" id="v-evenings" hidden>
+  <section class="band">
+    <div class="wrap">
+      <div style="max-width:62ch;margin-bottom:48px">
+        <p class="eyebrow">Evenings</p>
+        <h2 style="margin-bottom:20px">Dates and menus</h2>
+        <p class="lede">Six to eight seats and a table full of food. CHF 120, or CHF 150 with
+          drinks poured all evening.</p>
+        <p class="dim">We're setting the first dates now — put your name on the list and you'll
+          get them before they go public.</p>
+      </div>
+      <div id="all-evenings"></div>
+      <div style="margin-top:44px"><a class="btn" href="#/book" data-link><span>Join the list</span></a></div>
+    </div>
+  </section>
+
+  <section class="band tint">
+    <div class="wrap">
+      <div class="rv" style="max-width:56ch;margin-bottom:38px">
+        <p class="eyebrow">Previously</p>
+        <h2 style="margin-bottom:18px">Tables we've already fed</h2>
+        <p>Before the supper club there were a lot of dinners for friends. This is where it
+          came from.</p>
+      </div>
+      <div class="g2 rv">
+        <div>
+          <div class="shot wide"><img data-img="table1" alt="A spread of small plates and flatbread"></div>
+          <div class="cap">Mezze and flatbread · a Sunday</div>
+        </div>
+        <div>
+          <div class="shot wide"><img data-img="table2" alt="Taco night at the table"></div>
+          <div class="cap">Taco night · everyone builds their own</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═════════════════ MENUS ═════════════════ -->
+<div class="view" id="v-menus" hidden>
+  <section class="band">
+    <div class="wrap">
+      <div style="max-width:62ch;margin-bottom:48px">
+        <p class="eyebrow">What we cook</p>
+        <h2 style="margin-bottom:20px">Six kitchens, one at a time</h2>
+        <p class="lede">We don't do fusion and we don't do "world cuisine". Each evening
+          commits to one kitchen and tries to do it justice.</p>
+      </div>
+      <div class="cuis" id="cuisines-2"></div>
+    </div>
+  </section>
+
+  <section class="band tint">
+    <div class="wrap split">
+      <div class="rv">
+        <p class="eyebrow">A sample evening</p>
+        <h2 style="margin-bottom:20px">A ramen night</h2>
+        <p>The one we've cooked most, and the one people ask us to repeat. Broth goes on the
+          night before.</p>
+        <ul class="courses" id="sample-menu" style="border-top:0;padding-top:8px"></ul>
+      </div>
+      <div class="rv" style="display:grid;gap:14px">
+        <div class="shot wide"><img data-img="hero2" alt="Tantan bowl with soft egg and greens"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="shot sq"><img data-img="f6" alt="Gyoza"></div>
+          <div class="shot sq"><img data-img="f2" alt="Creamy udon"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="g2">
+        <div class="rv">
+          <h3 style="margin-bottom:18px">Always true</h3>
+          <ul class="tier" style="background:none;padding:0;border:0;list-style:none;margin:0">
+            <li style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)">Everything comes to the middle of the table and you help yourself</li>
+            <li style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)">A full vegetarian version of every menu, written from scratch</li>
+            <li style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)">Vegan and gluten-free with a week's notice</li>
+            <li style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)">No pork or halal on request, arranged in advance</li>
+            <li style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)">Noodles, dumplings, pasta and pickles made here</li>
+            <li style="display:flex;gap:12px;padding:11px 0">You're told what's in every dish before you eat it</li>
+          </ul>
+        </div>
+        <div class="rv">
+          <h3 style="margin-bottom:18px">Where it comes from</h3>
+          <ul class="tier" style="background:none;padding:0;border:0;list-style:none;margin:0">
+            <li style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)">Vegetables and meat from Basel Marktplatz</li>
+            <li style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)">Herbs and chillies off our own balcony in summer</li>
+            <li style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)">Asian pantry from the shops in Kleinbasel</li>
+            <li style="display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)">Broths, chilli oils and pastes made from scratch</li>
+            <li style="display:flex;gap:12px;padding:11px 0">Wine from Alsace and Baden, half an hour away</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═════════════════ GALLERY ═════════════════ -->
+<div class="view" id="v-gallery" hidden>
+  <section class="band">
+    <div class="wrap">
+      <div style="max-width:56ch;margin-bottom:42px">
+        <p class="eyebrow">Gallery</p>
+        <h2 style="margin-bottom:18px">The food, the table, the nights</h2>
+        <p>Everything here came out of our kitchen. Click any of them.</p>
+      </div>
+      <div class="gal" id="gal"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ═════════════════ PRIVATE ═════════════════ -->
+<div class="view" id="v-private" hidden>
+  <section class="band">
+    <div class="wrap split align-start">
+      <div>
+        <p class="eyebrow">Private dining</p>
+        <h2 style="margin-bottom:22px">We come and cook at your place</h2>
+        <p class="lede">A birthday, an anniversary, a team that actually wants to talk to each
+          other. You choose the location, we build the menu around your evening and your guests.</p>
+        <p>We arrive with everything prepped, cook it in front of your people, serve it, and
+          leave your kitchen cleaner than we found it. You don't touch a pan and you don't
+          touch the washing up.</p>
+        <div style="margin-top:28px"><a class="btn" href="#/book" data-link><span>Send an enquiry</span></a></div>
+      </div>
+      <div style="display:grid;gap:14px">
+        <div class="shot wide"><img data-img="f8" alt="A pan of prawn curry at the table"></div>
+        <div class="shot wide"><img data-img="table1" alt="Small plates laid out for a group"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band tint">
+    <div class="wrap g2">
+      <div class="rv">
+        <h3 style="margin-bottom:18px">What's included</h3>
+        <ul style="list-style:none;margin:0;padding:0">
+          <li style="padding:11px 0;border-bottom:1px solid var(--line)">A menu written after a conversation, not handed to you</li>
+          <li style="padding:11px 0;border-bottom:1px solid var(--line)">All shopping, prep, cooking and service</li>
+          <li style="padding:11px 0;border-bottom:1px solid var(--line)">Both of us in your kitchen for the evening</li>
+          <li style="padding:11px 0;border-bottom:1px solid var(--line)">Every dietary requirement built into the menu</li>
+          <li style="padding:11px 0;border-bottom:1px solid var(--line)">Washing up, and a kitchen left spotless</li>
+          <li style="padding:11px 0">Drinks package if you want it, or your own cellar</li>
+        </ul>
+      </div>
+      <div class="rv">
+        <h3 style="margin-bottom:18px">Good to know</h3>
+        <ul style="list-style:none;margin:0;padding:0">
+          <li style="padding:11px 0;border-bottom:1px solid var(--line)">From CHF 150 per person — final price after we've talked</li>
+          <li style="padding:11px 0;border-bottom:1px solid var(--line)">Six guests upwards</li>
+          <li style="padding:11px 0;border-bottom:1px solid var(--line)">Six weeks' notice for a weekend; more in December</li>
+          <li style="padding:11px 0;border-bottom:1px solid var(--line)">Travel inside Basel-Stadt included, further billed at cost</li>
+          <li style="padding:11px 0;border-bottom:1px solid var(--line)">We need a working oven, a sink and some counter space</li>
+          <li style="padding:11px 0">50% confirms the date, balance on the day</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═════════════════ ABOUT ═════════════════ -->
+<div class="view" id="v-about" hidden>
+  <section class="band">
+    <div class="wrap split">
+      <div>
+        <p class="eyebrow">Your hosts</p>
+        <h2 style="margin-bottom:22px">Nik and Ania</h2>
+        <p class="lede">One of us learned to cook at home. The other went to school for it.
+          Between the two, most of the world's good food is covered.</p>
+        <p>We met, worked out we'd both rather plan a menu than a holiday, and started
+          feeding people. It got out of hand in the best possible way, and now there's a
+          table in Basel with eight seats at it.</p>
+        <p>Hospitality is the half we care about most. Getting the food right is the entry
+          fee. Making eight people feel properly looked after in someone else's home is the
+          actual job.</p>
+      </div>
+      <div>
+        <div class="shot wide"><img data-img="hosts" alt="Nik and Ania in Basel"></div>
+        <div class="cap">Nik &amp; Ania · Basel</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band tint">
+    <div class="wrap g2" style="gap:clamp(32px,5vw,64px)">
+      <div class="rv">
+        <div class="shot wide" style="margin-bottom:24px">
+          <div class="ph" style="aspect-ratio:4/3">
+            <div class="lbl">
+              <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
+              Add a photo of Nik cooking
+            </div>
+          </div>
+        </div>
+        <p class="eyebrow">India · curry, spice, the slow pots</p>
+        <h3 style="margin-bottom:16px">Nik</h3>
+        <p>Nik grew up in India in his mother's kitchen, and that is still where every curry
+          on our table comes from — learned by watching her, by tasting constantly, and by
+          being told when he'd got it wrong.</p>
+        <p>He went on to study engineering at <strong style="color:var(--cream)">MIT</strong>,
+          which sounds like it has nothing to do with dinner until you watch him weigh spices
+          to the gram and keep written notes on every batch of garam masala. It's his mother's
+          cooking, measured — and it means a dish tastes the same on the tenth evening as it
+          did on the first.</p>
+      </div>
+      <div class="rv">
+        <div class="shot wide" style="margin-bottom:24px">
+          <div class="ph" style="aspect-ratio:4/3">
+            <div class="lbl">
+              <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
+              Add a photo of Ania cooking
+            </div>
+          </div>
+        </div>
+        <p class="eyebrow">Warsaw · pasta, ramen, and the Polish table</p>
+        <h3 style="margin-bottom:16px">Ania</h3>
+        <p>Ania is from Warsaw and is a <strong style="color:var(--cream)">certified chef</strong>
+          — the one of us with the actual training. She cooks Italian and Japanese with equal
+          seriousness: pasta rolled that afternoon, ramen broth started the night before,
+          chilli oil ground by hand that morning.</p>
+        <p>And then there's Polish food, which is where she started and the reason any of this
+          happened. It's what she grew up eating, it's what she cooks when nobody's paying,
+          and it turns up on our menus whenever she decides the table is ready for it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <div class="rv" style="max-width:56ch;margin-bottom:40px">
+        <p class="eyebrow">How the night runs</p>
+        <h2>Doors at seven</h2>
+      </div>
+      <div class="rv" id="timeline"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ═════════════════ THE FLAT ═════════════════ -->
+<div class="view" id="v-space" hidden>
+  <section class="band">
+    <div class="wrap">
+      <div style="max-width:60ch;margin-bottom:44px">
+        <p class="eyebrow">The flat</p>
+        <h2 style="margin-bottom:20px">Where you'll be sitting</h2>
+        <p class="lede">One table, eight chairs, a balcony over the rooftops. The address goes
+          out with your confirmation and nowhere else.</p>
+      </div>
+      <div class="g2">
+        <div class="rv">
+          <div class="shot wide"><img data-img="room" alt="The dining room with the long table"></div>
+          <div class="cap">The dining room · one table, eight chairs</div>
+        </div>
+        <div class="rv">
+          <div class="shot wide"><img data-img="balcony" alt="The balcony with herbs and a view over Basel"></div>
+          <div class="cap">The balcony · herbs, the grill, and where the evening starts</div>
+        </div>
+      </div>
+      <div class="g3" style="margin-top:36px">
+        <div class="rv">
+          <h4 style="margin-bottom:10px">Getting here</h4>
+          <p style="font-size:.95rem">A few minutes from a tram stop and straightforward from
+            Basel SBB. Full directions come with your confirmation.</p>
+        </div>
+        <div class="rv">
+          <h4 style="margin-bottom:10px">Access</h4>
+          <p style="font-size:.95rem">There are stairs and no lift. Tell us when you book and
+            we'll work something out — including hosting you elsewhere if that's what it takes.</p>
+        </div>
+        <div class="rv">
+          <h4 style="margin-bottom:10px">The balcony</h4>
+          <p style="font-size:.95rem">From late spring the first course and the drinks happen
+            out here, under the awning, with the herbs we're about to cook with.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ═════════════════ BOOK ═════════════════ -->
+<div class="view" id="v-book" hidden>
+  <section class="band">
+    <div class="wrap" style="max-width:860px">
+      <div style="margin-bottom:44px">
+        <p class="eyebrow">Reserve</p>
+        <h2 style="margin-bottom:20px">Take a seat</h2>
+        <p class="lede">Tell us who you are and we'll come back within 24 hours with payment
+          details and the address. Your seat is held for 48 hours and becomes yours when
+          payment lands.</p>
+        <div class="pays" style="margin-top:20px">
+          <span class="pay">Twint</span><span class="pay">Visa</span><span class="pay">Mastercard</span>
+          <span class="pay">Card via Stripe</span><span class="pay">Cash</span>
+        </div>
+      </div>
+
+      <form class="bk" id="bookform" novalidate>
+        <div class="f">
+          <label>What are you asking about</label>
+          <div class="opts">
+            <label><input type="radio" name="kind" value="seat" checked>
+              <span class="t">A seat</span><span class="s">At one of our evenings</span></label>
+            <label><input type="radio" name="kind" value="private">
+              <span class="t">Private dining</span><span class="s">We cook at your place</span></label>
+            <label><input type="radio" name="kind" value="list">
+              <span class="t">Just the list</span><span class="s">Tell me when dates open</span></label>
+          </div>
+        </div>
+
+        <div id="seat-fields" style="display:grid;gap:24px">
+          <div class="f">
+            <label for="f-evening">Which evening</label>
+            <select id="f-evening"></select>
+          </div>
+          <div class="f">
+            <label>Dinner, or dinner with drinks</label>
+            <div class="opts" style="grid-template-columns:1fr 1fr">
+              <label><input type="radio" name="tier" value="120" checked>
+                <span class="t">CHF 120 · Dinner</span>
+                <span class="s">Welcome drink, water, coffee and tea</span></label>
+              <label><input type="radio" name="tier" value="150">
+                <span class="t">CHF 150 · With drinks</span>
+                <span class="s">Wine, beer, gin &amp; tonic, cocktails, all evening</span></label>
+            </div>
+          </div>
+          <div class="f">
+            <label for="f-seats">How many seats</label>
+            <select id="f-seats">
+              <option>1</option><option selected>2</option><option>3</option>
+              <option>4</option><option>5</option><option>6</option>
+              <option>7</option><option>8</option>
+            </select>
+          </div>
+          <div class="sum" aria-live="polite">
+            <div class="ln"><span id="s-l"></span><span id="s-v"></span></div>
+            <div class="ln tot"><span>Total</span><span id="s-t"></span></div>
+          </div>
+        </div>
+
+        <div id="private-fields" style="display:grid;gap:24px" hidden>
+          <div class="r2">
+            <div class="f"><label for="f-pdate">Date you have in mind</label>
+              <input id="f-pdate" type="text" placeholder="A Saturday in June, or an exact date"></div>
+            <div class="f"><label for="f-pguests">How many guests</label>
+              <input id="f-pguests" type="number" min="2" max="40" placeholder="8"></div>
+          </div>
+          <div class="f"><label for="f-pwhere">Where</label>
+            <input id="f-pwhere" type="text" placeholder="Your place in Basel, a venue, somewhere else"></div>
+        </div>
+
+        <div class="r2">
+          <div class="f" id="w-name"><label for="f-name">Your name</label>
+            <input id="f-name" type="text" autocomplete="name"><div class="msg" id="e-name"></div></div>
+          <div class="f" id="w-email"><label for="f-email">Email</label>
+            <input id="f-email" type="email" autocomplete="email"><div class="msg" id="e-email"></div></div>
+        </div>
+
+        <div class="f"><label for="f-phone">Phone</label>
+          <input id="f-phone" type="tel" autocomplete="tel" placeholder="+41"></div>
+
+        <div class="f">
+          <label for="f-diet">Allergies, intolerances, anything you don't eat</label>
+          <textarea id="f-diet" placeholder="Be specific — we build the menu around this rather than picking things off it. If there's nothing, say so."></textarea>
+          <div class="hint">We can't take responsibility for anything not declared here.</div>
+        </div>
+
+        <div class="f"><label for="f-note">Anything else</label>
+          <textarea id="f-note" style="min-height:80px" placeholder="Occasion, who you're bringing, how you found us."></textarea></div>
+
+        <div>
+          <button class="btn" type="submit" style="width:100%"><span>Send the request</span></button>
+          <p class="hint" style="margin:16px 0 0;text-align:center">
+            This opens your email app with everything filled in — nothing is sent until you press send.<br>
+            Or write to <a href="mailto:hello@baselsupperclub.ch" style="color:var(--accent)">hello@baselsupperclub.ch</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
+
+<!-- ═════════════════ FAQ ═════════════════ -->
+<div class="view" id="v-faq" hidden>
+  <section class="band">
+    <div class="wrap" style="max-width:900px">
+      <div style="margin-bottom:44px">
+        <p class="eyebrow">Questions</p>
+        <h2>Before you book</h2>
+      </div>
+      <div class="faq" id="faq"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ═════════════════ LEGAL ═════════════════ -->
+<div class="view" id="v-legal" hidden>
+  <section class="band">
+    <div class="wrap legal" style="max-width:900px">
+      <p class="eyebrow">The small print</p>
+      <h2 style="margin-bottom:12px">Terms, privacy and imprint</h2>
+
+      <h3>Terms of participation</h3>
+      <ol>
+        <li><strong>Booking.</strong> A request through this site is not yet a reservation. We
+          confirm by email and hold your seat for 48 hours.</li>
+        <li><strong>Payment.</strong> Your seat is confirmed once payment arrives in full — by
+          Twint, card or cash — within 48 hours of our confirmation. Unpaid seats are released.</li>
+        <li><strong>Price.</strong> CHF 120 per person for the evening’s full menu with a welcome
+          drink, water, coffee and tea. CHF 150 per person with wine, beer, gin and tonic,
+          vodka mate and classic cocktails poured through the evening.</li>
+        <li><strong>Cancellation.</strong> Once payment is processed it is non-refundable. You
+          may send someone else in your place — just tell us their name in advance and we'll
+          look after them exactly the same.</li>
+        <li><strong>Cancellation by us.</strong> An evening runs with a minimum of six guests.
+          If we cancel or move a date, you receive a full refund or a seat at the next
+          evening, your choice.</li>
+        <li><strong>Allergies and intolerances.</strong> Declare them when you book. We build
+          the menu around them. We cannot accept liability for a reaction to something that
+          wasn't declared. Ours is a home kitchen and is not free of nuts, gluten, dairy,
+          shellfish or soy.</li>
+        <li><strong>Alcohol.</strong> Served only to guests aged 16 and over, spirits from 18,
+          in line with Basel-Stadt rules. We reserve the right to stop pouring.</li>
+        <li><strong>The house.</strong> You are a guest in a private home. Please arrive within
+          fifteen minutes of the stated time, don't smoke inside, and be considerate of the
+          neighbours on the way out. Participation is at your own risk and we are not liable
+          for personal belongings.</li>
+        <li><strong>Photographs.</strong> We sometimes photograph the food and the table. Tell
+          us if you'd rather not appear and you won't.</li>
+        <li><strong>Law.</strong> Swiss law applies. Place of jurisdiction is Basel.</li>
+      </ol>
+
+      <h3>Privacy</h3>
+      <p>We collect your name, email, phone number and dietary information for one reason: to
+        host you properly. We keep it while you're on our list and delete it on request.</p>
+      <p>We don't sell, share or rent your details. This site sets no tracking cookies and runs
+        no advertising pixels. Write to
+        <a href="mailto:hello@baselsupperclub.ch" style="color:var(--accent)">hello@baselsupperclub.ch</a>
+        to see, correct or delete what we hold about you.</p>
+
+      <h3>Imprint</h3>
+      <p>Basel Supper Club — supper club and private dining<br>
+        Basel, Switzerland · address supplied on confirmation<br>
+        hello@baselsupperclub.ch · +41 00 000 00 00</p>
+    </div>
+  </section>
+</div>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="big">Basel <em>Supper</em> Club</div>
+        <p style="max-width:34ch;font-size:.95rem">Eight seats, one table, and whatever kitchen
+          we've been obsessing over that month.</p>
+        <a class="btn ghost sm" href="#/book" data-link style="margin-top:10px;display:inline-flex"><span>Join the list</span></a>
+      </div>
+      <div>
+        <h4>Experience</h4>
+        <a href="#/evenings" data-link>Evenings</a>
+        <a href="#/menus" data-link>What we cook</a>
+        <a href="#/gallery" data-link>Gallery</a>
+        <a href="#/private" data-link>Private dining</a>
+      </div>
+      <div>
+        <h4>About</h4>
+        <a href="#/about" data-link>Your hosts</a>
+        <a href="#/space" data-link>The flat</a>
+        <a href="#/faq" data-link>FAQ</a>
+        <a href="#/legal" data-link>Terms &amp; privacy</a>
+      </div>
+      <div>
+        <h4>Reach us</h4>
+        <a href="mailto:hello@baselsupperclub.ch">hello@baselsupperclub.ch</a>
+        <a href="tel:+41000000000">+41 00 000 00 00</a>
+        <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>© <span id="yr"></span> Basel Supper Club · baselsupperclub.ch</span>
+      <span>Basel, Switzerland · address on confirmation</span>
+    </div>
+  </div>
+</footer>
+
+</main>
+
+<!-- TEMPORARY: font chooser. Say which one you want and I'll lock it in and delete this. -->
+<div id="fontpick">
+  <div class="hd">Headline font — pick one</div>
+  <div class="row">
+    <button type="button" data-f="fraunces">Fraunces</button>
+    <button type="button" data-f="instrument">Instrument</button>
+    <button type="button" data-f="archivo">Archivo</button>
+    <button type="button" data-f="anton">Anton</button>
+  </div>
+  <div class="ft">Click through, browse the site, tell me the winner. This box disappears once you choose.</div>
+</div>
+
+<div class="lightbox" id="lb">
+  <button class="x" id="lbx" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  <button class="nav prev" id="lbp" aria-label="Previous"><svg class="ic" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>
+  <button class="nav next" id="lbn" aria-label="Next"><svg class="ic" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button>
+  <img id="lbi" alt="">
+</div>

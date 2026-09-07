@@ -1,0 +1,142 @@
+/* ── Basel Supper Club — site content ──
+   Prices, evenings, menus, cuisines, FAQ and gallery captions.
+   Edit this file, commit, and CI redeploys the site. */
+
+/* ═══════════ CONTENT — edit here ═══════════ */
+var P_DINNER = 120, P_DRINKS = 150;
+
+var CUISINES = [
+  { n:"01", flag:"jp", country:"Japan", icon:"bowl", title:"Ramen &amp; tantan",
+    desc:"Broth from the night before, chilli oil ground that morning, noodles that actually bite back.",
+    dishes:["Tantan","Shoyu ramen","Gyoza","Katsu","Chilli oil"] },
+  { n:"02", flag:"in", country:"India", icon:"flame", title:"Curry &amp; tandoor",
+    desc:"Nik's mother's recipes. Whole spices toasted and ground the same day, never a jar.",
+    dishes:["Butter chicken","Lamb korma","Paneer","Dal","Naan"] },
+  { n:"03", flag:"it", country:"Italy", icon:"wheat", title:"Pasta",
+    desc:"Rolled that afternoon. A rag\u00f9 that took five hours and nobody rushed.",
+    dishes:["Rag\u00f9","Rigatoni","Carbonara","Focaccia"] },
+  { n:"04", flag:"th", country:"Thailand", icon:"leaf", title:"Thai",
+    desc:"Coconut, lime leaf, fresh chilli, and the balance that takes years to get right.",
+    dishes:["Green curry","Tom kha","Pad thai","Som tam"] },
+  { n:"05", flag:"cn", country:"China", icon:"dumpling", title:"Dumplings &amp; dim sum",
+    desc:"Folded by hand at the counter while you drink. Usually the first thing on the table.",
+    dishes:["Bao","Wontons","Dim sum","Stir fry"] },
+  { n:"06", flag:"pl", country:"Poland", icon:"pot", title:"Ania's home table",
+    desc:"Where she started, and the reason any of this happened. Cooked the way her family does it.",
+    dishes:["Pierogi","\u017burek","Bigos","Sernik"] }
+];
+
+var FLAGS = {
+  jp:'<rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="5.6" fill="#BC002D"/>',
+  in:'<rect width="30" height="6.67" fill="#FF9933"/><rect y="6.67" width="30" height="6.66" fill="#fff"/>'+
+     '<rect y="13.33" width="30" height="6.67" fill="#138808"/><circle cx="15" cy="10" r="2.5" fill="none" stroke="#000080" stroke-width="0.7"/>',
+  it:'<rect width="10" height="20" fill="#009246"/><rect x="10" width="10" height="20" fill="#fff"/><rect x="20" width="10" height="20" fill="#CE2B37"/>',
+  th:'<rect width="30" height="20" fill="#fff"/><rect width="30" height="3.33" fill="#A51931"/>'+
+     '<rect y="16.67" width="30" height="3.33" fill="#A51931"/><rect y="6.67" width="30" height="6.66" fill="#2D2A4A"/>',
+  cn:'<rect width="30" height="20" fill="#DE2910"/>'+
+     '<path d="M7 3.3 7.75 5.47 10.04 5.51 8.22 6.9 8.88 9.09 7 7.78 5.12 9.09 5.78 6.9 3.96 5.51 6.25 5.47Z" fill="#FFDE00"/>'+
+     '<circle cx="12.4" cy="3" r="0.75" fill="#FFDE00"/><circle cx="14.2" cy="5" r="0.75" fill="#FFDE00"/>'+
+     '<circle cx="14.2" cy="7.7" r="0.75" fill="#FFDE00"/><circle cx="12.4" cy="9.6" r="0.75" fill="#FFDE00"/>',
+  pl:'<rect width="30" height="10" fill="#fff"/><rect y="10" width="30" height="10" fill="#DC143C"/>'
+};
+
+var EVENINGS = [
+  { id:"ramen", n:"01", flag:"jp", title:"Ramen Night", when:"Date announced soon",
+    dishes:["Tantan","Shoyu ramen","Gyoza","Chilli oil","Black sesame ice"],
+    sub:"Tantan, hand-folded gyoza, a broth we start the night before, and a chilli oil that people ask to take home.",
+    status:"soon", statusText:"Dates soon",
+    courses:[
+      ["Gyoza","Folded at the counter while you have your first drink. Pork and cabbage, or mushroom and ginger."],
+      ["Cold plate","Smashed cucumber, sesame, chilli oil, black vinegar."],
+      ["Tantan","Sesame and chilli broth, minced pork, greens, a soft egg. The bowl everyone remembers."],
+      ["Shoyu ramen","Twelve-hour broth, chashu, spring onion, the noodles cooked to order."],
+      ["Sweet","Black sesame ice, or something with yuzu if we can get it."]
+    ]},
+  { id:"curry", n:"02", flag:"in", title:"Indian Night", when:"Date announced soon",
+    dishes:["Butter chicken","Lamb korma","Paneer","Dal","Naan","Chaat"],
+    sub:"Butter chicken, lamb korma, paneer straight from the pan and naan hot from the oven \u2014 everything on the table at once, the way it is actually eaten.",
+    status:"soon", statusText:"Dates soon",
+    courses:[
+      ["Chaat","Something cold, sour and crunchy while the bread is still in the oven."],
+      ["Butter chicken","The one everyone thinks they know. Tomatoes cooked down for hours, cream only at the very end."],
+      ["Lamb korma","Slow and nutty, mild enough that you can still taste the lamb."],
+      ["Paneer","Straight out of the pan, still squeaking."],
+      ["Dal","Buttery, and finished with a tempering poured over it at the table."],
+      ["Naan, hot from the oven","Coming out all evening. You will eat too much of it. Everybody does."],
+      ["Sweet","Warm, cardamom, and more than you expect."]
+    ]},
+  { id:"pasta", n:"03", flag:"it", title:"Pasta Night", when:"Date announced soon",
+    dishes:["Rag\u00f9","Rigatoni","Carbonara","Focaccia","Tiramis\u00f9"],
+    sub:"Rolled that afternoon. A ragù that took five hours, rigatoni with mushroom and parmesan, and far too much bread.",
+    status:"soon", statusText:"Dates soon",
+    courses:[] },
+  { id:"thai", n:"04", flag:"th", title:"Thai Night", when:"Date announced soon",
+    dishes:["Green curry","Tom kha","Pad thai","Som tam","Mango sticky rice"],
+    sub:"Coconut, lime leaf and fresh chilli. The evening with the most colour on the table.",
+    status:"soon", statusText:"Dates soon",
+    courses:[] }
+];
+
+var TIMELINE = [
+  ["19:00","<strong>The door.</strong> A drink in your hand before your coat is off. On a warm night this happens on the balcony."],
+  ["19:30","<strong>Everyone sits.</strong> One table. We tell you what tonight is and where it came from, quickly, because you came to eat."],
+  ["19:45","<strong>First plates.</strong> Whatever we've been folding or frying at the counter. The table stops being strangers here."],
+  ["20:45","<strong>The middle.</strong> Two courses, back to back, cooked in front of you."],
+  ["21:45","<strong>The big one.</strong> Out of the pot and into the middle of the table."],
+  ["22:30","<strong>Sweet, coffee, tea.</strong> And the story behind the dessert, usually the best story of the night."],
+  ["23:00","<strong>The kitchen.</strong> People drift back to the stove and ask how the broth was made."],
+  ["Late","<strong>Coats.</strong> Whenever it naturally ends. We've never rushed anyone."]
+];
+
+var FAQ = [
+  ["How many people are there?","Six to eight guests, one table, the two of us cooking. It's deliberately small — at eight people one conversation still works."],
+  ["What does it cost?","CHF 120 per person for the whole evening of food, with a welcome drink, water, coffee and tea. CHF 150 per person if you want drinks poured all evening — wine, beer, gin and tonic, vodka mate and classic cocktails, no tab and no counting at the end. Everyone at the table chooses separately."],
+  ["What kind of food is it?","It depends on the evening. Ramen, curry, pasta, Thai, gyoza, tacos. Each evening commits to one kitchen and goes deep rather than serving a bit of everything. The menu is always published before you book."],
+  ["How many dishes are there?","As many as the night needs \u2014 we don't count courses. A ramen night is gyoza, a cold plate, the bowl itself and something sweet. An Indian night is butter chicken, korma, paneer, dal, naan and rice all arriving at once. We cook until the table is full and nobody leaves hungry."],
+  ["How is the food served?","Everything comes to the middle of the table and you help yourself. It is the fastest way we know to make eight strangers stop being polite with each other."],
+  ["Where is it?","Our flat in Basel. You get the exact address and directions with your confirmation, never before. It's a short walk from a tram and easy from Basel SBB."],
+  ["I don't know anyone. Is that weird?","It's the normal way to come. Most people book one or two seats and arrive not knowing the rest of the table. With six to eight people there's one conversation, not several, and by the second course you'll have forgotten you were nervous."],
+  ["How do I pay?","Twint, card or cash. We send details with your confirmation and your seat is yours once payment lands. Card payment through the site is coming shortly."],
+  ["What if I can't come?","Once payment is processed we can't refund it — the shopping is done and the seat was held for you. But you can send someone else in your place. Just tell us their name in advance and we'll look after them exactly the same."],
+  ["I'm vegetarian / vegan / coeliac / don't eat pork.","Every menu has a full vegetarian version written from scratch, not the same plate with the meat removed. Vegan and gluten-free need a week's notice. No pork or halal on request, arranged in advance. Tell us when you book."],
+  ["Is it spicy?","It's seasoned, which is different. Nothing goes out at a heat that hides the food, and there's always something on the table to cool it down. If your limit is low, say so and we'll adjust your plate."],
+  ["Can I bring my own wine?","Yes, and there's no corkage. If you'd rather not think about it, take the CHF 150 and we'll pour all evening."],
+  ["Can we book the whole table?","Yes — book all the seats and the evening is yours. Or ask about private dining and we'll come and cook at your place instead."],
+  ["Do you do gift vouchers?","Yes, for any evening or any amount. Email us and we'll send you one."],
+  ["What language is the evening in?","English, and German when the table prefers it. Between us we'll also happily switch to Polish or Hindi if that's where the table lands."]
+];
+
+var GALLERY = [
+  ["hero2","Tantan with soft egg, greens and mince"],
+  ["f0","Udon, two fried eggs, a lot of dill"],
+  ["f6","Gyoza, folded by hand"],
+  ["f1","Coconut curry with chicken and vegetables"],
+  ["f4","Rigatoni, mushroom, parmesan"],
+  ["f7","Chicken curry, straight out of the pan"],
+  ["f2","Creamy udon with chilli threads"],
+  ["f5","Spaghetti with basil off the balcony"],
+  ["f3","Satay udon with a fried egg"],
+  ["f8","Prawn curry for the table"],
+  ["f9","Noodles, egg, too much parmesan"],
+  ["f10","Rice, chicken and a fried egg on top"],
+  ["table1","Mezze and flatbread"],
+  ["table2","Taco night"],
+  ["room","The table, before anyone arrives"],
+  ["balcony","The balcony, where the evening starts"]
+];
+
+var ICONS = {
+  bowl:'<path d="M3 11h18a9 9 0 0 1-18 0Z"/><path d="M7 11c0-3 2-4 2-6M12 11c0-3 2-4 2-6M17 11c0-2 1-3 1-4"/>',
+  flame:'<path d="M12 3s5 4.5 5 9a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3 1.5 0 1-4-1-7.5Z"/>',
+  dumpling:'<path d="M3 14a9 5 0 0 1 18 0Z"/><path d="M6 14c0-2 .8-3 1.6-3M10 14c0-2.5.8-3.5 1.6-3.5M14 14c0-2.5.8-3.5 1.6-3.5M18 14c0-2-.8-3-1.6-3"/>',
+  wheat:'<path d="M12 21V9"/><path d="M12 9c-2 0-3.5-1.5-3.5-3.5C10.5 5.5 12 7 12 9ZM12 9c2 0 3.5-1.5 3.5-3.5C13.5 5.5 12 7 12 9ZM12 14c-2 0-3.5-1.5-3.5-3.5C10.5 10.5 12 12 12 14ZM12 14c2 0 3.5-1.5 3.5-3.5C13.5 10.5 12 12 12 14Z"/>',
+  leaf:'<path d="M20 4C10 4 4 9 4 16c0 2 1 4 1 4s2-9 15-11c0 0-4 2-7 6"/>',
+  pot:'<path d="M4 9h16v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4Z"/><path d="M2 9h20M8 6V4M12 5.5V3.5M16 6V4"/>'
+};
+
+/* Everything the site renders from. This is the file to edit. */
+window.SITE = {
+  P_DINNER: P_DINNER, P_DRINKS: P_DRINKS,
+  CUISINES: CUISINES, FLAGS: FLAGS, EVENINGS: EVENINGS,
+  TIMELINE: TIMELINE, FAQ: FAQ, GALLERY: GALLERY, ICONS: ICONS
+};

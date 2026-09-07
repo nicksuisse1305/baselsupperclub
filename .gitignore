@@ -1,0 +1,6 @@
+dist/
+dist-artifact/
+node_modules/
+*.zip
+.DS_Store
+.claude/

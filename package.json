@@ -1,0 +1,16 @@
+{
+  "name": "baselsupperclub",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Basel Supper Club — baselsupperclub.ch",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs web",
+    "build:artifact": "node build.mjs artifact",
+    "build:all": "node build.mjs",
+    "check": "node check.mjs",
+    "dev": "node build.mjs web && cd dist && python3 -m http.server 8080",
+    "ci": "npm run build && npm run check"
+  },
+  "engines": { "node": ">=18" }
+}
