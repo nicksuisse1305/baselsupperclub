@@ -242,10 +242,15 @@
       e.preventDefault();
       $("#w-name").classList.remove("bad"); $("#w-email").classList.remove("bad");
       $("#e-name").textContent=""; $("#e-email").textContent="";
+      $("#e-agree").textContent="";
       var name=$("#f-name").value.trim(), email=$("#f-email").value.trim(), ok=true;
       if(!name){ $("#w-name").classList.add("bad"); $("#e-name").textContent="We'd like to know who's coming."; ok=false; }
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
         $("#w-email").classList.add("bad"); $("#e-email").textContent="We need a working email to send the address to."; ok=false; }
+      if(!$("#f-privacy").checked || !$("#f-terms").checked){
+        $("#e-agree").textContent="Please tick both boxes above so we can take your booking.";
+        ok=false;
+      }
       if(!ok){ (name?$("#f-email"):$("#f-name")).focus(); return; }
 
       var k=kind(), L=[], subject;
@@ -270,6 +275,7 @@
       }
       L.push("");
       L.push("Allergies / dietary: "+($("#f-diet").value.trim()||"none given"));
+      L.push("Newsletter: "+($("#f-news").checked?"yes please":"no"));
       var note=$("#f-note").value.trim();
       if(note){ L.push(""); L.push("Notes: "+note); }
       L.push(""); L.push("— sent from baselsupperclub.ch");
@@ -364,6 +370,7 @@
     }
   }
   $("#bookx").addEventListener("click",function(){ closeBook(); });
+  $("#bookcancel").addEventListener("click",function(){ closeBook(); });
   bookModal.addEventListener("click",function(e){ if(e.target===bookModal) closeBook(); });
   document.addEventListener("keydown",function(e){
     if(e.key==="Escape" && bookOpen && !lb.classList.contains("on")) closeBook();

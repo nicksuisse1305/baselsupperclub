@@ -580,9 +580,24 @@
         <div class="f"><label for="f-note">Anything else</label>
           <textarea id="f-note" style="min-height:80px" placeholder="Occasion, who you're bringing, how you found us."></textarea></div>
 
+        <div class="agree">
+          <label><input type="checkbox" id="f-privacy">
+            <span>I agree to my details being stored so this booking can be processed, and accept the
+              <a href="#/legal" data-link>privacy policy</a>.</span></label>
+          <label><input type="checkbox" id="f-terms">
+            <span>I understand my seat is only confirmed once payment has been received, and that
+              it is non-refundable — though I may send someone in my place.</span></label>
+          <label><input type="checkbox" id="f-news">
+            <span>Send me an email when new dates open. <em>Optional.</em></span></label>
+          <div class="msg" id="e-agree"></div>
+        </div>
+
+        <div class="actions">
+          <button class="btn ghost" type="button" id="bookcancel"><span>Cancel</span></button>
+          <button class="btn" type="submit"><span>Send the request</span></button>
+        </div>
         <div>
-          <button class="btn" type="submit" style="width:100%"><span>Send the request</span></button>
-          <p class="hint" style="margin:16px 0 0;text-align:center">
+          <p class="hint" style="margin:0;text-align:center">
             This opens your email app with everything filled in — nothing is sent until you press send.<br>
             Or write to <a href="mailto:verma.nikunj66@gmail.com" style="color:var(--accent)">verma.nikunj66@gmail.com</a>
           </p>
