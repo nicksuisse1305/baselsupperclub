@@ -30,6 +30,7 @@ const SITE = {
 const SRC = "src";
 const IMG = "assets/img";
 const GALLERIES = { food: "assets/gallery/food", guests: "assets/gallery/guests" };
+const HOSTS_DIR = "assets/gallery/hosts";
 const read = (p) => readFileSync(p, "utf8");
 const RASTER = /\.(jpe?g|png|webp)$/i;
 const HEIC = /\.(heic|heif)$/i;
@@ -100,6 +101,24 @@ function galleries(mode) {
     }).filter(Boolean);
   }
   return `window.GALLERIES = ${JSON.stringify(out)};\n`;
+}
+
+/* Photos of the hosts are matched by filename (together / nik / ania) rather
+   than listed in order, so they land in the right slot on the About page. */
+function hostsMap(mode) {
+  let files = [];
+  try { files = readdirSync(HOSTS_DIR).filter(isImage); } catch {}
+  const out = {};
+  for (const f of files) {
+    const key = basename(f, extname(f)).toLowerCase();
+    if (mode === "artifact") {
+      const p = webPath(join(HOSTS_DIR, f), THUMB_PX);
+      if (p) out[key] = `data:image/jpeg;base64,${readFileSync(p).toString("base64")}`;
+    } else {
+      out[key] = `gallery/hosts/${webName(f)}`;
+    }
+  }
+  return `window.HOSTS = ${JSON.stringify(out)};\n`;
 }
 
 /* Every image the site can reference. `hero2` is an alias so the gallery and the
@@ -188,7 +207,7 @@ function build(mode) {
   const bundle =
     `<style>\n${read(join(SRC, "styles.css"))}\n</style>\n\n` +
     `${read(join(SRC, "index.html"))}\n\n` +
-    `<script>\n${imageMap(mode)}${galleries(mode)}</script>\n` +
+    `<script>\n${imageMap(mode)}${galleries(mode)}${hostsMap(mode)}</script>\n` +
     `<script>\n${read(join(SRC, "content.js"))}\n</script>\n` +
     `<script>\n${read(join(SRC, "app.js"))}\n</script>\n`;
 
@@ -219,6 +238,13 @@ function build(mode) {
         if (thumb) copyFileSync(thumb, join(out, "gallery", name, "thumb", webName(f)));
       }
     }
+    mkdirSync(join(out, "gallery", "hosts"), { recursive: true });
+    try {
+      for (const f of readdirSync(HOSTS_DIR).filter(isImage)) {
+        const p = webPath(join(HOSTS_DIR, f), FULL_PX);
+        if (p) copyFileSync(p, join(out, "gallery", "hosts", webName(f)));
+      }
+    } catch {}
     writeFileSync(join(out, "favicon.svg"), FAVICON);
     writeFileSync(join(out, "CNAME"), SITE.domain + "\n");
     writeFileSync(join(out, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${SITE.origin}/sitemap.xml\n`);

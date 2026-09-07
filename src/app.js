@@ -15,6 +15,22 @@
   function plain(s){ return s.replace(/&amp;/g,"&"); }
   function svg(p,cls){ return '<svg class="ic '+(cls||"")+'" viewBox="0 0 24 24">'+p+'</svg>'; }
 
+  /* ---- host portraits: assets/gallery/hosts/{together,nik,ania} ---- */
+  (function(){
+    var H = window.HOSTS || {};
+    $$("[data-host]").forEach(function(img){
+      var key = img.getAttribute("data-host");
+      if (H[key]) {
+        img.src = H[key];
+        img.loading = "lazy";
+        var slot = img.closest("[data-hostslot]");
+        if (slot) { var ph = $(".ph", slot); if (ph) ph.remove(); }
+      } else if (!img.hasAttribute("data-img")) {
+        img.remove();                 // no file yet — leave the placeholder
+      }
+    });
+  })();
+
   /* ---- wire up the photos ---- */
   $$("[data-img]").forEach(function(n){
     var k = n.getAttribute("data-img");
@@ -61,18 +77,26 @@
   (function(){
     var tick='<path d="m4 12 5 5L20 6"/>';
     var box=$("#tiers");
-    box.appendChild(el("div","tier",
-      '<div class="k">Dinner</div><div class="amt">'+chf(P_DINNER)+'</div><div class="per">per person</div>'+
-      '<ul>'+
-      ['A full table of food \u2014 however many dishes that takes','Served in the middle, help yourself','Welcome drink on arrival','Water, still and sparkling, all evening',
-       'Coffee and tea','Bring your own bottle — no corkage']
-      .map(function(t){ return '<li>'+svg(tick)+'<span>'+t+'</span></li>'; }).join("")+'</ul>'));
-    box.appendChild(el("div","tier hot",
-      '<div class="k">Dinner with drinks</div><div class="amt">'+chf(P_DRINKS)+'</div><div class="per">per person</div>'+
-      '<ul>'+
-      ['Everything in the first, plus —','Wine, chosen against the courses','Beer, and gin &amp; tonic',
-       'Vodka mate and classic cocktails','Poured all evening, no tab at the end']
-      .map(function(t){ return '<li>'+svg(tick)+'<span>'+t+'</span></li>'; }).join("")+'</ul>'));
+    function tier(cls, label, price, blurb, lines){
+      return el("div","tier"+(cls?" "+cls:""),
+        '<div class="k">'+label+'</div><div class="amt">'+chf(price)+'</div>'+
+        '<div class="per">per person</div>'+
+        '<p class="blurb">'+blurb+'</p>'+
+        '<ul>'+lines.map(function(t){ return '<li>'+svg(tick)+'<span>'+t+'</span></li>'; }).join("")+'</ul>');
+    }
+    box.appendChild(tier("", "Dinner", P_DINNER,
+      "Everything we cook that night, and a seat at the table.",
+      ["Everything we cook that evening",
+       "Brought to the middle \u2014 help yourself",
+       "A welcome drink when you walk in",
+       "Water, coffee and tea",
+       "Bring a bottle if you like \u2014 no corkage"]));
+    box.appendChild(tier("hot", "Dinner with drinks", P_DRINKS,
+      "The same table, with a glass in your hand from the moment you arrive.",
+      ["Everything in the dinner, plus \u2014",
+       "Wine from our own stock, matched to the food",
+       "Gin and tonic",
+       "Vodka soda"]));
   })();
 
   /* ---- evenings ---- */

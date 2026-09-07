@@ -82,14 +82,13 @@ var EVENINGS = [
 ];
 
 var TIMELINE = [
-  ["19:00","<strong>The door.</strong> A drink in your hand before your coat is off. On a warm night this happens on the balcony."],
-  ["19:30","<strong>Everyone sits.</strong> One table. We tell you what tonight is and where it came from, quickly, because you came to eat."],
-  ["19:45","<strong>First plates.</strong> Whatever we've been folding or frying at the counter. The table stops being strangers here."],
-  ["20:45","<strong>The middle.</strong> Two courses, back to back, cooked in front of you."],
-  ["21:45","<strong>The big one.</strong> Out of the pot and into the middle of the table."],
-  ["22:30","<strong>Sweet, coffee, tea.</strong> And the story behind the dessert, usually the best story of the night."],
-  ["23:00","<strong>The kitchen.</strong> People drift back to the stove and ask how the broth was made."],
-  ["Late","<strong>Coats.</strong> Whenever it naturally ends. We've never rushed anyone."]
+  ["19:00","<strong>Come in.</strong> There is a drink in your hand before your coat is off. If it is warm, this happens on the balcony, next to the herbs we are about to cook with."],
+  ["19:30","<strong>Everyone sits.</strong> One table, eight people. We tell you what tonight is and where we picked it up, then get out of the way."],
+  ["19:45","<strong>It begins.</strong> Whatever we have been folding, frying or pulling out of the oven at the counter. This is where the table stops being strangers."],
+  ["21:00","<strong>The long middle.</strong> Dishes keep arriving and nobody counts them. The menu is set the week before and it is never the same twice."],
+  ["22:00","<strong>The big one.</strong> Out of the pot, into the middle of the table, everyone reaching across each other."],
+  ["22:45","<strong>Something sweet.</strong> Coffee, tea, and the story behind the dessert \u2014 usually the best story of the night."],
+  ["23:30","<strong>Coats.</strong> We wrap up before midnight, so you get home at a reasonable hour and we get to do the washing up."]
 ];
 
 var FAQ = [
