@@ -149,6 +149,10 @@
      build discovers on its own. Any remaining slots up to the target render as
      placeholders so the grid always reads as a finished wall. */
   var galItems=[];
+  /* "Add a photo" tiles are a to-do list for us, not something a guest should
+     ever see — so they only render while developing locally. */
+  var DEV = /^(localhost|127\.|0\.0\.0\.0|\[::1\])$/.test(location.hostname) ||
+            location.protocol === "file:";
   var CAM = '<rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/>';
 
   function fillGrid(box, items, target, label, featureFirst){
@@ -157,10 +161,12 @@
       var idx=galItems.length;
       galItems.push(it);
       var b=el("button", (featureFirst && i===0) ? "big" : "",
-        '<img src="'+it.src+'" alt="'+it.caption+'" loading="lazy">');
+        '<img src="'+(it.thumb||it.src)+'" alt="'+(it.caption||"Basel Supper Club")+
+        '" loading="lazy" decoding="async">');
       b.addEventListener("click",function(){ openLb(idx); });
       box.appendChild(b);
     });
+    if(!DEV) return;
     for(var k=items.length; k<target; k++){
       box.appendChild(el("div","ph",
         '<div class="lbl">'+svg(CAM)+label+'</div>'));
@@ -413,6 +419,17 @@
     setTimeout(function(){ paint(path); }, 340);
   }
   window.addEventListener("hashchange",route);
+
+  if(!DEV){
+    $$(".ph").forEach(function(n){
+      var parent=n.parentNode;
+      parent.removeChild(n);
+      // a 2-up grid left holding one photo should stop being a 2-up grid
+      if(parent.children.length===1 && /1fr 1fr/.test(parent.style.gridTemplateColumns)){
+        parent.style.gridTemplateColumns="1fr";
+      }
+    });
+  }
 
   $("#yr").textContent=new Date().getFullYear();
   route();

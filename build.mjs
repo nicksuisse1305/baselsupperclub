@@ -11,6 +11,8 @@
  */
 import { readFileSync, writeFileSync, mkdirSync, rmSync, copyFileSync, readdirSync } from "node:fs";
 import { join, extname, basename } from "node:path";
+import { execFileSync } from "node:child_process";
+import { tmpdir } from "node:os";
 
 const SITE = {
   name: "Basel Supper Club",
@@ -29,7 +31,40 @@ const SRC = "src";
 const IMG = "assets/img";
 const GALLERIES = { food: "assets/gallery/food", guests: "assets/gallery/guests" };
 const read = (p) => readFileSync(p, "utf8");
-const isImage = (f) => /\.(jpe?g|png|webp)$/i.test(f);
+const RASTER = /\.(jpe?g|png|webp)$/i;
+const HEIC = /\.(heic|heif)$/i;
+const isImage = (f) => RASTER.test(f) || HEIC.test(f);
+
+/* Photos arrive straight off a phone: HEIC, and far larger than any slot that
+   displays them. Every gallery image is therefore rendered twice — a full copy
+   for the lightbox and a thumbnail for the grid — converting HEIC on the way.
+   sips on macOS, ImageMagick or heif-convert on the CI runner. */
+const FULL_PX = 1500, THUMB_PX = 640, QUALITY = 72;
+const webName = (f) => (HEIC.test(f) ? basename(f, extname(f)) + ".jpg" : f);
+
+function rasterize(src, out, maxPx) {
+  const attempts = [
+    ["sips", ["-s","format","jpeg","-Z",String(maxPx),"-s","formatOptions",String(QUALITY), src, "--out", out]],
+    ["magick", [src, "-auto-orient", "-resize", `${maxPx}x${maxPx}>`, "-quality", String(QUALITY), out]],
+    ["convert", [src, "-auto-orient", "-resize", `${maxPx}x${maxPx}>`, "-quality", String(QUALITY), out]],
+    ["heif-convert", ["-q", String(QUALITY), src, out]],
+  ];
+  for (const [cmd, args] of attempts) {
+    try { execFileSync(cmd, args, { stdio: "ignore" }); return true; } catch {}
+  }
+  return false;
+}
+
+function webPath(src, maxPx) {
+  const out = join(tmpdir(), `bsc-${maxPx}-` + webName(basename(src)));
+  if (rasterize(src, out, maxPx)) return out;
+  if (!HEIC.test(src)) return src;               // fall back to the original
+  console.warn(`  ! skipped ${src} — no converter available`);
+  return null;
+}
+
+/* IMG_2826.jpg says nothing useful, so camera defaults get no caption. */
+const CAMERA_DEFAULT = /^(img|dsc|dscf|pxl|photo|image|screenshot|[0-9a-f]{8}-)/i;
 
 /* Auto-discovered galleries. Drop a file into assets/gallery/<name>/, push, and
    it renders — no code change. Filename becomes the caption, so filename order
@@ -44,21 +79,25 @@ function galleries(mode) {
       /* folder not created yet — render as all placeholders */
     }
     out[name] = files.map((f) => {
-      const caption = basename(f, extname(f))
-        .replace(/^\d+[-_.\s]*/, "")          // strip ordering prefix
-        .replace(/[-_]+/g, " ")
-        .replace(/\s+/g, " ")
-        .trim()
-        .replace(/^./, (c) => c.toUpperCase());
+      const stem = basename(f, extname(f));
+      const caption = CAMERA_DEFAULT.test(stem)
+        ? ""                                   // a filename, not a description
+        : stem.replace(/^\d+[-_.\s]*/, "")
+              .replace(/[-_]+/g, " ")
+              .replace(/\s+/g, " ")
+              .trim()
+              .replace(/^./, (c) => c.toUpperCase());
       let src;
       if (mode === "artifact") {
-        const mime = extname(f).toLowerCase() === ".png" ? "image/png" : "image/jpeg";
-        src = `data:${mime};base64,${readFileSync(join(dir, f)).toString("base64")}`;
-      } else {
-        src = `gallery/${name}/${f}`;
+        const p = webPath(join(dir, f), THUMB_PX);   // keep the single file small
+        if (!p) return null;
+        const mime = extname(p).toLowerCase() === ".png" ? "image/png" : "image/jpeg";
+        src = `data:${mime};base64,${readFileSync(p).toString("base64")}`;
+        return { src, thumb: src, caption };
       }
-      return { src, caption: caption || name };
-    });
+      src = `gallery/${name}/${webName(f)}`;
+      return { src, thumb: `gallery/${name}/thumb/${webName(f)}`, caption };
+    }).filter(Boolean);
   }
   return `window.GALLERIES = ${JSON.stringify(out)};\n`;
 }
@@ -172,7 +211,13 @@ function build(mode) {
       mkdirSync(join(out, "gallery", name), { recursive: true });
       let files = [];
       try { files = readdirSync(dir).filter(isImage); } catch { /* not created yet */ }
-      for (const f of files) copyFileSync(join(dir, f), join(out, "gallery", name, f));
+      mkdirSync(join(out, "gallery", name, "thumb"), { recursive: true });
+      for (const f of files) {
+        const full = webPath(join(dir, f), FULL_PX);
+        const thumb = webPath(join(dir, f), THUMB_PX);
+        if (full) copyFileSync(full, join(out, "gallery", name, webName(f)));
+        if (thumb) copyFileSync(thumb, join(out, "gallery", name, "thumb", webName(f)));
+      }
     }
     writeFileSync(join(out, "favicon.svg"), FAVICON);
     writeFileSync(join(out, "CNAME"), SITE.domain + "\n");
