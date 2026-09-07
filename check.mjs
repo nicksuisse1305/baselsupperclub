@@ -4,7 +4,7 @@
  * embarrass us in front of a guest: a broken image, a dead internal link,
  * or a placeholder that never got filled in.
  */
-import { readFileSync, existsSync, statSync } from "node:fs";
+import { readFileSync, existsSync, statSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 const DIST = "dist";
@@ -45,6 +45,26 @@ for (const f of ["favicon.svg", "robots.txt", "sitemap.xml", "CNAME"]) {
   if (!existsSync(join(DIST, f))) errors.push(`missing ${f}`);
 }
 
+/* 3b. Thumbnails must actually be thumbnails. If the resize tool is missing on
+       the build machine the code silently falls back to copying the original,
+       which ships megabytes into a grid of small tiles. */
+let thumbBytes = 0;
+for (const dir of ["food", "guests"]) {
+  const tdir = join(DIST, "gallery", dir, "thumb");
+  if (!existsSync(tdir)) continue;
+  for (const f of readdirSync(tdir)) {
+    const t = statSync(join(tdir, f)).size;
+    thumbBytes += t;
+    const fullPath = join(DIST, "gallery", dir, f);
+    if (existsSync(fullPath) && t >= statSync(fullPath).size * 0.9) {
+      errors.push(`thumb gallery/${dir}/thumb/${f} is not smaller than the full image — the resize tool is missing`);
+    }
+    if (t > 200 * 1024) {
+      errors.push(`thumb gallery/${dir}/thumb/${f} is ${(t / 1024).toFixed(0)} KB (budget 200 KB)`);
+    }
+  }
+}
+
 /* 4. Placeholders that must not reach production. */
 const placeholders = [
   [/https:\/\/instagram\.com"/, "Instagram link still points at instagram.com"],
@@ -57,7 +77,8 @@ for (const [re, msg] of placeholders) if (re.test(html)) warnings.push(msg);
 const kb = statSync(join(DIST, "index.html")).size / 1024;
 if (kb > 250) errors.push(`index.html is ${kb.toFixed(0)} KB (budget 250 KB)`);
 
-console.log(`checked ${refs.length} images, ${linked.length} routes, ${kb.toFixed(0)} KB html`);
+console.log(`checked ${refs.length} images, ${linked.length} routes, ${kb.toFixed(0)} KB html, ` +
+  `${(thumbBytes / 1024 / 1024).toFixed(1)} MB of thumbnails`);
 for (const w of warnings) console.log(`  warn  ${w}`);
 for (const e of errors) console.error(`  FAIL  ${e}`);
 if (errors.length) {
