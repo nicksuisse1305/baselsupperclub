@@ -16,13 +16,13 @@ var FOOD_SLOTS = 30, GUEST_SLOTS = 5;
 
 var CUISINES = [
   { n:"01", flag:"jp", country:"Japan", icon:"bowl", title:"Ramen &amp; tantan",
-    desc:"Broth from the night before, chilli oil ground that morning, noodles that actually bite back.",
+    desc:"The bowl everything else is judged against. Noodles that actually bite back.",
     dishes:["Tantan","Shoyu ramen","Gyoza","Katsu","Chilli oil"] },
   { n:"02", flag:"in", country:"India", icon:"flame", title:"Curry &amp; tandoor",
     desc:"Nik's mother's recipes. Whole spices toasted and ground the same day, never a jar.",
     dishes:["Butter chicken","Lamb korma","Paneer","Dal","Naan"] },
   { n:"03", flag:"it", country:"Italy", icon:"wheat", title:"Pasta",
-    desc:"Rolled that afternoon. A rag\u00f9 that took five hours and nobody rushed.",
+    desc:"Made here, not opened. Nobody rushes it.",
     dishes:["Rag\u00f9","Rigatoni","Carbonara","Focaccia"] },
   { n:"04", flag:"th", country:"Thailand", icon:"leaf", title:"Thai",
     desc:"Coconut, lime leaf, fresh chilli, and the balance that takes years to get right.",
@@ -52,13 +52,13 @@ var FLAGS = {
 var EVENINGS = [
   { id:"ramen", n:"01", flag:"jp", title:"Ramen Night", when:"Date announced soon",
     dishes:["Tantan","Shoyu ramen","Gyoza","Chilli oil","Black sesame ice"],
-    sub:"Tantan, hand-folded gyoza, a broth we start the night before, and a chilli oil that people ask to take home.",
+    sub:"Tantan, hand-folded gyoza, and a chilli oil that people ask to take home.",
     status:"soon", statusText:"Dates soon",
     courses:[
       ["Gyoza","Folded at the counter while you have your first drink. Pork and cabbage, or mushroom and ginger."],
       ["Cold plate","Smashed cucumber, sesame, chilli oil, black vinegar."],
       ["Tantan","Sesame and chilli broth, minced pork, greens, a soft egg. The bowl everyone remembers."],
-      ["Shoyu ramen","Twelve-hour broth, chashu, spring onion, the noodles cooked to order."],
+      ["Shoyu ramen","Chashu, spring onion, the noodles cooked to order."],
       ["Sweet","Black sesame ice, or something with yuzu if we can get it."]
     ]},
   { id:"curry", n:"02", flag:"in", title:"Indian Night", when:"Date announced soon",
@@ -76,7 +76,7 @@ var EVENINGS = [
     ]},
   { id:"pasta", n:"03", flag:"it", title:"Pasta Night", when:"Date announced soon",
     dishes:["Rag\u00f9","Rigatoni","Carbonara","Focaccia","Tiramis\u00f9"],
-    sub:"Rolled that afternoon. A ragù that took five hours, rigatoni with mushroom and parmesan, and far too much bread.",
+    sub:"Rigatoni with mushroom and parmesan, a ragù nobody rushed, and far too much bread.",
     status:"soon", statusText:"Dates soon",
     courses:[] },
   { id:"thai", n:"04", flag:"th", title:"Thai Night", when:"Date announced soon",
@@ -87,7 +87,7 @@ var EVENINGS = [
 ];
 
 var TIMELINE = [
-  ["19:00","<strong>Come in.</strong> There is a drink in your hand before your coat is off. If it is warm, this happens on the balcony, next to the herbs we are about to cook with."],
+  ["19:00","<strong>Come in.</strong> There is a drink in your hand before your coat is off. If it is warm, this happens on the balcony."],
   ["19:30","<strong>Everyone sits.</strong> One table, eight people. We tell you what tonight is and where we picked it up, then get out of the way."],
   ["19:45","<strong>It begins.</strong> Whatever we have been folding, frying or pulling out of the oven at the counter. This is where the table stops being strangers."],
   ["21:00","<strong>The long middle.</strong> Dishes keep arriving and nobody counts them. The menu is set the week before and it is never the same twice."],
@@ -105,7 +105,7 @@ var FAQ = [
   ["Where is it?","Our flat in Basel. You get the exact address and directions with your confirmation, never before. It's a short walk from a tram and easy from Basel SBB."],
   ["I don't know anyone. Is that weird?","It's the normal way to come. Most people book one or two seats and arrive not knowing the rest of the table. With six to eight people there's one conversation, not several, and by the second course you'll have forgotten you were nervous."],
   ["How do I pay?","Not when you ask. Requesting a seat costs nothing — we read every request ourselves, and if there is room at that table we reply within 24 hours with a payment link. You pay by card, Apple Pay or Twint through Stripe, your seat is confirmed once that goes through, and the address follows straight after. We never see your card details."],
-  ["What if I can't come?","Once you have paid we can't refund it — the shopping is done and the seat was held for you. But you can send someone else in your place. Just tell us their name in advance and we'll look after them exactly the same."],
+  ["What if I can't come?","Once you have paid, the seat is not refundable — the shopping is done and the table is built around who is coming. You can send someone else in your place though. Tell us their name in advance and we will look after them exactly the same."],
   ["I'm vegetarian / vegan / coeliac / don't eat pork.","Every menu has a full vegetarian version written from scratch, not the same plate with the meat removed. Vegan and gluten-free need a week's notice. No pork or halal on request, arranged in advance. Tell us when you book."],
   ["Is it spicy?","It's seasoned, which is different. Nothing goes out at a heat that hides the food, and there's always something on the table to cool it down. If your limit is low, say so and we'll adjust your plate."],
   ["Can I bring my own wine?","Yes, and there's no corkage. If you'd rather not think about it, take the CHF 150 and we'll pour all evening."],
@@ -122,7 +122,7 @@ var GALLERY = [
   ["f4","Rigatoni, mushroom, parmesan"],
   ["f7","Chicken curry, straight out of the pan"],
   ["f2","Creamy udon with chilli threads"],
-  ["f5","Spaghetti with basil off the balcony"],
+  ["f5","Spaghetti with basil"],
   ["f3","Satay udon with a fried egg"],
   ["f8","Prawn curry for the table"],
   ["f9","Noodles, egg, too much parmesan"],
