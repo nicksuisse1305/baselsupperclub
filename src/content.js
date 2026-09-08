@@ -9,13 +9,10 @@ var P_DINNER = 120, P_DRINKS = 150;
    whatever is left over renders as an "add a photo" placeholder. */
 var FOOD_SLOTS = 30, GUEST_SLOTS = 5;
 
-/* Stripe payment links. They collect name, email, phone, how many seats,
-   which evening and any allergies, so the seat path hands straight over.
-   When real dates exist, make one link per evening and key them by id. */
-var STRIPE = {
-  120: "https://buy.stripe.com/4gM9AU5km8qt3FVaaofrW00",
-  150: "https://buy.stripe.com/4gM7sM28afSV6S796kfrW01"
-};
+/* Payment links are deliberately NOT in this file. A seat is by invitation:
+   a guest requests one, we decide, and we send the link by hand. Putting the
+   links in the page would let anyone pay their way in.
+   The links live in README.md under "Sending a payment link". */
 
 var CUISINES = [
   { n:"01", flag:"jp", country:"Japan", icon:"bowl", title:"Ramen &amp; tantan",
@@ -107,8 +104,8 @@ var FAQ = [
   ["How is the food served?","Everything comes to the middle of the table and you help yourself. It is the fastest way we know to make eight strangers stop being polite with each other."],
   ["Where is it?","Our flat in Basel. You get the exact address and directions with your confirmation, never before. It's a short walk from a tram and easy from Basel SBB."],
   ["I don't know anyone. Is that weird?","It's the normal way to come. Most people book one or two seats and arrive not knowing the rest of the table. With six to eight people there's one conversation, not several, and by the second course you'll have forgotten you were nervous."],
-  ["How do I pay?","On the site, in one step. Choose your evening, pick dinner or dinner with drinks, and pay by card, Apple Pay or Twint through Stripe. Your seat is confirmed the moment the payment goes through and the address arrives by email straight after. We never see your card details."],
-  ["What if I can't come?","Once payment is processed we can't refund it — the shopping is done and the seat was held for you. But you can send someone else in your place. Just tell us their name in advance and we'll look after them exactly the same."],
+  ["How do I pay?","Not when you ask. Requesting a seat costs nothing — we read every request ourselves, and if there is room at that table we reply within 24 hours with a payment link. You pay by card, Apple Pay or Twint through Stripe, your seat is confirmed once that goes through, and the address follows straight after. We never see your card details."],
+  ["What if I can't come?","Once you have paid we can't refund it — the shopping is done and the seat was held for you. But you can send someone else in your place. Just tell us their name in advance and we'll look after them exactly the same."],
   ["I'm vegetarian / vegan / coeliac / don't eat pork.","Every menu has a full vegetarian version written from scratch, not the same plate with the meat removed. Vegan and gluten-free need a week's notice. No pork or halal on request, arranged in advance. Tell us when you book."],
   ["Is it spicy?","It's seasoned, which is different. Nothing goes out at a heat that hides the food, and there's always something on the table to cool it down. If your limit is low, say so and we'll adjust your plate."],
   ["Can I bring my own wine?","Yes, and there's no corkage. If you'd rather not think about it, take the CHF 150 and we'll pour all evening."],
@@ -147,7 +144,7 @@ var ICONS = {
 
 /* Everything the site renders from. This is the file to edit. */
 window.SITE = {
-  P_DINNER: P_DINNER, P_DRINKS: P_DRINKS, STRIPE: STRIPE,
+  P_DINNER: P_DINNER, P_DRINKS: P_DRINKS,
   FOOD_SLOTS: FOOD_SLOTS, GUEST_SLOTS: GUEST_SLOTS,
   CUISINES: CUISINES, FLAGS: FLAGS, EVENINGS: EVENINGS,
   TIMELINE: TIMELINE, FAQ: FAQ, GALLERY: GALLERY, ICONS: ICONS

@@ -115,6 +115,26 @@ evenings without real dates.
 
 ---
 
+## Sending a payment link
+
+Seats are by invitation. A guest requests one through the site, we decide who
+comes, and only then do we send a link. The links are **deliberately not in the
+site** — anything shipped to the page lets a stranger pay their way to the table.
+
+| | Link |
+| --- | --- |
+| Dinner, CHF 120 pp | https://buy.stripe.com/4gM9AU5km8qt3FVaaofrW00 |
+| With drinks, CHF 150 pp | https://buy.stripe.com/4gM7sM28afSV6S796kfrW01 |
+
+Both let the guest choose 1–8 seats and ask which evening, any allergies and
+anything else, so a paid booking arrives complete. Payment is card or Apple Pay
+now, Twint once Stripe approves it.
+
+When real dates are set, make one link per evening instead — then the evening
+cannot be typed wrong and Stripe tells you how many seats each night has sold.
+
+---
+
 ## Adding photos
 
 Drop image files into `assets/gallery/food/` or `assets/gallery/guests/`, commit
