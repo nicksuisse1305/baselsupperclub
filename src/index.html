@@ -653,8 +653,11 @@
       <h3>Privacy</h3>
       <p>We collect your name, email, phone number and dietary information for one reason: to
         host you properly. We keep it while you're on our list and delete it on request.</p>
-      <p>We don't sell, share or rent your details. This site sets no tracking cookies and runs
-        no advertising pixels. Write to
+      <p>We don't sell, share or rent your details, and we run no advertising pixels.</p>
+      <p>We use Google Analytics to count visits, and only if you agree. Until you accept the
+        banner nothing is stored on your device and no analytics cookie is set — that is the
+        default, not something you have to switch off. Your IP address is anonymised. You can
+        change your mind by clearing this site's data in your browser. Write to
         <a href="mailto:verma.nikunj66@gmail.com" style="color:var(--accent)">verma.nikunj66@gmail.com</a>
         to see, correct or delete what we hold about you.</p>
 
@@ -704,6 +707,17 @@
 </footer>
 
 </main>
+
+<!-- Nothing is stored on a visitor's machine until they choose. -->
+<div class="consent" id="consent" hidden>
+  <p>We'd like to count visits so we know whether anyone is finding us. Nothing is
+    stored on your device unless you say yes, and we never sell anything to anyone.
+    <a href="#/legal" data-link>How we handle data</a>.</p>
+  <div class="consent-actions">
+    <button class="btn ghost sm" type="button" id="consent-no"><span>No thanks</span></button>
+    <button class="btn sm" type="button" id="consent-yes"><span>That's fine</span></button>
+  </div>
+</div>
 
 <div class="lightbox" id="lb">
   <button class="x" id="lbx" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>

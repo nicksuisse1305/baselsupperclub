@@ -509,6 +509,19 @@ form.bk{ display:grid; gap:24px; }
 .ctaband .btn::after{ background:var(--cream); }
 .ctaband .btn:hover{ color:#fff; border-color:var(--cream); }
 
+/* ---------- consent ---------- */
+.consent{
+  position:fixed; left:clamp(12px,3vw,24px); bottom:clamp(12px,3vw,24px); z-index:125;
+  width:min(430px, calc(100vw - 2*clamp(12px,3vw,24px)));
+  background:var(--bg-2); border:1px solid var(--line-2); padding:20px 22px;
+  box-shadow:0 24px 60px -26px rgba(58,43,32,.45);
+  animation:fadeUp .5s var(--ease) both;
+}
+.consent p{ font-size:.92rem; line-height:1.6; margin:0 0 16px; }
+.consent a{ color:var(--accent); }
+.consent-actions{ display:flex; gap:10px; }
+@media (max-width:600px){ .consent{ left:0; right:0; bottom:0; width:100%; border-left:0; border-right:0; border-bottom:0; } }
+
 /* ---------- footer ---------- */
 .foot{ background:var(--bg-2); border-top:1px solid var(--line); padding:70px 0 34px; }
 .foot-grid{ display:grid; grid-template-columns:1.7fr 1fr 1fr 1fr; gap:38px; }

@@ -214,6 +214,7 @@
     if(i<0) i=galItems.length-1; if(i>=galItems.length) i=0;
     lbIdx=i; lbi.src=galItems[i].src; lbi.alt=galItems[i].caption;
     lb.classList.add("on"); document.body.style.overflow="hidden";
+    if(window.__track) window.__track("view_gallery_photo");
   }
   function closeLb(){ lb.classList.remove("on"); document.body.style.overflow=""; }
   $("#lbx").addEventListener("click",closeLb);
@@ -388,6 +389,7 @@
     bookOpen=true; lastFocus=document.activeElement;
     bookModal.hidden=false;
     document.body.style.overflow="hidden";
+    if(window.__track) window.__track("booking_open");
     var first=bookModal.querySelector("input,select,textarea,button");
     if(first) setTimeout(function(){ first.focus(); },80);
   }
@@ -456,6 +458,26 @@
       }
     });
   }
+
+  /* ---- analytics consent + the handful of events worth measuring ---- */
+  var track = (function(){
+    var KEY="bsc-consent", bar=$("#consent");
+    function stored(){ try{ return localStorage.getItem(KEY); }catch(e){ return null; } }
+    function choose(v){
+      try{ localStorage.setItem(KEY,v); }catch(e){}
+      if(window.gtag) gtag("consent","update",{ analytics_storage: v==="granted" ? "granted" : "denied" });
+      if(bar) bar.hidden = true;
+    }
+    if(bar && window.gtag && !stored()) bar.hidden = false;
+    if(bar){
+      $("#consent-yes").addEventListener("click",function(){ choose("granted"); });
+      $("#consent-no").addEventListener("click",function(){ choose("denied"); });
+    }
+    return function(name, params){
+      if(window.gtag) gtag("event", name, params || {});
+    };
+  })();
+  window.__track = track;
 
   $("#yr").textContent=new Date().getFullYear();
   route();

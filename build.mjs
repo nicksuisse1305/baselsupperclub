@@ -25,6 +25,7 @@ const SITE = {
   ogImage: "/img/hero.jpg",
   ogImageAlt: "A bowl of tantan with soft egg, greens and mince",
   font: "anton", // headline face: fraunces | instrument | archivo | anton
+  ga: "G-3E0YBRQBS4",   // GA4 measurement ID; empty string switches analytics off
 };
 
 const SRC = "src";
@@ -221,6 +222,27 @@ ${JSON.stringify({
 </script>`;
 }
 
+/* Google Analytics with Consent Mode v2.
+   Storage is denied for all four signals before gtag.js is even requested, and
+   only granted once the visitor actively accepts — so nothing is written to
+   their machine unless they say yes. The default must land on the dataLayer
+   before anything else touches it, which is why this is a plain inline script
+   in <head> rather than something the app sets up later. */
+function analytics() {
+  if (!SITE.ga) return "";
+  const id = JSON.stringify(SITE.ga);
+  return `<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;
+gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'});
+gtag('set','ads_data_redaction',true);
+gtag('set','url_passthrough',true);
+try{if(localStorage.getItem('bsc-consent')==='granted'){gtag('consent','update',{analytics_storage:'granted'});}}catch(e){}
+gtag('js',new Date());
+gtag('config',${id},{anonymize_ip:true});
+<\/script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=${SITE.ga}"><\/script>`;
+}
+
 const FONTS =
   '<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
   '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
@@ -268,7 +290,7 @@ function build(mode) {
     writeFileSync(
       join(out, "index.html"),
       `<!doctype html>\n<html lang="en" data-font="${SITE.font}">\n<head>\n` +
-        `${head()}\n${FONTS}\n</head>\n<body>\n${bundle}</body>\n</html>\n`
+        `${head()}\n${FONTS}\n${analytics()}\n</head>\n<body>\n${bundle}</body>\n</html>\n`
     );
     mkdirSync(join(out, "img"), { recursive: true });
     for (const f of readdirSync(IMG)) copyFileSync(join(IMG, f), join(out, "img", f));
