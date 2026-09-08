@@ -85,6 +85,7 @@ a{ color:inherit; }
 .btn.sm{ padding:11px 20px; font-size:.68rem; }
 :focus-visible{ outline:2px solid var(--accent-2); outline-offset:3px; }
 
+.ic.solid{ fill:currentColor; stroke:none; }
 .ic{ width:1em; height:1em; flex:none; stroke:currentColor; fill:none;
   stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
 
@@ -485,6 +486,15 @@ form.bk{ display:grid; gap:24px; }
 .actions{ display:grid; grid-template-columns:auto 1fr; gap:12px; }
 @media (max-width:520px){ .actions{ grid-template-columns:1fr; } }
 
+/* WhatsApp: the site's own colours, not a bolted-on green bubble */
+.wa{ display:inline-flex; align-items:center; gap:10px; text-decoration:none;
+  font-size:.86rem; font-weight:500; color:var(--paper-ink,var(--cream));
+  border:1px solid var(--paper-line,var(--line-2)); padding:11px 18px;
+  transition:border-color .22s, color .22s, background .22s; }
+.wa .ic{ width:17px; height:17px; color:#25D366; transition:color .22s; }
+.wa:hover{ border-color:var(--accent); color:var(--accent); }
+.wa:hover .ic{ color:var(--accent); }
+
 /* ---------- faq ---------- */
 .faq details{ border-bottom:1px solid var(--line); }
 .faq details:first-child{ border-top:1px solid var(--line); }
@@ -508,6 +518,39 @@ form.bk{ display:grid; gap:24px; }
 .ctaband .btn{ background:#fff; border-color:#fff; color:var(--accent); margin-top:12px; }
 .ctaband .btn::after{ background:var(--cream); }
 .ctaband .btn:hover{ color:#fff; border-color:var(--cream); }
+
+/* ---------- WhatsApp button ----------
+   In the site's own ink rather than WhatsApp green, which would fight the
+   accent. A circle at rest that widens to name itself on hover, so it reads
+   as part of the page instead of a widget dropped on top of it. */
+.wa-fab{
+  position:fixed; right:clamp(16px,3vw,28px); bottom:clamp(16px,3vw,28px); z-index:100;
+  display:inline-flex; align-items:center; gap:0; overflow:hidden;
+  height:56px; width:56px; padding:0 19px; border-radius:999px;
+  background:var(--ink); color:var(--ink-text); text-decoration:none;
+  box-shadow:0 12px 30px -10px rgba(58,43,32,.5);
+  transition:width .42s var(--ease), gap .42s var(--ease),
+             background .28s var(--ease), box-shadow .28s var(--ease);
+}
+.wa-fab .ic{ width:22px; height:22px; flex:none; }
+.wa-fab-label{
+  font-size:.86rem; font-weight:500; letter-spacing:.01em; white-space:nowrap;
+  opacity:0; transform:translateX(-6px);
+  transition:opacity .3s var(--ease), transform .38s var(--ease);
+}
+.wa-fab:hover, .wa-fab:focus-visible{
+  width:186px; gap:12px; background:var(--accent);
+  box-shadow:0 16px 36px -10px rgba(212,71,31,.5);
+}
+.wa-fab:hover .wa-fab-label, .wa-fab:focus-visible .wa-fab-label{ opacity:1; transform:none; }
+/* it must never sit over the reservation card or a photo */
+body:has(.modal:not([hidden])) .wa-fab,
+body:has(.lightbox.on) .wa-fab{ opacity:0; pointer-events:none; }
+@media (max-width:600px){
+  .wa-fab{ height:52px; width:52px; padding:0 17px; bottom:calc(16px + env(safe-area-inset-bottom)); }
+  .wa-fab:hover{ width:52px; gap:0; }
+  .wa-fab:hover .wa-fab-label{ opacity:0; }
+}
 
 /* ---------- consent ---------- */
 .consent{
