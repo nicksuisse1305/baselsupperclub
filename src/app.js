@@ -4,7 +4,7 @@
   "use strict";
 
   var S = window.SITE;
-  var P_DINNER = S.P_DINNER, P_DRINKS = S.P_DRINKS;
+  var P_DINNER = S.P_DINNER, P_DRINKS = S.P_DRINKS, STRIPE = S.STRIPE || {};
   var CUISINES = S.CUISINES, FLAGS = S.FLAGS, EVENINGS = S.EVENINGS;
   var TIMELINE = S.TIMELINE, FAQ = S.FAQ, GALLERY = S.GALLERY, ICONS = S.ICONS;
 
@@ -230,23 +230,14 @@
   /* ---- booking form ---- */
   (function(){
     var form=$("#bookform"); if(!form) return;
-    var sel=$("#f-evening");
-    EVENINGS.forEach(function(ev){
-      var o=document.createElement("option");
-      o.value=ev.id; o.textContent=plain(ev.title)+" — "+ev.when;
-      sel.appendChild(o);
-    });
     function tier(){ return parseInt(form.querySelector('input[name="tier"]:checked').value,10); }
     function kind(){ return form.querySelector('input[name="kind"]:checked').value; }
-    function evById(id){ for(var i=0;i<EVENINGS.length;i++) if(EVENINGS[i].id===id) return EVENINGS[i]; return EVENINGS[0]; }
 
     function recalc(){
-      var seats=parseInt($("#f-seats").value,10)||1, t=tier();
-      $("#s-l").textContent = seats+" × "+(t===P_DRINKS?"dinner with drinks":"dinner")+" ("+chf(t)+")";
-      $("#s-v").textContent = chf(t*seats);
-      $("#s-t").textContent = chf(t*seats);
+      var t = tier();
+      $("#s-l").textContent = t === P_DRINKS ? "Dinner with drinks" : "Dinner";
+      $("#s-v").textContent = chf(t) + " per person";
     }
-    $("#f-seats").addEventListener("change",recalc);
     $$('input[name="tier"]',form).forEach(function(r){ r.addEventListener("change",recalc); });
     recalc();
 
@@ -254,9 +245,13 @@
       var k=kind();
       $("#seat-fields").hidden = k!=="seat";
       $("#private-fields").hidden = k!=="private";
+      // Stripe collects name, email, phone and dietary notes for a paid seat
+      $("#enquiry-fields").hidden = k==="seat";
       $(".btn span", form.querySelector('button[type="submit"]').parentNode) ;
       form.querySelector('button[type="submit"] span').textContent =
-        k==="list" ? "Add me to the list" : k==="private" ? "Send the enquiry" : "Send the request";
+        k==="list" ? "Add me to the list"
+        : k==="private" ? "Send the enquiry"
+        : "Continue to payment";
     }
     $$('input[name="kind"]',form).forEach(function(r){ r.addEventListener("change",syncKind); });
     syncKind();
@@ -264,8 +259,7 @@
     document.addEventListener("click",function(e){
       var a=e.target.closest && e.target.closest("a[data-ev]");
       if(!a) return;
-      form.querySelector('input[value="seat"]').checked=true; syncKind();
-      sel.value=a.getAttribute("data-ev"); recalc();
+      form.querySelector('input[value="seat"]').checked=true; syncKind(); recalc();
     });
 
     form.addEventListener("submit",function(e){
@@ -273,6 +267,22 @@
       $("#w-name").classList.remove("bad"); $("#w-email").classList.remove("bad");
       $("#e-name").textContent=""; $("#e-email").textContent="";
       $("#e-agree").textContent="";
+      var k0 = kind();
+
+      if (k0 === "seat") {
+        if(!$("#f-privacy").checked || !$("#f-terms").checked){
+          $("#e-agree").textContent="Please tick both boxes above so we can take your booking.";
+          return;
+        }
+        var link = STRIPE[tier()];
+        if(!link){
+          $("#e-agree").textContent="Payment is not switched on yet — please email us instead.";
+          return;
+        }
+        window.location.href = link;
+        return;
+      }
+
       var name=$("#f-name").value.trim(), email=$("#f-email").value.trim(), ok=true;
       if(!name){ $("#w-name").classList.add("bad"); $("#e-name").textContent="We'd like to know who's coming."; ok=false; }
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
@@ -287,14 +297,7 @@
       L.push("Name: "+name); L.push("Email: "+email);
       if($("#f-phone").value.trim()) L.push("Phone: "+$("#f-phone").value.trim());
       L.push("");
-      if(k==="seat"){
-        var ev=evById(sel.value), seats=parseInt($("#f-seats").value,10)||1, t=tier();
-        subject="Reservation — "+plain(ev.title);
-        L.push("Evening: "+plain(ev.title)+" ("+ev.when+")");
-        L.push("Seats: "+seats);
-        L.push("Option: "+(t===P_DRINKS?"Dinner with drinks (CHF 150 each)":"Dinner (CHF 120 each)"));
-        L.push("Total: "+chf(t*seats));
-      } else if(k==="private"){
+      if(k==="private"){
         subject="Private dining enquiry — "+name;
         L.push("Date in mind: "+($("#f-pdate").value.trim()||"not sure yet"));
         L.push("Guests: "+($("#f-pguests").value.trim()||"not sure yet"));

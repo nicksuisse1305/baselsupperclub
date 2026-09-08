@@ -396,6 +396,8 @@ form.bk{ display:grid; gap:24px; }
 .opts label:has(input:checked){ border-color:var(--accent); background:var(--bg-3); }
 .sum{ border:1px solid var(--accent); background:var(--bg-2); padding:22px 26px; }
 .sum .ln{ display:flex; justify-content:space-between; gap:16px; padding:7px 0; font-size:.96rem; }
+.sum .ln.note{ display:block; font-size:.92rem; line-height:1.55; color:var(--paper-body,var(--body));
+  border-top:1px solid var(--paper-line,var(--line)); margin-top:10px; padding-top:12px; }
 .sum .ln.tot{ border-top:1px solid var(--line); margin-top:9px; padding-top:15px;
   font-family:var(--display); font-weight:var(--display-w); letter-spacing:var(--display-ls); font-size:1.5rem; color:var(--cream); }
 .sum .ln span:last-child{ font-variant-numeric:tabular-nums; }
@@ -459,7 +461,9 @@ form.bk{ display:grid; gap:24px; }
 .paper .pay{ background:#FFFCF6; border-color:var(--paper-line); color:var(--paper-body); }
 .paper .sum{ background:#FBEFE7; border-color:var(--accent); }
 .paper .sum .ln{ color:var(--paper-body); }
-.paper .sum .ln.tot{ color:var(--paper-ink); border-top-color:var(--paper-line); }
+.paper .sum .ln.note{ display:block; font-size:.92rem; line-height:1.55; color:var(--paper-body,var(--body));
+  border-top:1px solid var(--paper-line,var(--line)); margin-top:10px; padding-top:12px; }
+.sum .ln.tot{ color:var(--paper-ink); border-top-color:var(--paper-line); }
 .paper .f .msg{ color:#B3341A; }
 .paper .f.bad input{ border-color:#B3341A; }
 .paper a{ color:var(--accent); }

@@ -481,12 +481,12 @@
       <div style="margin-bottom:32px">
         <p class="eyebrow">Reserve</p>
         <h2 id="book-h" style="margin-bottom:18px">Take a seat</h2>
-        <p class="lede">Tell us who you are and we'll come back within 24 hours with payment
-          details and the address. Your seat is held for 48 hours and becomes yours when
-          payment lands.</p>
+        <p class="lede">Reserve and pay in one go. Your seat is yours the moment the payment
+          goes through, and the address and the full menu follow by email. Would rather ask
+          something first? Choose private dining or the list below and write to us instead.</p>
         <div class="pays" style="margin-top:20px">
           <span class="pay">Twint</span><span class="pay">Visa</span><span class="pay">Mastercard</span>
-          <span class="pay">Card via Stripe</span><span class="pay">Cash</span>
+          <span class="pay">Apple Pay</span><span class="pay">Secured by Stripe</span>
         </div>
       </div>
 
@@ -505,31 +505,21 @@
 
         <div id="seat-fields" style="display:grid;gap:24px">
           <div class="f">
-            <label for="f-evening">Which evening</label>
-            <select id="f-evening"></select>
-          </div>
-          <div class="f">
             <label>Dinner, or dinner with drinks</label>
             <div class="opts" style="grid-template-columns:1fr 1fr">
               <label><input type="radio" name="tier" value="120" checked>
                 <span class="t">CHF 120 · Dinner</span>
-                <span class="s">Welcome drink, water, coffee and tea</span></label>
+                <span class="s">Everything we cook that evening, welcome drink, water, coffee and tea</span></label>
               <label><input type="radio" name="tier" value="150">
                 <span class="t">CHF 150 · With drinks</span>
-                <span class="s">Wine, beer, gin &amp; tonic, cocktails, all evening</span></label>
+                <span class="s">The same, plus wine matched to the food, gin and tonic, vodka soda</span></label>
             </div>
-          </div>
-          <div class="f">
-            <label for="f-seats">How many seats</label>
-            <select id="f-seats">
-              <option>1</option><option selected>2</option><option>3</option>
-              <option>4</option><option>5</option><option>6</option>
-              <option>7</option><option>8</option>
-            </select>
           </div>
           <div class="sum" aria-live="polite">
             <div class="ln"><span id="s-l"></span><span id="s-v"></span></div>
-            <div class="ln tot"><span>Total</span><span id="s-t"></span></div>
+            <div class="ln note">On the next page you choose how many seats, tell us which
+              evening you want and anything you don't eat, and pay. Your seat is confirmed
+              the moment payment goes through, and the address follows by email.</div>
           </div>
         </div>
 
@@ -544,6 +534,7 @@
             <input id="f-pwhere" type="text" placeholder="Your place in Basel, a venue, somewhere else"></div>
         </div>
 
+        <div id="enquiry-fields" style="display:grid;gap:24px">
         <div class="r2">
           <div class="f" id="w-name"><label for="f-name">Your name</label>
             <input id="f-name" type="text" autocomplete="name"><div class="msg" id="e-name"></div></div>
@@ -562,6 +553,7 @@
 
         <div class="f"><label for="f-note">Anything else</label>
           <textarea id="f-note" style="min-height:80px" placeholder="Occasion, who you're bringing, how you found us."></textarea></div>
+        </div>
 
         <div class="agree">
           <label><input type="checkbox" id="f-privacy">
@@ -616,8 +608,10 @@
       <ol>
         <li><strong>Booking.</strong> A request through this site is not yet a reservation. We
           confirm by email and hold your seat for 48 hours.</li>
-        <li><strong>Payment.</strong> Your seat is confirmed once payment arrives in full — by
-          Twint, card or cash — within 48 hours of our confirmation. Unpaid seats are released.</li>
+        <li><strong>Payment.</strong> Seats are booked and paid in one step through Stripe, by
+          card, Apple Pay or Twint. Your seat is confirmed the moment payment succeeds, and the
+          address and menu are emailed to you. Private dining is arranged by email and invoiced
+          separately.</li>
         <li><strong>Price.</strong> CHF 120 per person for the evening’s full menu with a welcome
           drink, water, coffee and tea. CHF 150 per person with wine, beer, gin and tonic,
           vodka mate and classic cocktails poured through the evening.</li>
