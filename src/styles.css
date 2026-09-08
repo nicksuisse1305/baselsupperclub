@@ -203,15 +203,17 @@ html[data-font="anton"]{ --display:"Anton", "Helvetica Neue", Arial, sans-serif;
   animation:kb 8s var(--ease) forwards; }
 @keyframes kb{ from{ transform:scale(1.13);} to{ transform:scale(1.01);} }
 .hero::after{ content:""; position:absolute; inset:0;
-  background:linear-gradient(180deg, rgba(30,20,14,.46) 0%, rgba(30,20,14,.18) 34%, rgba(30,20,14,.86) 100%); }
+  background:linear-gradient(180deg, rgba(26,17,11,.50) 0%, rgba(26,17,11,.20) 26%,
+    rgba(26,17,11,.62) 58%, rgba(26,17,11,.88) 82%, rgba(26,17,11,.95) 100%); }
 .hero-in{ position:relative; z-index:2; width:100%; color:#fff; padding-bottom:clamp(38px,6vw,74px); }
-.hero h1{ margin:0 0 18px; color:#fff; text-shadow:0 2px 30px rgba(20,12,8,.4); }
+.hero h1{ margin:0 0 18px; color:#fff; text-shadow:0 2px 34px rgba(20,12,8,.55); }
 .hero h1 .l{ display:block; overflow:hidden; }
 .hero h1 .l span{ display:block; animation:rise .9s var(--ease) both; }
 .hero h1 .l:nth-child(2) span{ animation-delay:.10s; }
 .hero h1 .l:nth-child(3) span{ animation-delay:.20s; }
 @keyframes rise{ from{ transform:translateY(105%);} to{ transform:none; } }
-.hero .tag{ color:rgba(255,255,255,.94); max-width:58ch; font-size:clamp(.98rem,1.45vw,1.12rem);
+.hero .tag{ color:#fff; max-width:46ch; font-size:clamp(1rem,1.4vw,1.14rem);
+  text-shadow:0 1px 16px rgba(20,12,8,.55);
   animation:fadeUp .8s .34s var(--ease) both; }
 .hero .cta{ display:flex; gap:13px; flex-wrap:wrap; margin-top:30px;
   animation:fadeUp .8s .46s var(--ease) both; }
@@ -219,7 +221,8 @@ html[data-font="anton"]{ --display:"Anton", "Helvetica Neue", Arial, sans-serif;
   padding-top:24px; border-top:1px solid rgba(255,255,255,.32);
   animation:fadeUp .8s .58s var(--ease) both; }
 .hero .meta div{ display:flex; align-items:center; gap:9px; font-size:.82rem;
-  letter-spacing:.13em; text-transform:uppercase; color:#fff; }
+  letter-spacing:.13em; text-transform:uppercase; color:#fff;
+  text-shadow:0 1px 12px rgba(20,12,8,.6); }
 .hero .meta .ic{ width:15px; height:15px; color:var(--accent); }
 
 .hero .btn.ghost{ color:#fff; border-color:rgba(255,255,255,.55); }
@@ -599,6 +602,15 @@ body:has(.lightbox.on) .wa-fab{ opacity:0; pointer-events:none; }
 }
 @media (max-width:860px){
   :root{ --rail:0px; }
+  /* On a narrow screen the hero copy sits over the middle of the dish, where
+     the photo is brightest. Anchor it on a deeper band so the food reads above
+     the text and the text reads on the photo. */
+  .hero::after{ background:linear-gradient(180deg, rgba(26,17,11,.42) 0%,
+    rgba(26,17,11,.16) 18%, rgba(26,17,11,.68) 46%, rgba(26,17,11,.92) 72%,
+    rgba(26,17,11,.96) 100%); }
+  .hero h1{ font-size:clamp(2.4rem,11.5vw,3.4rem); }
+  .hero .tag{ font-size:1rem; line-height:1.62; max-width:none; }
+  .hero .meta{ gap:8px 20px; }
   .rail{ display:none; }
   .top{ left:0; }
   #shell{ margin-left:0; }
