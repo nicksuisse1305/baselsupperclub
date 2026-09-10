@@ -55,10 +55,22 @@ var EVENINGS = [
     sub:"Everything arrives together and stays on the table, the way it is actually eaten at home.",
     status:"open", statusText:"Booking open",
     menu:[
-      { course:"To start",  dishes:["Paneer pakora","Chicken pakora"] },
-      { course:"The table", dishes:["Paneer lababdar","Chicken tikka masala","Dal",
-                                    "Jeera rice","Naan","Raita"] },
-      { course:"Sweet",     dishes:["Gajar ka halwa"] }
+      { course:"To start",  dishes:[
+        { name:"Paneer pakora",        photo:"paneer pakora" },
+        { name:"Chicken pakora",       photo:"chicken pakora" },
+        { name:"Mint sauce" }
+      ]},
+      { course:"The table", dishes:[
+        { name:"Paneer lababdar",      photo:"paneer lababdar" },
+        { name:"Chicken tikka masala", photo:"chicken tikka masala" },
+        { name:"Dal",                  photo:"daal" },
+        { name:"Jeera rice",           photo:"jeera rice" },
+        { name:"Naan",                 photo:"naan bread" },
+        { name:"Raita",                photo:"kheera raita" }
+      ]},
+      { course:"Sweet",     dishes:[
+        { name:"Gajar ka halwa",       photo:"gajar ka halwa" }
+      ]}
     ],
     courses:[] },
   { id:"ramen", n:"02", flag:"jp", title:"Ramen Night", when:"Date announced soon",

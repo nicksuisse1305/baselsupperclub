@@ -195,6 +195,10 @@
           anybody else at the table.</p>
       </div>
       <div class="reviews rv" id="reviews"></div>
+      <p class="rv" style="margin:34px 0 0;font-size:.95rem;color:var(--muted)">
+        Eaten with us already?
+        <a href="#/book" data-link style="color:var(--accent)">Tell us how it was</a> —
+        we put reviews up word for word.</p>
     </div>
   </section>
 
@@ -511,6 +515,8 @@
               <span class="t">Private dining</span><span class="s">We cook at your place</span></label>
             <label><input type="radio" name="kind" value="list">
               <span class="t">Just the list</span><span class="s">Tell me when dates open</span></label>
+            <label><input type="radio" name="kind" value="review">
+              <span class="t">Leave a review</span><span class="s">You have already eaten with us</span></label>
           </div>
         </div>
 
@@ -544,6 +550,23 @@
             <div class="ln note">Nothing is charged now. We read every request ourselves and
               come back within 24 hours — if there is room at that table we send you a payment
               link, and your seat is confirmed once it is paid.</div>
+          </div>
+        </div>
+
+        <div id="review-fields" style="display:grid;gap:24px" hidden>
+          <div class="f">
+            <label for="f-which">Which evening did you come to</label>
+            <input id="f-which" type="text" placeholder="Indian Night in October, or just the month">
+          </div>
+          <div class="f">
+            <label for="f-review">How was it</label>
+            <textarea id="f-review" style="min-height:150px" placeholder="Whatever you'd want a stranger deciding whether to come to know. Long or short, both are welcome."></textarea>
+            <div class="hint">We put reviews on the site word for word. Tell us below how you'd
+              like to be credited — full name, first name, or not at all.</div>
+          </div>
+          <div class="f">
+            <label for="f-credit">Credit it to</label>
+            <input id="f-credit" type="text" placeholder="e.g. Anna K., or 'keep me anonymous'">
           </div>
         </div>
 

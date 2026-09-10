@@ -129,9 +129,10 @@ function galleries(mode, outDir) {
       copyFileSync(full, join(outDir, "gallery", name, webName(f)));
       copyFileSync(thumb, join(outDir, "gallery", name, "thumb", webName(f)));
       items.push({
-        src: `gallery/${name}/${webName(f)}`,
-        thumb: `gallery/${name}/thumb/${webName(f)}`,
+        src: encodeURI(`gallery/${name}/${webName(f)}`),
+        thumb: encodeURI(`gallery/${name}/thumb/${webName(f)}`),
         caption,
+        stem: basename(f, extname(f)).toLowerCase(),   // lets a menu dish find its photo
       });
     }
     out[name] = items;

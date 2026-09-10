@@ -24,7 +24,9 @@ if (refs.length === 0) errors.push("no images referenced — the image map faile
        The manifest and the copy step used to be written separately, and a photo
        that failed to convert stayed in the manifest and 404'd. */
 for (const r of [...new Set([...html.matchAll(/"(gallery\/[^"]+)"/g)].map((m) => m[1]))]) {
-  if (!existsSync(join(DIST, r))) errors.push(`page references ${r} but it is not in the build`);
+  // references are URL-encoded; filenames on disk are not
+  const onDisk = decodeURIComponent(r);
+  if (!existsSync(join(DIST, onDisk))) errors.push(`page references ${r} but it is not in the build`);
 }
 
 /* 1c. The page's own JavaScript must actually parse. A single syntax error in

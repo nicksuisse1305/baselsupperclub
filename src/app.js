@@ -9,6 +9,29 @@
   var TIMELINE = S.TIMELINE, FAQ = S.FAQ, GALLERY = S.GALLERY, ICONS = S.ICONS;
   var PAST = S.PAST || [], REVIEWS = S.REVIEWS || [];
 
+  /* Menu dishes reference a photo by its filename stem, so dropping
+     "gajar ka halwa.png" into assets/gallery/food is all it takes. */
+  var FOOD_BY_STEM = (function(){
+    var m = {}, list = (window.GALLERIES && window.GALLERIES.food) || [];
+    list.forEach(function(it){ if(it.stem) m[it.stem] = it; });
+    return m;
+  })();
+
+  function dishHTML(d){
+    var name = typeof d === "string" ? d : d.name;
+    var pic  = typeof d === "string" ? null : FOOD_BY_STEM[(d.photo||"").toLowerCase()];
+    return '<li class="dish">' +
+      (pic ? '<img class="dish-pic" src="'+pic.thumb+'" alt="'+name+'" loading="lazy" decoding="async">'
+           : '<span class="dish-pic none" aria-hidden="true"></span>') +
+      '<span class="dish-name">'+name+'</span></li>';
+  }
+  function menuHTML(menu){
+    return menu.map(function(g){
+      return '<li class="group"><div class="course-name">'+g.course+'</div>'+
+             '<ul class="dish-list">'+g.dishes.map(dishHTML).join("")+'</ul></li>';
+    }).join("");
+  }
+
   var $ = function(s,r){ return (r||document).querySelector(s); };
   var $$ = function(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
   function el(t,c,h){ var n=document.createElement(t); if(c)n.className=c; if(h!=null)n.innerHTML=h; return n; }
@@ -122,12 +145,7 @@
       btn.setAttribute("aria-expanded","false");
       var ul = el("ul","courses"); ul.hidden = true;
       if (ev.menu) {
-        ev.menu.forEach(function(g){
-          ul.appendChild(el("li","group",
-            '<div class="course-name">'+g.course+'</div>'+
-            '<div class="dish-list">'+g.dishes.map(function(d){
-              return '<span>'+d+'</span>'; }).join("")+'</div>'));
-        });
+        ul.innerHTML = menuHTML(ev.menu);
       } else {
         ev.courses.forEach(function(c){
           ul.appendChild(el("li","",'<div class="nm">'+c[0]+'</div><p>'+c[1]+'</p>'));
@@ -172,12 +190,7 @@
     var box=$("#sample-menu"), ev=EVENINGS[0], head=$("#sample-title");
     if(head) head.textContent = plain(ev.title) + " \u00b7 " + ev.when;
     if (ev.menu) {
-      ev.menu.forEach(function(g){
-        box.appendChild(el("li","group",
-          '<div class="course-name">'+g.course+'</div>'+
-          '<div class="dish-list">'+g.dishes.map(function(d){
-            return '<span>'+d+'</span>'; }).join("")+'</div>'));
-      });
+      box.innerHTML = menuHTML(ev.menu);
     } else {
       ev.courses.forEach(function(c){
         box.appendChild(el("li","",'<div class="nm">'+c[0]+'</div><p>'+c[1]+'</p>'));
@@ -292,10 +305,12 @@
       var k=kind();
       $("#seat-fields").hidden = k!=="seat";
       $("#private-fields").hidden = k!=="private";
+      $("#review-fields").hidden = k!=="review";
       $(".btn span", form.querySelector('button[type="submit"]').parentNode) ;
       form.querySelector('button[type="submit"] span').textContent =
         k==="list" ? "Add me to the list"
         : k==="private" ? "Send the enquiry"
+        : k==="review" ? "Send the review"
         : "Send the request";
     }
     $$('input[name="kind"]',form).forEach(function(r){ r.addEventListener("change",syncKind); });
@@ -316,7 +331,7 @@
       if(!name){ $("#w-name").classList.add("bad"); $("#e-name").textContent="We'd like to know who's coming."; ok=false; }
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
         $("#w-email").classList.add("bad"); $("#e-email").textContent="We need a working email to send the address to."; ok=false; }
-      if(!$("#f-privacy").checked || !$("#f-terms").checked){
+      if(kind()!=="review" && (!$("#f-privacy").checked || !$("#f-terms").checked)){
         $("#e-agree").textContent="Please tick both boxes above so we can take your booking.";
         ok=false;
       }
@@ -338,6 +353,13 @@
         L.push("Date in mind: "+($("#f-pdate").value.trim()||"not sure yet"));
         L.push("Guests: "+($("#f-pguests").value.trim()||"not sure yet"));
         L.push("Where: "+($("#f-pwhere").value.trim()||"not sure yet"));
+      } else if(k==="review"){
+        subject="Review — "+name;
+        L.push("Evening: "+($("#f-which").value.trim()||"not given"));
+        L.push("Credit to: "+($("#f-credit").value.trim()||"not given"));
+        L.push("");
+        L.push("Review:");
+        L.push($("#f-review").value.trim()||"(empty)");
       } else {
         subject="Mailing list — "+name;
         L.push("Please add me to the list for new dates.");
