@@ -341,16 +341,21 @@
                 "We read every one. If it goes on the site, it goes up word for word \u2014 credited the way you asked."]
     };
 
+    /* Replace the whole card, not just the form. Leaving the intro above the
+       thank-you meant the page promised a reply twice in a row. */
     function showThanks(k){
       var t = THANKS[k] || THANKS.list;
       var panel = el("div","thanks",
         '<svg class="ic" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></svg>' +
-        '<h3>'+t[0]+'</h3><p>'+t[1]+'</p>');
+        '<h2>'+t[0]+'</h2><p>'+t[1]+'</p>');
       var close = el("button","btn ghost","<span>Close</span>");
       close.type = "button";
       close.addEventListener("click", function(){ closeBook(); });
       panel.appendChild(close);
-      form.replaceWith(panel);
+
+      var card = form.closest(".modal-scroll") || form.parentNode;
+      card.innerHTML = "";
+      card.appendChild(panel);
     }
 
     function mailtoFallback(subject, body){
