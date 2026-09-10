@@ -116,14 +116,23 @@
       '<div class="right"><span class="chip '+ev.status+'">'+ev.statusText+'</span>'+
       '<a class="btn sm ghost" href="#/book" data-ev="'+ev.id+'" data-link><span>Join the list</span></a></div>';
 
-    if (withMenu && ev.courses.length){
+    if (withMenu && (ev.menu || ev.courses.length)){
       var body = $(".body", node);
       var btn = el("button","mtoggle",'<span class="lbl">Read the menu</span>'+svg('<path d="m6 9 6 6 6-6"/>'));
       btn.setAttribute("aria-expanded","false");
       var ul = el("ul","courses"); ul.hidden = true;
-      ev.courses.forEach(function(c){
-        ul.appendChild(el("li","",'<div class="nm">'+c[0]+'</div><p>'+c[1]+'</p>'));
-      });
+      if (ev.menu) {
+        ev.menu.forEach(function(g){
+          ul.appendChild(el("li","group",
+            '<div class="course-name">'+g.course+'</div>'+
+            '<div class="dish-list">'+g.dishes.map(function(d){
+              return '<span>'+d+'</span>'; }).join("")+'</div>'));
+        });
+      } else {
+        ev.courses.forEach(function(c){
+          ul.appendChild(el("li","",'<div class="nm">'+c[0]+'</div><p>'+c[1]+'</p>'));
+        });
+      }
       btn.addEventListener("click",function(){
         var open = btn.getAttribute("aria-expanded")==="true";
         btn.setAttribute("aria-expanded",String(!open));
@@ -160,10 +169,20 @@
 
   /* ---- sample menu ---- */
   (function(){
-    var box=$("#sample-menu"), ev=EVENINGS[0];
-    ev.courses.forEach(function(c){
-      box.appendChild(el("li","",'<div class="nm">'+c[0]+'</div><p>'+c[1]+'</p>'));
-    });
+    var box=$("#sample-menu"), ev=EVENINGS[0], head=$("#sample-title");
+    if(head) head.textContent = plain(ev.title) + " \u00b7 " + ev.when;
+    if (ev.menu) {
+      ev.menu.forEach(function(g){
+        box.appendChild(el("li","group",
+          '<div class="course-name">'+g.course+'</div>'+
+          '<div class="dish-list">'+g.dishes.map(function(d){
+            return '<span>'+d+'</span>'; }).join("")+'</div>'));
+      });
+    } else {
+      ev.courses.forEach(function(c){
+        box.appendChild(el("li","",'<div class="nm">'+c[0]+'</div><p>'+c[1]+'</p>'));
+      });
+    }
   })();
 
   /* ---- timeline ---- */

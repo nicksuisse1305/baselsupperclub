@@ -50,7 +50,18 @@ var FLAGS = {
 };
 
 var EVENINGS = [
-  { id:"ramen", n:"01", flag:"jp", title:"Ramen Night", when:"Date announced soon",
+  { id:"indian", n:"01", flag:"in", title:"Indian Night", when:"Friday 2 October 2026",
+    dishes:["Paneer lababdar","Chicken tikka masala","Dal","Naan","Jeera rice","Gajar ka halwa"],
+    sub:"Everything arrives together and stays on the table, the way it is actually eaten at home.",
+    status:"open", statusText:"Booking open",
+    menu:[
+      { course:"To start",  dishes:["Paneer pakora","Chicken pakora"] },
+      { course:"The table", dishes:["Paneer lababdar","Chicken tikka masala","Dal",
+                                    "Jeera rice","Naan","Raita"] },
+      { course:"Sweet",     dishes:["Gajar ka halwa"] }
+    ],
+    courses:[] },
+  { id:"ramen", n:"02", flag:"jp", title:"Ramen Night", when:"Date announced soon",
     dishes:["Tantan","Shoyu ramen","Gyoza","Chilli oil","Black sesame ice"],
     sub:"Tantan, hand-folded gyoza, and a chilli oil that people ask to take home.",
     status:"soon", statusText:"Dates soon",
@@ -60,19 +71,6 @@ var EVENINGS = [
       ["Tantan","Sesame and chilli broth, minced pork, greens, a soft egg. The bowl everyone remembers."],
       ["Shoyu ramen","Chashu, spring onion, the noodles cooked to order."],
       ["Sweet","Black sesame ice, or something with yuzu if we can get it."]
-    ]},
-  { id:"curry", n:"02", flag:"in", title:"Indian Night", when:"Date announced soon",
-    dishes:["Butter chicken","Lamb korma","Paneer","Dal","Naan","Chaat"],
-    sub:"Butter chicken, lamb korma, paneer straight from the pan and naan hot from the oven \u2014 everything on the table at once, the way it is actually eaten.",
-    status:"soon", statusText:"Dates soon",
-    courses:[
-      ["Chaat","Something cold, sour and crunchy while the bread is still in the oven."],
-      ["Butter chicken","The one everyone thinks they know. Tomatoes cooked down for hours, cream only at the very end."],
-      ["Lamb korma","Slow and nutty, mild enough that you can still taste the lamb."],
-      ["Paneer","Straight out of the pan, still squeaking."],
-      ["Dal","Buttery, and finished with a tempering poured over it at the table."],
-      ["Naan, hot from the oven","Coming out all evening. You will eat too much of it. Everybody does."],
-      ["Sweet","Warm, cardamom, and more than you expect."]
     ]},
   { id:"pasta", n:"03", flag:"it", title:"Pasta Night", when:"Date announced soon",
     dishes:["Rag\u00f9","Rigatoni","Carbonara","Focaccia","Tiramis\u00f9"],
@@ -89,9 +87,9 @@ var EVENINGS = [
 
 /* Evenings we have actually cooked. Every one sold out at six seats. */
 var PAST = [
-  { date:"19 August 2026",  flag:"in", title:"Indian Night",   note:"Sold out \u00b7 6 seats" },
+  { date:"19 August 2026",  flag:"it", title:"Italian Night",  note:"Sold out \u00b7 6 seats" },
   { date:"21 July 2026",    flag:"jp", title:"Japanese Night", note:"Sold out \u00b7 6 seats" },
-  { date:"3 July 2026",     flag:"it", title:"Italian Night",  note:"Sold out \u00b7 6 seats" }
+  { date:"3 July 2026",     flag:"in", title:"Indian Night",   note:"Sold out \u00b7 6 seats" }
 ];
 
 /* Guests' own words, sent to us after the evening. Nothing here is edited. */
@@ -143,9 +141,7 @@ var GALLERY = [
   ["f9","Noodles, egg, too much parmesan"],
   ["f10","Rice, chicken and a fried egg on top"],
   ["table1","Mezze and flatbread"],
-  ["table2","Taco night"],
-  ["room","The table, before anyone arrives"],
-  ["balcony","The balcony, where the evening starts"]
+  ["table2","Taco night"]
 ];
 
 var ICONS = {
