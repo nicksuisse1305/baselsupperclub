@@ -516,6 +516,13 @@ form.bk{ display:grid; gap:24px; }
 .wa:hover{ border-color:var(--accent); color:var(--accent); }
 .wa:hover .ic{ color:var(--accent); }
 
+/* the panel that replaces the form once it has gone through */
+.thanks{ display:grid; gap:16px; justify-items:start; padding:8px 0 4px; }
+.thanks .ic{ width:34px; height:34px; color:var(--accent); stroke-width:1.8; }
+.thanks h3{ margin:0; }
+.thanks p{ margin:0; max-width:46ch; color:var(--paper-body,var(--body)); }
+.thanks .btn{ margin-top:6px; }
+
 /* ---------- faq ---------- */
 .faq details{ border-bottom:1px solid var(--line); }
 .faq details:first-child{ border-top:1px solid var(--line); }

@@ -323,6 +323,41 @@
       form.querySelector('input[value="seat"]').checked=true; syncKind(); recalc();
     });
 
+    /* The form posts to FormSubmit, which forwards to our inbox. No account,
+       no server of our own. If the request fails for any reason the guest is
+       offered a mailto with everything already written, so a submission is
+       never simply lost. */
+    var ENDPOINT = "https://formsubmit.co/ajax/verma.nikunj66@gmail.com";
+    var submitBtn = form.querySelector('button[type="submit"]');
+
+    var THANKS = {
+      seat:    ["Your request is in.",
+                "We read every one ourselves and put each table together by hand. You'll hear from us within 24 hours \u2014 and if there's room, we'll send a link to pay."],
+      private: ["Thank you \u2014 we'll be in touch.",
+                "We'll come back to you about the date, the guests and what you'd like on the table."],
+      list:    ["You're on the list.",
+                "You'll hear about new dates before they go public. Not often, and never anything else."],
+      review:  ["Thank you for writing.",
+                "We read every one. If it goes on the site, it goes up word for word \u2014 credited the way you asked."]
+    };
+
+    function showThanks(k){
+      var t = THANKS[k] || THANKS.list;
+      var panel = el("div","thanks",
+        '<svg class="ic" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></svg>' +
+        '<h3>'+t[0]+'</h3><p>'+t[1]+'</p>');
+      var close = el("button","btn ghost","<span>Close</span>");
+      close.type = "button";
+      close.addEventListener("click", function(){ closeBook(); });
+      panel.appendChild(close);
+      form.replaceWith(panel);
+    }
+
+    function mailtoFallback(subject, body){
+      return "mailto:verma.nikunj66@gmail.com?subject=" +
+        encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+    }
+
     form.addEventListener("submit",function(e){
       e.preventDefault();
       $("#w-name").classList.remove("bad"); $("#w-email").classList.remove("bad");
@@ -331,49 +366,78 @@
       var name=$("#f-name").value.trim(), email=$("#f-email").value.trim(), ok=true;
       if(!name){ $("#w-name").classList.add("bad"); $("#e-name").textContent="We'd like to know who's coming."; ok=false; }
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
-        $("#w-email").classList.add("bad"); $("#e-email").textContent="We need a working email to send the address to."; ok=false; }
+        $("#w-email").classList.add("bad"); $("#e-email").textContent="We need a working email to reply to."; ok=false; }
       if(kind()!=="review" && (!$("#f-privacy").checked || !$("#f-terms").checked)){
         $("#e-agree").textContent="Please tick both boxes above so we can take your booking.";
         ok=false;
       }
       if(!ok){ (name?$("#f-email"):$("#f-name")).focus(); return; }
 
-      var k=kind(), L=[], subject;
-      L.push("Name: "+name); L.push("Email: "+email);
-      if($("#f-phone").value.trim()) L.push("Phone: "+$("#f-phone").value.trim());
-      L.push("");
+      var k=kind(), subject, fields={};
+      fields["Name"]=name;
+      fields["Email"]=email;
+      if($("#f-phone").value.trim()) fields["Phone"]=$("#f-phone").value.trim();
+
       if(k==="seat"){
         var ev=evById(sel.value), seats=parseInt($("#f-seats").value,10)||1, t=tier();
-        subject="Seat request — "+plain(ev.title);
-        L.push("Evening: "+plain(ev.title)+" ("+ev.when+")");
-        L.push("Seats: "+seats);
-        L.push("Option: "+(t===P_DRINKS?"Dinner with drinks (CHF 150 each)":"Dinner (CHF 120 each)"));
-        L.push("Total if confirmed: "+chf(t*seats));
+        subject="Seat request \u2014 "+plain(ev.title);
+        fields["Evening"]=plain(ev.title)+" ("+ev.when+")";
+        fields["Seats"]=String(seats);
+        fields["Option"]=(t===P_DRINKS?"Dinner with drinks (CHF 150 each)":"Dinner (CHF 120 each)");
+        fields["Total if confirmed"]=chf(t*seats);
       } else if(k==="private"){
-        subject="Private dining enquiry — "+name;
-        L.push("Date in mind: "+($("#f-pdate").value.trim()||"not sure yet"));
-        L.push("Guests: "+($("#f-pguests").value.trim()||"not sure yet"));
-        L.push("Where: "+($("#f-pwhere").value.trim()||"not sure yet"));
+        subject="Private dining enquiry \u2014 "+name;
+        fields["Date in mind"]=$("#f-pdate").value.trim()||"not sure yet";
+        fields["Guests"]=$("#f-pguests").value.trim()||"not sure yet";
+        fields["Where"]=$("#f-pwhere").value.trim()||"not sure yet";
       } else if(k==="review"){
-        subject="Review — "+name;
-        L.push("Evening: "+($("#f-which").value.trim()||"not given"));
-        L.push("Credit to: "+($("#f-credit").value.trim()||"not given"));
-        L.push("");
-        L.push("Review:");
-        L.push($("#f-review").value.trim()||"(empty)");
+        subject="Review \u2014 "+name;
+        fields["Evening"]=$("#f-which").value.trim()||"not given";
+        fields["Credit to"]=$("#f-credit").value.trim()||"not given";
+        fields["Review"]=$("#f-review").value.trim()||"(empty)";
       } else {
-        subject="Mailing list — "+name;
-        L.push("Please add me to the list for new dates.");
+        subject="Mailing list \u2014 "+name;
+        fields["Request"]="Please add me to the list for new dates.";
       }
-      L.push("");
-      L.push("Allergies / dietary: "+($("#f-diet").value.trim()||"none given"));
-      L.push("Newsletter: "+($("#f-news").checked?"yes please":"no"));
+      if(k!=="review"){
+        fields["Allergies / dietary"]=$("#f-diet").value.trim()||"none given";
+        fields["Newsletter"]=$("#f-news").checked?"yes please":"no";
+      }
       var note=$("#f-note").value.trim();
-      if(note){ L.push(""); L.push("Notes: "+note); }
-      L.push(""); L.push("— sent from baselsupperclub.ch");
+      if(note) fields["Notes"]=note;
 
-      window.location.href="mailto:verma.nikunj66@gmail.com?subject="+
-        encodeURIComponent(subject)+"&body="+encodeURIComponent(L.join("\n"));
+      var body = Object.keys(fields).map(function(key){
+        return key+": "+fields[key];
+      }).join("\n") + "\n\n\u2014 sent from baselsupperclub.ch";
+
+      var payload = { _subject: subject, _template: "table", _captcha: "false" };
+      Object.keys(fields).forEach(function(key){ payload[key]=fields[key]; });
+
+      submitBtn.disabled = true;
+      $("span", submitBtn).textContent = "Sending\u2026";
+
+      fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(payload)
+      }).then(function(res){ return res.json(); })
+        .then(function(data){
+          if(String(data.success) !== "true") throw new Error(data.message || "rejected");
+          if(window.__track) window.__track("generate_lead", {
+            request_type: k,
+            value: k==="seat" ? tier()*(parseInt($("#f-seats").value,10)||1) : undefined,
+            currency: "CHF"
+          });
+          showThanks(k);
+        })
+        .catch(function(){
+          submitBtn.disabled = false;
+          $("span", submitBtn).textContent = "Try again";
+          $("#e-agree").innerHTML =
+            'That did not go through. Please <a href="' +
+            mailtoFallback(subject, body) +
+            '" style="color:var(--accent)">send it by email instead</a> \u2014 everything is already written.';
+        });
     });
   })();
 
