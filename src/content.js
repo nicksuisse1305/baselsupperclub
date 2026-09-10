@@ -74,21 +74,12 @@ var EVENINGS = [
     ],
     courses:[] },
   { id:"ramen", n:"02", flag:"jp", title:"Ramen Night", when:"Date announced soon",
-    dishes:["Tantan","Shoyu ramen","Gyoza","Chilli oil","Black sesame ice"],
-    sub:"Tantan, hand-folded gyoza, and a chilli oil that people ask to take home.",
-    status:"soon", statusText:"Dates soon",
-    courses:[] },
+    sub:"", status:"soon", statusText:"Dates soon", courses:[] },
 
   { id:"pasta", n:"03", flag:"it", title:"Pasta Night", when:"Date announced soon",
-    dishes:["Rag\u00f9","Rigatoni","Carbonara","Focaccia","Tiramis\u00f9"],
-    sub:"Rigatoni with mushroom and parmesan, a ragù nobody rushed, and far too much bread.",
-    status:"soon", statusText:"Dates soon",
-    courses:[] },
+    sub:"", status:"soon", statusText:"Dates soon", courses:[] },
   { id:"thai", n:"04", flag:"th", title:"Thai Night", when:"Date announced soon",
-    dishes:["Green curry","Tom kha","Pad thai","Som tam","Mango sticky rice"],
-    sub:"Coconut, lime leaf and fresh chilli. The evening with the most colour on the table.",
-    status:"soon", statusText:"Dates soon",
-    courses:[] }
+    sub:"", status:"soon", statusText:"Dates soon", courses:[] }
 ];
 
 

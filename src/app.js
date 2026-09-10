@@ -134,7 +134,7 @@
           (ev.flag ? '<svg class="flag" viewBox="0 0 30 20" role="presentation">'+FLAGS[ev.flag]+'</svg>' : '')+
           '<h3>'+ev.title+'</h3>'+
         '</div>'+
-        '<p>'+ev.sub+'</p>'+
+        (ev.sub ? '<p>'+ev.sub+'</p>' : '')+
         (ev.dishes && !ev.menu ? '<div class="dishes">'+ev.dishes.map(function(d){return '<span>'+d+'</span>';}).join("")+'</div>' : '')+
       '</div>'+
       '<div class="right"><span class="chip '+ev.status+'">'+ev.statusText+'</span>'+
