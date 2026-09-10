@@ -76,7 +76,7 @@ var EVENINGS = [
 /* Evenings we have actually cooked. Every one sold out at six seats. */
 var PAST = [
   { date:"19 August 2026",  flag:"it", title:"Italian Night",  photo:"italian",  note:"Sold out \u00b7 6 seats" },
-  { date:"21 July 2026",    flag:"jp", title:"Japanese Night", note:"Sold out \u00b7 6 seats" },
+  { date:"21 July 2026",    flag:"jp", title:"Japanese Night", photo:"japanese", note:"Sold out \u00b7 6 seats" },
   { date:"3 July 2026",     flag:"in", title:"Indian Night",   photo:"indian",   note:"Sold out \u00b7 6 seats" }
 ];
 
