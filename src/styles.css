@@ -329,6 +329,26 @@ html[data-font="anton"]{ --display:"Anton", "Helvetica Neue", Arial, sans-serif;
 .mtoggle .ic{ width:13px; height:13px; transition:transform .28s; }
 .mtoggle[aria-expanded="true"] .ic{ transform:rotate(180deg); }
 
+/* ---------- what guests said ---------- */
+.reviews{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+.review{
+  margin:0; background:var(--bg-2); border:1px solid var(--line);
+  padding:clamp(26px,3vw,34px); position:relative;
+}
+.review::before{
+  content:"\201C"; position:absolute; top:6px; left:18px;
+  font-family:var(--display); font-size:4.2rem; line-height:1; color:var(--accent); opacity:.22;
+}
+.review p{ margin:0; font-size:.97rem; line-height:1.68; position:relative; }
+@media (max-width:1080px){ .reviews{ grid-template-columns:1fr; max-width:62ch; } }
+
+/* an evening already cooked: no button, just the record of it */
+.ev.past{ transition:none; }
+.ev.past:hover{ padding-left:0; }
+.ev.past .idx{ display:flex; align-items:center; }
+.ev.past .flag{ width:30px; height:20px; }
+.chip.sold{ color:var(--muted); }
+
 /* ---------- gallery ---------- */
 .gal{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
 .gal button{ padding:0; border:0; background:none; cursor:pointer; display:block; position:relative;

@@ -7,6 +7,7 @@
   var P_DINNER = S.P_DINNER, P_DRINKS = S.P_DRINKS;
   var CUISINES = S.CUISINES, FLAGS = S.FLAGS, EVENINGS = S.EVENINGS;
   var TIMELINE = S.TIMELINE, FAQ = S.FAQ, GALLERY = S.GALLERY, ICONS = S.ICONS;
+  var PAST = S.PAST || [], REVIEWS = S.REVIEWS || [];
 
   var $ = function(s,r){ return (r||document).querySelector(s); };
   var $$ = function(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
@@ -138,6 +139,22 @@
     EVENINGS.forEach(function(ev,i){
       all.appendChild(evCard(ev,true));
       if(i<3) home.appendChild(evCard(ev,false));
+    });
+  })();
+
+  /* ---- evenings we have already cooked, and what guests said ---- */
+  (function(){
+    var box=$("#past-evenings");
+    if(box) PAST.forEach(function(p){
+      box.appendChild(el("article","ev past",
+        '<div class="idx">'+(p.flag?'<svg class="flag" viewBox="0 0 30 20" role="presentation">'+FLAGS[p.flag]+'</svg>':'')+'</div>'+
+        '<div class="body"><div class="when">'+p.date+'</div><h3>'+p.title+'</h3></div>'+
+        '<div class="right"><span class="chip sold">'+p.note+'</span></div>'));
+    });
+
+    var rbox=$("#reviews");
+    if(rbox) REVIEWS.forEach(function(q){
+      rbox.appendChild(el("blockquote","review",'<p>'+q+'</p>'));
     });
   })();
 

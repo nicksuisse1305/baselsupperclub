@@ -86,6 +86,21 @@ var EVENINGS = [
     courses:[] }
 ];
 
+
+/* Evenings we have actually cooked. Every one sold out at six seats. */
+var PAST = [
+  { date:"19 August 2026",  flag:"in", title:"Indian Night",   note:"Sold out \u00b7 6 seats" },
+  { date:"21 July 2026",    flag:"jp", title:"Japanese Night", note:"Sold out \u00b7 6 seats" },
+  { date:"3 July 2026",     flag:"it", title:"Italian Night",  note:"Sold out \u00b7 6 seats" }
+];
+
+/* Guests' own words, sent to us after the evening. Nothing here is edited. */
+var REVIEWS = [
+  "Such a lovely evening with Nik and Ania. I loved hearing the stories behind the food, especially the recipes from Nik\u2019s mum. There was always something else to try, and the conversation just kept going. We arrived not knowing the other guests and ended up chatting for hours. I\u2019d love to come back for another menu.",
+  "What I enjoyed most was how relaxed it all felt. Nik and Ania sat and ate with us, so we got to know them as well as the other guests. The food was delicious, there was plenty of it, and nobody was in a hurry. It felt like being invited to a really good dinner party. Very happy we went.",
+  "I came on my own and honestly wasn\u2019t sure what to expect, but I felt comfortable very quickly. With just a few people around the table, it was easy to join the conversation. I loved the Japanese food and getting to ask about how it was made. We laughed a lot, and I left really glad I\u2019d tried something different."
+];
+
 var TIMELINE = [
   ["19:00","<strong>Come in.</strong> There is a drink in your hand before your coat is off. If it is warm, this happens on the balcony."],
   ["19:30","<strong>Everyone sits.</strong> One table, eight people. We tell you what tonight is and where we picked it up, then get out of the way."],
@@ -147,5 +162,6 @@ window.SITE = {
   P_DINNER: P_DINNER, P_DRINKS: P_DRINKS,
   FOOD_SLOTS: FOOD_SLOTS, GUEST_SLOTS: GUEST_SLOTS,
   CUISINES: CUISINES, FLAGS: FLAGS, EVENINGS: EVENINGS,
-  TIMELINE: TIMELINE, FAQ: FAQ, GALLERY: GALLERY, ICONS: ICONS
+  TIMELINE: TIMELINE, FAQ: FAQ, GALLERY: GALLERY, ICONS: ICONS,
+  PAST: PAST, REVIEWS: REVIEWS
 };
