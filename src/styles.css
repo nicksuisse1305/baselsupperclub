@@ -318,6 +318,19 @@ html[data-font="anton"]{ --display:"Anton", "Helvetica Neue", Arial, sans-serif;
 .chip.soon{ color:var(--accent-2); }
 .chip.open{ color:var(--ok); }
 
+/* "Read the menu" is a quiet text link in the accent, not a button */
+.mtoggle{
+  display:inline-flex; align-items:center; gap:9px; margin-top:18px;
+  background:none; border:0; padding:4px 0; cursor:pointer;
+  font-family:var(--sans); font-size:.72rem; font-weight:600; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--accent);
+  box-shadow:inset 0 -1px 0 transparent;
+  transition:box-shadow .24s var(--ease), opacity .2s;
+}
+.mtoggle:hover{ box-shadow:inset 0 -1px 0 var(--accent); }
+.mtoggle .ic{ width:13px; height:13px; transition:transform .32s var(--ease); }
+.mtoggle[aria-expanded="true"] .ic{ transform:rotate(180deg); }
+
 .courses{ list-style:none; margin:20px 0 0; padding:20px 0 0; border-top:1px solid var(--line); }
 .ev > .courses{ grid-column:1 / -1; }
 .courses li{ padding:0 0 16px; }

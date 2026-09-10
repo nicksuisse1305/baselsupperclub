@@ -135,7 +135,7 @@
           '<h3>'+ev.title+'</h3>'+
         '</div>'+
         '<p>'+ev.sub+'</p>'+
-        (ev.dishes ? '<div class="dishes">'+ev.dishes.map(function(d){return '<span>'+d+'</span>';}).join("")+'</div>' : '')+
+        (ev.dishes && !ev.menu ? '<div class="dishes">'+ev.dishes.map(function(d){return '<span>'+d+'</span>';}).join("")+'</div>' : '')+
       '</div>'+
       '<div class="right"><span class="chip '+ev.status+'">'+ev.statusText+'</span>'+
       '<a class="btn sm ghost" href="#/book" data-ev="'+ev.id+'" data-link><span>Join the list</span></a></div>';

@@ -77,13 +77,8 @@ var EVENINGS = [
     dishes:["Tantan","Shoyu ramen","Gyoza","Chilli oil","Black sesame ice"],
     sub:"Tantan, hand-folded gyoza, and a chilli oil that people ask to take home.",
     status:"soon", statusText:"Dates soon",
-    courses:[
-      ["Gyoza","Folded at the counter while you have your first drink. Pork and cabbage, or mushroom and ginger."],
-      ["Cold plate","Smashed cucumber, sesame, chilli oil, black vinegar."],
-      ["Tantan","Sesame and chilli broth, minced pork, greens, a soft egg. The bowl everyone remembers."],
-      ["Shoyu ramen","Chashu, spring onion, the noodles cooked to order."],
-      ["Sweet","Black sesame ice, or something with yuzu if we can get it."]
-    ]},
+    courses:[] },
+
   { id:"pasta", n:"03", flag:"it", title:"Pasta Night", when:"Date announced soon",
     dishes:["Rag\u00f9","Rigatoni","Carbonara","Focaccia","Tiramis\u00f9"],
     sub:"Rigatoni with mushroom and parmesan, a ragù nobody rushed, and far too much bread.",
