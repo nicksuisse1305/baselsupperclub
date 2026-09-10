@@ -88,11 +88,13 @@
         box.appendChild(el("div","cu",
           '<div class="cu-top">'+
             '<svg class="flag" viewBox="0 0 30 20" role="img" aria-label="'+c.country+'">'+FLAGS[c.flag]+'</svg>'+
-            '<span class="country">'+c.n+' \u00b7 '+c.country+'</span>'+
+            '<span class="country">'+c.n+'</span>'+
           '</div>'+
           svg(ICONS[c.icon]) +
-          '<h4>'+c.title+'</h4><p>'+c.desc+'</p>'+
-          '<div class="dishes">'+c.dishes.map(function(d){ return '<span>'+d+'</span>'; }).join("")+'</div>'));
+          '<h4>'+c.title+'</h4>'+
+          (c.desc ? '<p>'+c.desc+'</p>' : '')+
+          (c.dishes ? '<div class="dishes">'+c.dishes.map(function(d){
+            return '<span>'+d+'</span>'; }).join("")+'</div>' : '')));
       });
     }
     build($("#cuisines")); build($("#cuisines-2"));

@@ -14,25 +14,15 @@ var FOOD_SLOTS = 30, GUEST_SLOTS = 5;
    links in the page would let anyone pay their way in.
    The links live in README.md under "Sending a payment link". */
 
+/* Six kitchens, named and nothing more. The dish lists and the descriptions
+   that used to sit here were written by me, not decided by Nik. */
 var CUISINES = [
-  { n:"01", flag:"jp", country:"Japan", icon:"bowl", title:"Ramen &amp; tantan",
-    desc:"The bowl everything else is judged against. Noodles that actually bite back.",
-    dishes:["Tantan","Shoyu ramen","Gyoza","Katsu","Chilli oil"] },
-  { n:"02", flag:"in", country:"India", icon:"flame", title:"Curry &amp; tandoor",
-    desc:"Nik's mother's recipes. Whole spices toasted and ground the same day, never a jar.",
-    dishes:["Butter chicken","Lamb korma","Paneer","Dal","Naan"] },
-  { n:"03", flag:"it", country:"Italy", icon:"wheat", title:"Pasta",
-    desc:"Made here, not opened. Nobody rushes it.",
-    dishes:["Rag\u00f9","Rigatoni","Carbonara","Focaccia"] },
-  { n:"04", flag:"th", country:"Thailand", icon:"leaf", title:"Thai",
-    desc:"Coconut, lime leaf, fresh chilli, and the balance that takes years to get right.",
-    dishes:["Green curry","Tom kha","Pad thai","Som tam"] },
-  { n:"05", flag:"cn", country:"China", icon:"dumpling", title:"Dumplings &amp; dim sum",
-    desc:"Folded by hand at the counter while you drink. Usually the first thing on the table.",
-    dishes:["Bao","Wontons","Dim sum","Stir fry"] },
-  { n:"06", flag:"pl", country:"Poland", icon:"pot", title:"Ania's home table",
-    desc:"Where she started, and the reason any of this happened. Cooked the way her family does it.",
-    dishes:["Pierogi","\u017burek","Bigos","Sernik"] }
+  { n:"01", flag:"jp", country:"Japan",    icon:"bowl",     title:"Japan" },
+  { n:"02", flag:"in", country:"India",    icon:"flame",    title:"India" },
+  { n:"03", flag:"it", country:"Italy",    icon:"wheat",    title:"Italy" },
+  { n:"04", flag:"th", country:"Thailand", icon:"leaf",     title:"Thailand" },
+  { n:"05", flag:"cn", country:"China",    icon:"dumpling", title:"China" },
+  { n:"06", flag:"pl", country:"Poland",   icon:"pot",      title:"Poland" }
 ];
 
 var FLAGS = {

@@ -261,10 +261,10 @@ html[data-font="anton"]{ --display:"Anton", "Helvetica Neue", Arial, sans-serif;
   transition:background .35s var(--ease); }
 .cu:hover{ background:var(--bg-3); }
 .cu .n{ font-size:.72rem; letter-spacing:.2em; color:var(--muted); font-variant-numeric:tabular-nums; }
-.cu .ic{ width:26px; height:26px; color:var(--accent); margin:16px 0 14px;
+.cu .ic{ width:30px; height:30px; color:var(--accent); margin:22px 0 16px;
   transition:transform .4s var(--ease); }
 .cu:hover .ic{ transform:translateY(-3px) rotate(-6deg); }
-.cu h4{ margin-bottom:8px; }
+.cu h4{ margin-bottom:0; font-size:1.16rem; }
 .cu p{ margin:0; font-size:.94rem; }
 
 
