@@ -174,12 +174,19 @@
 
   /* ---- evenings we have already cooked, and what guests said ---- */
   (function(){
-    var box=$("#past-evenings");
+    var box=$("#past-evenings"), PHOTOS = window.EVENING_PHOTOS || {};
     if(box) PAST.forEach(function(p){
-      box.appendChild(el("article","ev past",
-        '<div class="idx">'+(p.flag?'<svg class="flag" viewBox="0 0 30 20" role="presentation">'+FLAGS[p.flag]+'</svg>':'')+'</div>'+
-        '<div class="body"><div class="when">'+p.date+'</div><h3>'+p.title+'</h3></div>'+
-        '<div class="right"><span class="chip sold">'+p.note+'</span></div>'));
+      var pic = PHOTOS[(p.photo||"").toLowerCase()];
+      box.appendChild(el("article","past-card",
+        '<div class="past-pic">' +
+          (pic ? '<img src="'+pic+'" alt="'+p.title+' at our table" loading="lazy" decoding="async">'
+               : '<div class="ph"><div class="lbl">Photo to come</div></div>') +
+        '</div>' +
+        '<div class="past-meta">' +
+          '<svg class="flag" viewBox="0 0 30 20" role="presentation">'+FLAGS[p.flag]+'</svg>' +
+          '<div><h3>'+p.title+'</h3>' +
+          '<div class="when">'+p.date+' \u00b7 '+p.note+'</div></div>' +
+        '</div>'));
     });
 
     var rbox=$("#reviews");

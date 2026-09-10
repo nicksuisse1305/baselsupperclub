@@ -360,6 +360,22 @@ html[data-font="anton"]{ --display:"Anton", "Helvetica Neue", Arial, sans-serif;
   .dish-list{ grid-template-columns:repeat(2,1fr); gap:18px 14px; }
 }
 
+/* an evening already cooked: the room first, the label under it */
+#past-evenings{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+.past-card{ display:block; }
+.past-pic{ overflow:hidden; background:var(--bg-3); aspect-ratio:4/3; }
+.past-pic img{ width:100%; height:100%; object-fit:cover;
+  transition:transform .7s var(--ease); }
+.past-card:hover .past-pic img{ transform:scale(1.04); }
+.past-pic .ph{ width:100%; height:100%; }
+.past-meta{ display:flex; align-items:center; gap:14px; margin-top:16px; }
+.past-meta .flag{ width:30px; height:20px; flex:none; }
+.past-meta h3{ margin:0 0 3px; }
+.past-meta .when{ font-size:.74rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); margin:0; }
+@media (max-width:1080px){ #past-evenings{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:640px){ #past-evenings{ grid-template-columns:1fr; } }
+
 /* ---------- gallery ---------- */
 .gal{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
 .gal button{ padding:0; border:0; background:none; cursor:pointer; display:block; position:relative;

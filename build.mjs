@@ -32,6 +32,7 @@ const SRC = "src";
 const IMG = "assets/img";
 const GALLERIES = { food: "assets/gallery/food", guests: "assets/gallery/guests" };
 const HOSTS_DIR = "assets/gallery/hosts";
+const EVENINGS_DIR = "assets/gallery/evenings";
 const read = (p) => readFileSync(p, "utf8");
 const RASTER = /\.(jpe?g|png|webp)$/i;
 const HEIC = /\.(heic|heif)$/i;
@@ -142,21 +143,21 @@ function galleries(mode, outDir) {
 
 /* Photos of the hosts are matched by filename (together / nik / ania) rather
    than listed in order, so they land in the right slot on the About page. */
-function hostsMap(mode, outDir) {
+function keyedFolder(dir, name, mode, outDir) {
   let files = [];
-  try { files = readdirSync(HOSTS_DIR).filter(isImage); } catch {}
-  if (outDir) mkdirSync(join(outDir, "gallery", "hosts"), { recursive: true });
+  try { files = readdirSync(dir).filter(isImage); } catch {}
+  if (outDir) mkdirSync(join(outDir, "gallery", name), { recursive: true });
 
   const out = {};
   for (const f of files) {
     const key = basename(f, extname(f)).toLowerCase();
-    const p = webPath(join(HOSTS_DIR, f), mode === "artifact" ? THUMB_PX : FULL_PX);
+    const p = webPath(join(dir, f), mode === "artifact" ? THUMB_PX : FULL_PX);
     if (!p) continue;
     if (mode === "artifact") {
       out[key] = `data:image/jpeg;base64,${readFileSync(p).toString("base64")}`;
     } else {
-      copyFileSync(p, join(outDir, "gallery", "hosts", webName(f)));
-      out[key] = `gallery/hosts/${webName(f)}`;
+      copyFileSync(p, join(outDir, "gallery", name, webName(f)));
+      out[key] = encodeURI(`gallery/${name}/${webName(f)}`);
     }
   }
   return out;
@@ -269,14 +270,16 @@ function build(mode) {
 
   const outDir = mode === "artifact" ? null : out;
   const galleryData = galleries(mode, outDir);
-  const hostData = hostsMap(mode, outDir);
+  const hostData = keyedFolder(HOSTS_DIR, "hosts", mode, outDir);
+  const eveningPhotos = keyedFolder(EVENINGS_DIR, "evenings", mode, outDir);
 
   const bundle =
     `<style>\n${read(join(SRC, "styles.css"))}\n</style>\n\n` +
     `${read(join(SRC, "index.html"))}\n\n` +
     `<script>\n${imageMap(mode)}` +
     `window.GALLERIES = ${JSON.stringify(galleryData)};\n` +
-    `window.HOSTS = ${JSON.stringify(hostData)};\n</script>\n` +
+    `window.HOSTS = ${JSON.stringify(hostData)};\n` +
+    `window.EVENING_PHOTOS = ${JSON.stringify(eveningPhotos)};\n</script>\n` +
     `<script>\n${read(join(SRC, "content.js"))}\n</script>\n` +
     `<script>\n${read(join(SRC, "app.js"))}\n</script>\n`;
 
