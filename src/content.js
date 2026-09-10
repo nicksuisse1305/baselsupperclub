@@ -58,7 +58,7 @@ var EVENINGS = [
       { course:"To start",  dishes:[
         { name:"Paneer pakora",        photo:"paneer pakora" },
         { name:"Chicken pakora",       photo:"chicken pakora" },
-        { name:"Mint sauce" }
+        { name:"Mint sauce",           photo:"mint sauce" }
       ]},
       { course:"The table", dishes:[
         { name:"Paneer lababdar",      photo:"paneer lababdar" },

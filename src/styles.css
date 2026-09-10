@@ -319,21 +319,33 @@ html[data-font="anton"]{ --display:"Anton", "Helvetica Neue", Arial, sans-serif;
 .chip.open{ color:var(--ok); }
 
 .courses{ list-style:none; margin:20px 0 0; padding:20px 0 0; border-top:1px solid var(--line); }
+.ev > .courses{ grid-column:1 / -1; }
 .courses li{ padding:0 0 16px; }
 /* a menu card: the course named quietly, the dishes given the room */
-.courses li.group{ padding:0 0 26px; }
+.courses li.group{ padding:0 0 38px; }
 .courses li.group:last-child{ padding-bottom:0; }
-.course-name{ font-size:.68rem; font-weight:600; letter-spacing:.22em; text-transform:uppercase;
+.course-name{ font-size:.7rem; font-weight:600; letter-spacing:.22em; text-transform:uppercase;
   color:var(--accent); padding-bottom:10px; margin-bottom:14px;
   border-bottom:1px solid var(--line); }
-.dish-list{ list-style:none; margin:0; padding:0; display:grid; gap:12px; }
-.dish{ display:flex; align-items:center; gap:14px; }
-.dish-pic{ width:52px; height:52px; flex:none; object-fit:cover;
-  border:1px solid var(--line); background:var(--bg-3); }
+/* Dishes as a wall of plates: the photograph is the point, the name sits
+   under it. Auto-fills, so a course of one and a course of six both look
+   deliberate. */
+.dish-list{ list-style:none; margin:0; padding:0; display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:22px 20px; }
+.dish{ display:block; }
+.dish-pic{ display:block; width:100%; aspect-ratio:1/1; object-fit:cover;
+  border:1px solid var(--line); background:var(--bg-3);
+  transition:transform .5s var(--ease); }
+.dish:hover .dish-pic{ transform:scale(1.03); }
+.dish-pic-wrap{ overflow:hidden; display:block; }
 .dish-pic.none{ background:
-  repeating-linear-gradient(45deg,var(--bg-2) 0 6px,var(--bg-3) 6px 12px);
+  repeating-linear-gradient(45deg,var(--bg-2) 0 8px,var(--bg-3) 8px 16px);
   border-style:dashed; }
-.dish-name{ font-family:var(--sans); font-weight:500; font-size:1.06rem; color:var(--cream); }
+.dish-name{ display:block; margin-top:12px; font-family:var(--sans); font-weight:500;
+  font-size:1.02rem; line-height:1.35; color:var(--cream); }
+@media (max-width:600px){
+  .dish-list{ grid-template-columns:repeat(2,1fr); gap:18px 14px; }
+}
 
 /* ---------- gallery ---------- */
 .gal{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }

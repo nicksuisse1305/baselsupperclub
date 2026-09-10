@@ -21,9 +21,10 @@
     var name = typeof d === "string" ? d : d.name;
     var pic  = typeof d === "string" ? null : FOOD_BY_STEM[(d.photo||"").toLowerCase()];
     return '<li class="dish">' +
+      '<span class="dish-pic-wrap">' +
       (pic ? '<img class="dish-pic" src="'+pic.thumb+'" alt="'+name+'" loading="lazy" decoding="async">'
            : '<span class="dish-pic none" aria-hidden="true"></span>') +
-      '<span class="dish-name">'+name+'</span></li>';
+      '</span><span class="dish-name">'+name+'</span></li>';
   }
   function menuHTML(menu){
     return menu.map(function(g){
@@ -157,7 +158,7 @@
         ul.hidden = open;
         $(".lbl",btn).textContent = open ? "Read the menu" : "Hide the menu";
       });
-      body.appendChild(btn); body.appendChild(ul);
+      body.appendChild(btn); node.appendChild(ul);
     }
     return node;
   }
