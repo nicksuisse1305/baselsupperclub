@@ -77,9 +77,9 @@ var EVENINGS = [
           note:"Pan fried until the bottoms are crisp, with our house chilli sauce and a yuzu ponzu for dipping." }
       ]},
       { course:"Main", dishes:[
-        { name:"Tantanmen",
+        { name:"Tantanmen", photo:"tantanmen",
           note:"Our signature sesame and chilli ramen \u2014 rich, nutty and slow simmered. Topped with a soy marinated soft egg, spring onion and chilli oil." },
-        { name:"Chicken karaage",
+        { name:"Chicken karaage", photo:"chicken karaage",
           note:"Marinated in soy, ginger, garlic and sake, fried crisp in potato starch, with Kewpie mayo and lemon." }
       ]},
       { course:"Dessert", dishes:[
