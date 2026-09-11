@@ -360,6 +360,24 @@ html[data-font="anton"]{ --display:"Anton", "Helvetica Neue", Arial, sans-serif;
   .dish-list{ grid-template-columns:repeat(2,1fr); gap:18px 14px; }
 }
 
+/* ---------- what guests said ---------- */
+.reviews{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+.review{
+  margin:0; background:var(--bg-2); border:1px solid var(--line);
+  padding:clamp(26px,3vw,34px); position:relative; display:flex; flex-direction:column;
+}
+.review::before{
+  content:"\201C"; position:absolute; top:8px; left:18px;
+  font-family:var(--display); font-size:4.4rem; line-height:1; color:var(--accent); opacity:.2;
+}
+.review p{ margin:0; font-size:.97rem; line-height:1.68; position:relative; }
+.review cite{
+  display:block; margin-top:18px; padding-top:14px; border-top:1px solid var(--line);
+  font-style:normal; font-size:.72rem; font-weight:600; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--accent);
+}
+@media (max-width:1080px){ .reviews{ grid-template-columns:1fr; max-width:64ch; } }
+
 /* an evening already cooked: the room first, the label under it */
 #past-evenings{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
 .past-card{ display:block; }

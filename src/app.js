@@ -190,8 +190,13 @@
     });
 
     var rbox=$("#reviews");
+    /* A review is either the text alone, or {text, name} once the guest has
+       told us how they want to be credited. */
     if(rbox) REVIEWS.forEach(function(q){
-      rbox.appendChild(el("blockquote","review",'<p>'+q+'</p>'));
+      var text = typeof q === "string" ? q : q.text;
+      var who  = typeof q === "string" ? null : q.name;
+      rbox.appendChild(el("blockquote","review",
+        '<p>'+text+'</p>' + (who ? '<cite>'+who+'</cite>' : '')));
     });
   })();
 
