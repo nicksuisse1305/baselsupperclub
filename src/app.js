@@ -9,6 +9,11 @@
   var TIMELINE = S.TIMELINE, FAQ = S.FAQ, GALLERY = S.GALLERY, ICONS = S.ICONS;
   var PAST = S.PAST || [], REVIEWS = S.REVIEWS || [];
 
+  /* Placeholders are a to-do list for us, never something a guest should see.
+     Defined here because the menu renders before the gallery does. */
+  var DEV = /^(localhost|127\.|0\.0\.0\.0|\[::1\])$/.test(location.hostname) ||
+            location.protocol === "file:";
+
   /* Menu dishes reference a photo by its filename stem, so dropping
      "gajar ka halwa.png" into assets/gallery/food is all it takes. */
   var FOOD_BY_STEM = (function(){
@@ -29,13 +34,13 @@
       idx = MENU_PICS.length;
       MENU_PICS.push({ src: pic.src, caption: name });
     }
-    return '<li class="dish">' +
+    return '<li class="dish' + (pic ? '' : ' no-pic') + '">' +
       (pic
         ? '<button type="button" class="dish-pic-wrap" data-menupic="'+idx+'" ' +
           'aria-label="Open photo of '+name+'">' +
           '<img class="dish-pic" src="'+pic.thumb+'" alt="'+name+'" loading="lazy" decoding="async">' +
           '</button>'
-        : '<span class="dish-pic-wrap"><span class="dish-pic none" aria-hidden="true"></span></span>') +
+        : (DEV ? '<span class="dish-pic-wrap"><span class="dish-pic none" aria-hidden="true"></span></span>' : '')) +
       '<span class="dish-name">'+name+'</span>' +
       (note ? '<span class="dish-note">'+note+'</span>' : '') +
       '</li>';
@@ -260,10 +265,6 @@
      build discovers on its own. Any remaining slots up to the target render as
      placeholders so the grid always reads as a finished wall. */
   var galItems=[];
-  /* "Add a photo" tiles are a to-do list for us, not something a guest should
-     ever see — so they only render while developing locally. */
-  var DEV = /^(localhost|127\.|0\.0\.0\.0|\[::1\])$/.test(location.hostname) ||
-            location.protocol === "file:";
   var CAM = '<rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/>';
 
   function fillGrid(box, items, target, label, featureFirst){

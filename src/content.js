@@ -70,8 +70,7 @@ var EVENINGS = [
     menu:[
       { course:"Welcome", dishes:[
         { name:"Edamame", photo:"edamame",
-          note:"With flaky salt and shichimi." },
-        { name:"Yuzu highball", note:"Poured as you arrive." }
+          note:"With flaky salt and shichimi." }
       ]},
       { course:"Starter", dishes:[
         { name:"Handmade gyoza", photo:"gyoza",
