@@ -343,21 +343,27 @@ html[data-font="anton"]{ --display:"Anton", "Helvetica Neue", Arial, sans-serif;
 /* Dishes as a wall of plates: the photograph is the point, the name sits
    under it. Auto-fills, so a course of one and a course of six both look
    deliberate. */
+/* Dishes: a small plate you can open, the name, and the line about it. */
 .dish-list{ list-style:none; margin:0; padding:0; display:grid;
-  grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:22px 20px; }
+  grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); gap:26px 20px; }
 .dish{ display:block; }
+.dish-pic-wrap{ display:block; width:100%; padding:0; border:0; background:none;
+  overflow:hidden; cursor:pointer; }
+span.dish-pic-wrap{ cursor:default; }
 .dish-pic{ display:block; width:100%; aspect-ratio:1/1; object-fit:cover;
   border:1px solid var(--line); background:var(--bg-3);
   transition:transform .5s var(--ease); }
-.dish:hover .dish-pic{ transform:scale(1.03); }
-.dish-pic-wrap{ overflow:hidden; display:block; }
+.dish-pic-wrap:hover .dish-pic{ transform:scale(1.04); }
+.dish-pic-wrap:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
 .dish-pic.none{ background:
   repeating-linear-gradient(45deg,var(--bg-2) 0 8px,var(--bg-3) 8px 16px);
   border-style:dashed; }
-.dish-name{ display:block; margin-top:12px; font-family:var(--sans); font-weight:500;
-  font-size:1.02rem; line-height:1.35; color:var(--cream); }
+.dish-name{ display:block; margin-top:11px; font-family:var(--sans); font-weight:600;
+  font-size:.98rem; line-height:1.3; color:var(--cream); }
+.dish-note{ display:block; margin-top:5px; font-size:.88rem; line-height:1.5;
+  color:var(--body); }
 @media (max-width:600px){
-  .dish-list{ grid-template-columns:repeat(2,1fr); gap:18px 14px; }
+  .dish-list{ grid-template-columns:repeat(2,1fr); gap:22px 14px; }
 }
 
 /* ---------- what guests said ---------- */

@@ -63,8 +63,32 @@ var EVENINGS = [
       ]}
     ],
     courses:[] },
-  { id:"ramen", n:"02", flag:"jp", title:"Ramen Night", when:"Date announced soon",
-    sub:"", status:"soon", statusText:"Dates soon", courses:[] },
+  { id:"ramen", n:"02", flag:"jp", title:"Ramen Night", when:"Friday 16 October 2026",
+    dishes:["Gyoza","Tantanmen","Chicken karaage","Matcha basque cheesecake"],
+    sub:"Our signature bowl, and everything we put around it.",
+    status:"open", statusText:"Booking open",
+    menu:[
+      { course:"Welcome", dishes:[
+        { name:"Edamame", photo:"edamame",
+          note:"With flaky salt and shichimi." },
+        { name:"Yuzu highball", note:"Poured as you arrive." }
+      ]},
+      { course:"Starter", dishes:[
+        { name:"Handmade gyoza", photo:"gyoza",
+          note:"Pan fried until the bottoms are crisp, with our house chilli sauce and a yuzu ponzu for dipping." }
+      ]},
+      { course:"Main", dishes:[
+        { name:"Tantanmen",
+          note:"Our signature sesame and chilli ramen \u2014 rich, nutty and slow simmered. Topped with a soy marinated soft egg, spring onion and chilli oil." },
+        { name:"Chicken karaage",
+          note:"Marinated in soy, ginger, garlic and sake, fried crisp in potato starch, with Kewpie mayo and lemon." }
+      ]},
+      { course:"Dessert", dishes:[
+        { name:"Matcha basque cheesecake", photo:"matcha basque cheesecake",
+          note:"Burnt on top, soft in the middle." }
+      ]}
+    ],
+    courses:[] },
 
   { id:"pasta", n:"03", flag:"it", title:"Pasta Night", when:"Date announced soon",
     sub:"", status:"soon", statusText:"Dates soon", courses:[] },

@@ -17,15 +17,30 @@
     return m;
   })();
 
+  /* A dish is a small photograph you can open, its name, and the line Nik
+     wrote about it. Any of the three may be missing. */
+  var MENU_PICS = [];
   function dishHTML(d){
     var name = typeof d === "string" ? d : d.name;
+    var note = typeof d === "string" ? "" : (d.note || "");
     var pic  = typeof d === "string" ? null : FOOD_BY_STEM[(d.photo||"").toLowerCase()];
+    var idx  = "";
+    if (pic) {
+      idx = MENU_PICS.length;
+      MENU_PICS.push({ src: pic.src, caption: name });
+    }
     return '<li class="dish">' +
-      '<span class="dish-pic-wrap">' +
-      (pic ? '<img class="dish-pic" src="'+pic.thumb+'" alt="'+name+'" loading="lazy" decoding="async">'
-           : '<span class="dish-pic none" aria-hidden="true"></span>') +
-      '</span><span class="dish-name">'+name+'</span></li>';
+      (pic
+        ? '<button type="button" class="dish-pic-wrap" data-menupic="'+idx+'" ' +
+          'aria-label="Open photo of '+name+'">' +
+          '<img class="dish-pic" src="'+pic.thumb+'" alt="'+name+'" loading="lazy" decoding="async">' +
+          '</button>'
+        : '<span class="dish-pic-wrap"><span class="dish-pic none" aria-hidden="true"></span></span>') +
+      '<span class="dish-name">'+name+'</span>' +
+      (note ? '<span class="dish-note">'+note+'</span>' : '') +
+      '</li>';
   }
+
   function menuHTML(menu){
     return menu.map(function(g){
       return '<li class="group"><div class="course-name">'+g.course+'</div>'+
@@ -280,6 +295,18 @@
     fillGrid($("#gal"), food, S.FOOD_SLOTS, "Add a food photo", true);
     fillGrid($("#gal-guests"), G.guests || [], S.GUEST_SLOTS, "Add a guest photo", false);
   })();
+
+  document.addEventListener("click", function(e){
+    var b = e.target.closest && e.target.closest("[data-menupic]");
+    if(!b) return;
+    var item = MENU_PICS[parseInt(b.getAttribute("data-menupic"),10)];
+    if(item) openStandalone(item);
+  });
+  function openStandalone(item){
+    lbi.src = item.src; lbi.alt = item.caption;
+    lb.classList.add("on"); document.body.style.overflow="hidden";
+    if(window.__track) window.__track("view_gallery_photo");
+  }
 
   var lbIdx=0, lb=$("#lb"), lbi=$("#lbi");
   function openLb(i){
