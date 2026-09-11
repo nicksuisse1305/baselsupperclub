@@ -202,7 +202,15 @@
 
   /* ---- sample menu ---- */
   (function(){
-    var box=$("#sample-menu"), ev=EVENINGS[0], head=$("#sample-title");
+    /* This is not a sample — it is whichever announced evening has a menu.
+       With nothing announced there is nothing honest to show, so the whole
+       section stands down rather than inventing a specimen. */
+    var box=$("#sample-menu"), head=$("#sample-title"), section=$("#next-evening");
+    var ev = null;
+    for(var i=0;i<EVENINGS.length;i++){
+      if(EVENINGS[i].menu && EVENINGS[i].status !== "soon"){ ev = EVENINGS[i]; break; }
+    }
+    if(!ev){ if(section) section.hidden = true; return; }
     if(head) head.textContent = plain(ev.title) + " \u00b7 " + ev.when;
     if (ev.menu) {
       box.innerHTML = menuHTML(ev.menu);
