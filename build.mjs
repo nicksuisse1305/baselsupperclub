@@ -21,7 +21,7 @@ const SITE = {
   domain: "baselsupperclub.ch",
   description:
     "A supper club in a Basel flat. Six to eight seats at one long table — ramen, curry, " +
-    "pasta, gyoza and whatever kitchen we're obsessing over. CHF 120, or CHF 150 with drinks.",
+    "pasta, gyoza and whatever kitchen we're obsessing over. CHF 80 per person, wine included.",
   ogImage: "/img/hero.jpg",
   ogImageAlt: "A bowl of tantan with soft egg, greens and mince",
   font: "anton", // headline face: fraunces | instrument | archivo | anton
@@ -214,7 +214,7 @@ ${JSON.stringify({
   image: abs(SITE.ogImage),
   description: SITE.description,
   servesCuisine: ["Japanese", "Indian", "Italian", "Thai", "Chinese", "Polish"],
-  priceRange: "CHF 120–150",
+  priceRange: "CHF 80",
   address: { "@type": "PostalAddress", addressLocality: "Basel", addressCountry: "CH" },
   email: "verma.nikunj66@gmail.com",
   telephone: "+41765264160",

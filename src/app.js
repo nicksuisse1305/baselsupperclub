@@ -4,7 +4,7 @@
   "use strict";
 
   var S = window.SITE;
-  var P_DINNER = S.P_DINNER, P_DRINKS = S.P_DRINKS;
+  var PRICE = S.PRICE;
   var CUISINES = S.CUISINES, FLAGS = S.FLAGS, EVENINGS = S.EVENINGS;
   var TIMELINE = S.TIMELINE, FAQ = S.FAQ, GALLERY = S.GALLERY, ICONS = S.ICONS;
   var PAST = S.PAST || [], REVIEWS = S.REVIEWS || [];
@@ -29,13 +29,19 @@
     var name = typeof d === "string" ? d : d.name;
     var note = typeof d === "string" ? "" : (d.note || "");
     var pic  = typeof d === "string" ? null : FOOD_BY_STEM[(d.photo||"").toLowerCase()];
+    var surprise = typeof d === "object" && d.surprise;
     var idx  = "";
     if (pic) {
       idx = MENU_PICS.length;
       MENU_PICS.push({ src: pic.src, caption: name });
     }
     return '<li class="dish' + (pic ? '' : ' no-pic') + '">' +
-      (pic
+      (surprise
+        ? '<span class="dish-pic-wrap"><span class="dish-pic surprise" aria-hidden="true">' +
+          '<svg viewBox="0 0 24 24"><path d="M12 3v18M3 8h18M5 8v13h14V8M5 8 7.5 3h9L19 8"/>' +
+          '<path d="M12 8c-2 0-3.5-1-3.5-2.5S10 3 12 8ZM12 8c2 0 3.5-1 3.5-2.5S14 3 12 8Z"/></svg>' +
+          '</span></span>'
+      : pic
         ? '<button type="button" class="dish-pic-wrap" data-menupic="'+idx+'" ' +
           'aria-label="Open photo of '+name+'">' +
           '<img class="dish-pic" src="'+pic.thumb+'" alt="'+name+'" loading="lazy" decoding="async">' +
@@ -95,7 +101,7 @@
 
   /* ---- stats ---- */
   (function(){
-    var S=[["6–8","Seats at the table"],["40+","Countries on the menu"],["120","CHF per person"],["1","Long table"]];
+    var S=[["6–8","Seats at the table"],["40+","Countries on the menu"],["80","CHF per person"],["1","Long table"]];
     var box=$("#stats");
     S.forEach(function(s){ box.appendChild(el("div","stat",'<div class="v">'+s[0]+'</div><div class="k">'+s[1]+'</div>')); });
   })();
@@ -120,30 +126,23 @@
     build($("#cuisines")); build($("#cuisines-2"));
   })();
 
-  /* ---- tiers ---- */
+  /* ---- the price ---- */
   (function(){
     var tick='<path d="m4 12 5 5L20 6"/>';
     var box=$("#tiers");
-    function tier(cls, label, price, blurb, lines){
-      return el("div","tier"+(cls?" "+cls:""),
-        '<div class="k">'+label+'</div><div class="amt">'+chf(price)+'</div>'+
-        '<div class="per">per person</div>'+
-        '<p class="blurb">'+blurb+'</p>'+
-        '<ul>'+lines.map(function(t){ return '<li>'+svg(tick)+'<span>'+t+'</span></li>'; }).join("")+'</ul>');
-    }
-    box.appendChild(tier("", "Dinner", P_DINNER,
-      "Everything we cook that night, and a seat at the table.",
+    if(!box) return;
+    box.appendChild(el("div","tier one",
+      '<div class="k">Per person</div><div class="amt">'+chf(PRICE)+'</div>'+
+      '<div class="per">the whole evening</div>'+
+      '<p class="blurb">Everything we cook that night, and wine we have chosen to go with '+
+      'it. No tab, nothing to settle at the end.</p>'+
+      '<ul>'+
       ["Everything we cook that evening",
+       "Wine chosen by us, matched to the food",
        "Brought to the middle \u2014 help yourself",
-       "A welcome drink when you walk in",
        "Water, coffee and tea",
-       "Bring a bottle if you like \u2014 no corkage"]));
-    box.appendChild(tier("hot", "Dinner with drinks", P_DRINKS,
-      "The same table, with a glass in your hand from the moment you arrive.",
-      ["Everything in the dinner, plus \u2014",
-       "Wine from our own stock, matched to the food",
-       "Gin and tonic",
-       "Vodka soda"]));
+       "Bring a bottle if you like \u2014 no corkage"]
+      .map(function(t){ return '<li>'+svg(tick)+'<span>'+t+'</span></li>'; }).join("")+'</ul>'));
   })();
 
   /* ---- evenings ---- */
@@ -338,18 +337,16 @@
       sel.appendChild(o);
     });
     function evById(id){ for(var i=0;i<EVENINGS.length;i++) if(EVENINGS[i].id===id) return EVENINGS[i]; return EVENINGS[0]; }
-    function tier(){ return parseInt(form.querySelector('input[name="tier"]:checked').value,10); }
     function kind(){ return form.querySelector('input[name="kind"]:checked').value; }
 
     function recalc(){
-      var seats=parseInt($("#f-seats").value,10)||1, t=tier();
-      $("#s-l").textContent = seats+" × "+(t===P_DRINKS?"dinner with drinks":"dinner")+" ("+chf(t)+")";
-      $("#s-v").textContent = chf(t*seats);
-      $("#s-t").textContent = chf(t*seats);
+      var seats=parseInt($("#f-seats").value,10)||1;
+      $("#s-l").textContent = seats+" \u00d7 "+chf(PRICE)+" per person";
+      $("#s-v").textContent = chf(PRICE*seats);
+      $("#s-t").textContent = chf(PRICE*seats);
     }
     $("#f-seats").addEventListener("change",recalc);
     $("#f-evening").addEventListener("change",recalc);
-    $$('input[name="tier"]',form).forEach(function(r){ r.addEventListener("change",recalc); });
     recalc();
 
     function syncKind(){
@@ -434,12 +431,11 @@
       if($("#f-phone").value.trim()) fields["Phone"]=$("#f-phone").value.trim();
 
       if(k==="seat"){
-        var ev=evById(sel.value), seats=parseInt($("#f-seats").value,10)||1, t=tier();
+        var ev=evById(sel.value), seats=parseInt($("#f-seats").value,10)||1;
         subject="Seat request \u2014 "+plain(ev.title);
         fields["Evening"]=plain(ev.title)+" ("+ev.when+")";
         fields["Seats"]=String(seats);
-        fields["Option"]=(t===P_DRINKS?"Dinner with drinks (CHF 150 each)":"Dinner (CHF 120 each)");
-        fields["Total if confirmed"]=chf(t*seats);
+        fields["Total if confirmed"]=chf(PRICE*seats);
       } else if(k==="private"){
         subject="Private dining enquiry \u2014 "+name;
         fields["Date in mind"]=$("#f-pdate").value.trim()||"not sure yet";
@@ -480,7 +476,7 @@
           if(String(data.success) !== "true") throw new Error(data.message || "rejected");
           if(window.__track) window.__track("generate_lead", {
             request_type: k,
-            value: k==="seat" ? tier()*(parseInt($("#f-seats").value,10)||1) : undefined,
+            value: k==="seat" ? PRICE*(parseInt($("#f-seats").value,10)||1) : undefined,
             currency: "CHF"
           });
           showThanks(k);

@@ -30,7 +30,7 @@ Common edits:
 
 | I want to… | Edit |
 | --- | --- |
-| Change a price | `P_DINNER` / `P_DRINKS` at the top of `src/content.js` |
+| Change the price | `PRICE` at the top of `src/content.js` |
 | Add an evening or set a date | the `EVENINGS` array — set `when` to a real date and `status` to `"open"` |
 | Change a menu | the `courses` array on that evening |
 | Add a cuisine | the `CUISINES` array (add a flag to `FLAGS` if it's a new country) |
@@ -123,8 +123,9 @@ site** — anything shipped to the page lets a stranger pay their way to the tab
 
 | | Link |
 | --- | --- |
-| Dinner, CHF 120 pp | https://buy.stripe.com/4gM9AU5km8qt3FVaaofrW00 |
-| With drinks, CHF 150 pp | https://buy.stripe.com/4gM7sM28afSV6S796kfrW01 |
+| CHF 80 pp | **needs creating in Stripe — the two links below are the old CHF 120 / 150 prices and must not be sent** |
+| ~~Dinner, CHF 120 pp~~ | ~~https://buy.stripe.com/4gM9AU5km8qt3FVaaofrW00~~ |
+| ~~With drinks, CHF 150 pp~~ | ~~https://buy.stripe.com/4gM7sM28afSV6S796kfrW01~~ |
 
 Both let the guest choose 1–8 seats and ask which evening, any allergies and
 anything else, so a paid booking arrives complete. Payment is card or Apple Pay

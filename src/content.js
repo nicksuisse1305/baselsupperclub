@@ -3,7 +3,7 @@
    Edit this file, commit, and CI redeploys the site. */
 
 /* ═══════════ CONTENT — edit here ═══════════ */
-var P_DINNER = 120, P_DRINKS = 150;
+var PRICE = 80;
 
 /* How many tiles each gallery shows. Real photos fill these first;
    whatever is left over renders as an "add a photo" placeholder. */
@@ -41,50 +41,43 @@ var FLAGS = {
 
 var EVENINGS = [
   { id:"indian", n:"01", flag:"in", title:"Indian Night", when:"Friday 2 October 2026",
-    dishes:["Paneer lababdar","Chicken tikka masala","Dal","Naan","Jeera rice","Gajar ka halwa"],
+    dishes:["Paneer lababdar","Chicken tikka masala","Jeera rice","Naan bread"],
     sub:"Everything arrives together and stays on the table, the way it is actually eaten at home.",
     status:"open", statusText:"Booking open",
     menu:[
-      { course:"To start",  dishes:[
-        { name:"Paneer pakora",        photo:"paneer pakora" },
-        { name:"Chicken pakora",       photo:"chicken pakora" },
-        { name:"Mint sauce",           photo:"mint sauce" }
+      { course:"To start", dishes:[
+        { name:"Paneer or chicken pakora", photo:"paneer pakora",
+          note:"Your choice on the night." },
+        { name:"Mint sauce", photo:"mint sauce" }
       ]},
       { course:"The table", dishes:[
-        { name:"Paneer lababdar",      photo:"paneer lababdar" },
         { name:"Chicken tikka masala", photo:"chicken tikka masala" },
-        { name:"Dal",                  photo:"daal" },
+        { name:"Paneer lababdar",      photo:"paneer lababdar" },
         { name:"Jeera rice",           photo:"jeera rice" },
-        { name:"Naan",                 photo:"naan bread" },
-        { name:"Raita",                photo:"kheera raita" }
+        { name:"Naan bread",           photo:"naan bread" }
       ]},
-      { course:"Sweet",     dishes:[
-        { name:"Gajar ka halwa",       photo:"gajar ka halwa" }
+      { course:"Sweet", dishes:[
+        { name:"A surprise", surprise:true,
+          note:"We are not telling you. You will find out on the night." }
       ]}
     ],
     courses:[] },
   { id:"ramen", n:"02", flag:"jp", title:"Ramen Night", when:"Friday 16 October 2026",
-    dishes:["Gyoza","Tantanmen","Chicken karaage","Matcha basque cheesecake"],
+    dishes:["Gyoza","Tantanmen"],
     sub:"Our signature bowl, and everything we put around it.",
     status:"open", statusText:"Booking open",
     menu:[
-      { course:"Welcome", dishes:[
-        { name:"Edamame", photo:"edamame",
-          note:"With flaky salt and shichimi." }
-      ]},
-      { course:"Starter", dishes:[
+      { course:"To start", dishes:[
         { name:"Handmade gyoza", photo:"gyoza",
           note:"Pan fried until the bottoms are crisp, with our house chilli sauce and a yuzu ponzu for dipping." }
       ]},
-      { course:"Main", dishes:[
+      { course:"The bowl", dishes:[
         { name:"Tantanmen", photo:"tantanmen",
-          note:"Our signature sesame and chilli ramen \u2014 rich, nutty and slow simmered. Topped with a soy marinated soft egg, spring onion and chilli oil." },
-        { name:"Chicken karaage", photo:"chicken karaage",
-          note:"Marinated in soy, ginger, garlic and sake, fried crisp in potato starch, with Kewpie mayo and lemon." }
+          note:"Our signature sesame and chilli ramen \u2014 rich, nutty and slow simmered. Topped with a soy marinated soft egg, spring onion and chilli oil." }
       ]},
-      { course:"Dessert", dishes:[
-        { name:"Matcha basque cheesecake", photo:"matcha basque cheesecake",
-          note:"Burnt on top, soft in the middle." }
+      { course:"Sweet", dishes:[
+        { name:"A surprise", surprise:true,
+          note:"We are not telling you. You will find out on the night." }
       ]}
     ],
     courses:[] },
@@ -122,7 +115,7 @@ var TIMELINE = [
 
 var FAQ = [
   ["How many people are there?","Six to eight guests, one table, the two of us cooking. It's deliberately small — at eight people one conversation still works."],
-  ["What does it cost?","CHF 120 per person for the whole evening of food, with a welcome drink, water, coffee and tea. CHF 150 per person if you want drinks poured all evening — wine, beer, gin and tonic, vodka mate and classic cocktails, no tab and no counting at the end. Everyone at the table chooses separately."],
+  ["What does it cost?","CHF 80 per person, and that is the whole evening: everything we cook, and wine we have chosen to go with it. No tab, nothing to settle at the end."],
   ["What kind of food is it?","It depends on the evening. Ramen, curry, pasta, Thai, gyoza, tacos. Each evening commits to one kitchen and goes deep rather than serving a bit of everything. The menu is always published before you book."],
   ["How many dishes are there?","As many as the night needs \u2014 we don't count courses. A ramen night is gyoza, a cold plate, the bowl itself and something sweet. An Indian night is butter chicken, korma, paneer, dal, naan and rice all arriving at once. We cook until the table is full and nobody leaves hungry."],
   ["How is the food served?","Everything comes to the middle of the table and you help yourself. It is the fastest way we know to make eight strangers stop being polite with each other."],
@@ -132,7 +125,7 @@ var FAQ = [
   ["What if I can't come?","Once you have paid, the seat is not refundable — the shopping is done and the table is built around who is coming. You can send someone else in your place though. Tell us their name in advance and we will look after them exactly the same."],
   ["I'm vegetarian / vegan / coeliac / don't eat pork.","Every menu has a full vegetarian version written from scratch, not the same plate with the meat removed. Vegan and gluten-free need a week's notice. No pork or halal on request, arranged in advance. Tell us when you book."],
   ["Is it spicy?","It's seasoned, which is different. Nothing goes out at a heat that hides the food, and there's always something on the table to cool it down. If your limit is low, say so and we'll adjust your plate."],
-  ["Can I bring my own wine?","Yes, and there's no corkage. If you'd rather not think about it, take the CHF 150 and we'll pour all evening."],
+  ["Can I bring my own wine?","You are welcome to, and there is no corkage \u2014 but you do not need to. Wine is included, chosen by us to go with what you are eating."],
   ["Can we book the whole table?","Yes — book all the seats and the evening is yours. Or ask about private dining and we'll come and cook at your place instead."],
   ["Do you do gift vouchers?","Yes, for any evening or any amount. Email us and we'll send you one."],
   ["What language is the evening in?","English, and German when the table prefers it. Between us we'll also happily switch to Polish or Hindi if that's where the table lands."]
@@ -166,7 +159,7 @@ var ICONS = {
 
 /* Everything the site renders from. This is the file to edit. */
 window.SITE = {
-  P_DINNER: P_DINNER, P_DRINKS: P_DRINKS,
+  PRICE: PRICE,
   FOOD_SLOTS: FOOD_SLOTS, GUEST_SLOTS: GUEST_SLOTS,
   CUISINES: CUISINES, FLAGS: FLAGS, EVENINGS: EVENINGS,
   TIMELINE: TIMELINE, FAQ: FAQ, GALLERY: GALLERY, ICONS: ICONS,
