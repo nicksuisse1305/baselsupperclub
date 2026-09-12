@@ -59,6 +59,12 @@ var EVENINGS = [
       { course:"Sweet", dishes:[
         { name:"A surprise", surprise:true,
           note:"We are not telling you. You will find out on the night." }
+      ]},
+      { course:"To drink", dishes:[
+        { name:"Welcome drink", photo:"welcome drink",
+          note:"A spritz, a beer, whatever you feel like." },
+        { name:"Wine", photo:"wine",
+          note:"Included. A reasonable amount \u2014 three or four glasses." }
       ]}
     ],
     courses:[] },
@@ -78,6 +84,12 @@ var EVENINGS = [
       { course:"Sweet", dishes:[
         { name:"A surprise", surprise:true,
           note:"We are not telling you. You will find out on the night." }
+      ]},
+      { course:"To drink", dishes:[
+        { name:"Welcome drink", photo:"welcome drink",
+          note:"A spritz, a beer, whatever you feel like." },
+        { name:"Wine", photo:"wine",
+          note:"Included. A reasonable amount \u2014 three or four glasses." }
       ]}
     ],
     courses:[] },
